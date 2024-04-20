@@ -1,0 +1,45 @@
+.footerWrapper{
+    background-color: rgba(52, 8, 94, 0.929);
+    min-height: 200px;
+    padding: 2rem 2.5rem;
+    color: #fff;
+}
+.footerWrapperFirst{
+    display: flex;
+    justify-content: space-around;
+}
+.footerWrapperSec{
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-around;
+}
+.footerDesc{
+    max-width: 310px;
+    line-height: 1.7rem;
+}
+.footerTitle{
+    border-right: 3px solid #F0E68C;
+    padding: 0 .7rem;
+    font-weight: 600;
+}
+.footerContactBox,.footerDesc{
+    padding-right: .7rem;
+}
+.footerContactBoxLi{
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+}
+.footerWrapperSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+.footerSecLine{
+    display: flex;
+    gap: 1.4rem;
+}
+.footerIcon{
+    font-size: 1.8rem;
+}
