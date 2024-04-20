@@ -26,7 +26,6 @@ const Education = () => {
 
 export const EducationCard = ({ data ,direction }) => {
   const navigate = useNavigate()
-  console.log({data});
   const handleBlogPage = (blogId) => {
     navigate(`/blog/${blogId}`)
   }

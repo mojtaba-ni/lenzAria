@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 const BlogList = () => {
   const [blog, setBlog] = useState();
   const [update, setUpdate] = useState(false);
-  console.log({ blog });
   const geyAllBlog = async () => {
     const { data } = await axios.get(
       "http://localhost:8000/api/blog/getAllBlogs"
@@ -20,11 +19,9 @@ const BlogList = () => {
     setBlog(data?.data);
   };
   const handleEdit = async (id) => {
-    console.log({ id });
     const res = await axios.put();
   };
   const handleDelete = async (id) => {
-    console.log(id?._id);
 
     const { data } = await axios.delete(
       "http://localhost:8000/api/blog/delete",

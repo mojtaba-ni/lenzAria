@@ -14,7 +14,6 @@ import { Link, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate()
   const [show, setShow] = useState(false);
-  console.log({ show });
   const handleShowMenu = () => {
     setShow(true);
   };

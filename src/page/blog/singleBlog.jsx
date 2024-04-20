@@ -14,7 +14,6 @@ const SingleBlog = () => {
     const { data } = await axios.get(
       `http://localhost:8000/api/blog/getById?id=${id}`
     );
-    console.log({ data });
     if (!data.isSuccess) {
       return;
     }
