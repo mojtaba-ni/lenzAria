@@ -1,3 +1,44 @@
+@font-face {
+    font-family: "iransans";
+    src: url("./assets/fonts/iransans.eot"),
+        url("./assets/fonts/iransans.ttf")
+
+}
+
 *{
     direction: rtl;
+    font-family: "iransans !important";
+}
+body{
+    margin: 0;
+    height: 100vh;
+}
+ul{
+    text-decoration: none;
+    list-style: none;
+    padding: 0;
+}
+p{
+    margin-bottom: 0 !important;
+}
+h1,h2,h3,h4{
+    margin: 0;
+}
+.ant-table-thead .ant-table-cell {
+    color: blue !important;
+    background-color: #edecec96 !important;
+    text-align: center !important;
+}
+.ant-table-cell {
+    text-align: center !important;
+}
+.ant-form-item .ant-form-item-label >label{
+    font-size: 1.2rem !important;
+}
+.ant-form-item-explain-error{
+    text-align: right !important;
+}
+.ant-upload.ant-upload-select{
+    width:"100px !important";
+    height:"60px !important"
 }
