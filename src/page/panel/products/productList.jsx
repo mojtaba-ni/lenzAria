@@ -7,7 +7,7 @@ import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 
 const ProductList = () => {
   const [product, setProduct] = useState();
-  const [update, setUpdate] = useState();
+  const [update, setUpdate] = useState(false);
   const navigate = useNavigate();
 
   const getAllProduct = async () => {
@@ -23,13 +23,13 @@ const ProductList = () => {
     setUpdate(!update);
   };
 
-  
-
   useEffect(() => {
     getAllProduct();
   }, []);
   useEffect(() => {
-    getAllProduct();
+    if (product) {
+      getAllProduct();  
+    }
   }, [update]);
 
   const columns = [

@@ -26,9 +26,8 @@ const AddProduct = () => {
   const [file, setFile] = useState(null);
   const [step, setStep] = useState([]);
   const [category, setCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState(null);
-  const [stepId, setStepId] = useState(null);
-  console.log({stepId});
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeStep, setActiveStep] = useState(null);
   const handleProductForm = (event, name) => {
     setProductForm((prevState) => ({
       ...prevState,
@@ -59,8 +58,14 @@ const AddProduct = () => {
   const handleSubmit = async () => {
     const pic = await toBase64(file);
     const data = {
-      stepId,
-      categoryId,
+      step:{
+        id:activeStep?.value,
+        title:activeStep?.label,
+      },
+      category:{
+        id:activeCategory?.value,
+        title:activeCategory?.label,
+      },
       name: productForm?.name,
       Specifications: productForm?.Specifications,
       description: productForm?.description,
@@ -68,13 +73,12 @@ const AddProduct = () => {
       image: pic,
     };
     const res = await axios.post("http://localhost:8000/api/product/add", data);
-    console.log({ res });
     navigate("/panel/product");
   };
 
-  const getAllSteps = async (id) => {
+  const getAllSteps = async (activeCt) => {
     const {data} = await axios.get("http://localhost:8000/api/step/getAllStep", {
-      params: { id },
+      params: { id: activeCt?.value },
     });
     const stepList = [];
     data?.data.forEach((element) => {
@@ -88,21 +92,20 @@ const AddProduct = () => {
   };
 
   const handleChange = (value) => {
-    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-    setCategoryId(value?.value);
+  
+    setActiveCategory(value);
   };
   const handleChangeStep = (value) => {
-    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-    setStepId(value?.value);
+    setActiveStep(value);
   };
   useEffect(() => {
     getAllCategory();
   }, []);
   useEffect(() => {
-    if (categoryId) {
-      getAllSteps(categoryId);
+    if (activeCategory) {
+      getAllSteps(activeCategory);
     }
-  }, [categoryId]);
+  }, [activeCategory]);
 
   return (
     <div>
@@ -129,6 +132,7 @@ const AddProduct = () => {
                   labelInValue
                   onChange={handleChange}
                   options={category}
+                  defaultValue={activeCategory}
                 />
               </Form.Item>
             </div>
@@ -155,6 +159,7 @@ const AddProduct = () => {
                   onChange={handleChangeStep}
                   options={step}
                   disabled={!step}
+                  defaultValue={activeStep}
                 />
               </Form.Item>
             </div>
@@ -194,7 +199,7 @@ const AddProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={120}
+              maxLength={500}
               placeholder="..."
               style={{
                 height: 120,

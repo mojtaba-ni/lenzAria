@@ -1,4 +1,4 @@
-import { Button, Form, Input, Typography } from "antd";
+import { Button, Col, Form, Input, Row, Select, Typography } from "antd";
 import { strings } from "../../../shared/language";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -14,9 +14,15 @@ const EditProduct = () => {
     description: null,
     Specifications: null,
     price: null,
+    productId: null,
   });
-  console.log({ productForm });
+
   const [file, setFile] = useState(null);
+  const [category, setCategory] = useState([]);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeStep, setActiveStep] = useState(null);
+  const [step, setStep] = useState([]);
+  const [img, setImg] = useState(null);
 
   const handleProductForm = (event, name) => {
     setProductForm((prevState) => ({
@@ -24,24 +30,79 @@ const EditProduct = () => {
       [name]: event.target.value,
     }));
   };
+
   const handleFileChange = (e) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
+      setImg(null)
     }
   };
 
+  const handleChange = (value) => {
+  
+    setActiveCategory(value);
+  };
+  const handleChangeStep = (value) => {
+    setActiveStep(value);
+  };
+
   const handleSubmit = async () => {
-    const pic = await toBase64(file);
     const data = {
+      productId:productForm?.productId,
+      step:{
+        id:activeStep?.value,
+        title:activeStep?.label,
+      },
+      category:{
+        id:activeCategory?.value,
+        title:activeCategory?.label,
+      },
       name: productForm?.name,
       Specifications: productForm?.Specifications,
       description: productForm?.description,
       price: parseInt(productForm?.price),
-      image: pic,
+      image:img ? img :  await toBase64(file),
     };
-    const res = await axios.put("http://localhost:8000/api/product/update", data);
-    console.log({ res });
+    
+    const res = await axios.put(
+      "http://localhost:8000/api/product/update",
+      data
+    );
     navigate("/panel/product");
+  };
+
+  const getAllCategory = async () => {
+    const { data } = await axios.get(
+      "http://localhost:8000/api/category/getAllCategory"
+    );
+
+    const categoryList = [];
+    data?.data.forEach((element) => {
+      const categorLi = {
+        label: element?.title,
+        value: element?._id,
+      };
+      categoryList.push(categorLi);
+    });
+    setCategory(categoryList);
+  };
+
+  const getAllSteps = async (activeCt) => {
+    const { data } = await axios.get(
+      "http://localhost:8000/api/step/getAllStep",
+      {
+        params: { id: activeCt?.value},
+      }
+    );
+    const stepList = [];
+    data?.data.forEach((element) => {
+      const categorLi = {
+        label: element?.title,
+        value: element?._id,
+      };
+      stepList.push(categorLi);
+    });
+    setStep(stepList);
   };
 
   const getProductDataById = async () => {
@@ -53,14 +114,22 @@ const EditProduct = () => {
       description: data?.data?.description,
       name: data?.data?.name,
       price: data?.data?.price,
+      productId: data?.data?._id,
     });
-    setFile(data?.data?.image);
+    setActiveStep({ label : data?.data?.step?.title , value : data?.data?.step?.id})
+    setActiveCategory({ label : data?.data?.category?.title , value : data?.data?.category?.id})
+    setImg(data?.data?.image);
   };
 
   useEffect(() => {
     getProductDataById();
+    getAllCategory();
   }, []);
-
+  useEffect(() => {
+    if (activeCategory) {
+      getAllSteps(activeCategory);
+    }
+  }, [activeCategory]);
   return (
     <div>
       <Form
@@ -83,6 +152,66 @@ const EditProduct = () => {
           },
         ]}
       >
+        <Row gutter={20}>
+          <Col
+            sm={{
+              span: 12,
+            }}
+            span={6}
+          >
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}>اسم دسته</Typography.Title>
+              <Form.Item
+                name="category"
+                rules={[
+                  {
+                    required: true,
+                    message: strings.profile.errorMessage.productNameError,
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  onChange={handleChange}
+                  options={category}
+                  defaultValue={
+                    {
+                      label: activeCategory?.label,
+                      value: activeCategory?.value,
+                    }
+                  }
+                />
+              </Form.Item>
+            </div>
+          </Col>
+          <Col
+            sm={{
+              span: 12,
+            }}
+            span={6}
+          >
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}>اسم زیر دسته</Typography.Title>
+              <Form.Item
+                name="step"
+                rules={[
+                  {
+                    required: true,
+                    message: strings.profile.errorMessage.productNameError,
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  onChange={handleChangeStep}
+                  options={step}
+                  disabled={!step}
+                  defaultValue={activeCategory}
+                />
+              </Form.Item>
+            </div>
+          </Col>
+        </Row>
         <div className={style.descprofileLi}>
           <Typography.Title level={5}>اسم محصول</Typography.Title>
           <Form.Item
@@ -116,7 +245,7 @@ const EditProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={120}
+              maxLength={500}
               value={productForm?.description}
               placeholder="..."
               style={{
@@ -180,7 +309,7 @@ const EditProduct = () => {
             name="file"
             rules={[
               {
-                required: true,
+                required: (file || img)? false : true,
                 message: strings.profile.errorMessage.uploadError,
               },
             ]}
@@ -188,10 +317,10 @@ const EditProduct = () => {
             <input id="file" type="file" onChange={handleFileChange} />
           </Form.Item>
         </div>
-        {file && (
+        {(file || img) &&  (
           <section>
             جزیات عکس:
-            <img src={file} alt="image" width={200} />
+            <img src={file || img} alt="image" width={200} />
           </section>
         )}
 
