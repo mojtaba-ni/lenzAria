@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import CustomModal from "../../../components/Modal";
 
 // import { useEffect, useState } from "react";
 
 const BlogList = () => {
   const [blog, setBlog] = useState();
   const [update, setUpdate] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
   const geyAllBlog = async () => {
     const { data } = await axios.get(
       "http://localhost:8000/api/blog/getAllBlogs"
@@ -72,7 +74,8 @@ const BlogList = () => {
             <DeleteTwoTone
               twoToneColor="#eb2f96"
               style={{ fontSize: "1.2rem" }}
-              onClick={() => handleDelete(record)}
+              // onClick={() => handleDelete(record)}
+              onClick={() => setShowRemoveModal(true)}
             />
           </Link>
         </Space>
@@ -81,8 +84,18 @@ const BlogList = () => {
   ];
   return (
     <div>
-      <div style={{display:"flex" , alignItems:"center" , justifyContent:"end", margin:"1.5rem .5rem" }}>
-        <Button type="primary" size="large" href="blog/add" style={{width:"100px"}}>{strings.add}</Button>
+      {
+        showRemoveModal ?
+          <CustomModal
+            onOk={handleDelete}
+            visible={showRemoveModal}
+            onCancel={() => setShowRemoveModal(false)}
+            text={"از حذف وبلاگ خود اطمینان دارید؟"}
+            title={"حذف بلاگ"}
+          /> : null
+      }
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "end", margin: "1.5rem .5rem" }}>
+        <Button type="primary" size="large" href="blog/add" style={{ width: "100px" }}>{strings.add}</Button>
       </div>
       <Table dataSource={blog} columns={columns} />
     </div>
