@@ -1,0 +1,14 @@
+.bestSellerBox{
+    margin: 2rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.titleLine{
+    width: 115px;
+    border: 2px solid #F0E68C;
+    margin-top: .6rem;
+}
+.bestSellerSlider{
+    margin-top: 1.4rem;
+}
