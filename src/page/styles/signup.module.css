@@ -1,0 +1,8 @@
+.inputBox{
+    width: 350px;
+    height: 40px;
+}
+.inputBoxTitle{
+    font-weight: 500;
+    font-size: 1rem;
+}

@@ -1,0 +1,7 @@
+.descProfileBtn{
+    font-size: 1.1rem;
+    width: 80px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

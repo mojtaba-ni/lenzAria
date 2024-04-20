@@ -1,0 +1,54 @@
+.panelSide{
+    /* width: 350px; */
+    background-color: #000069;
+    height: 100%;
+    padding:0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.panelBox{
+    background-color: #efeeee;
+    min-height: 80vh;
+}
+.panelSideIcon{
+    transform: translateX(6px);
+}
+.panelSideLi{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 50px;
+    cursor: pointer;
+    padding: 1.3rem .2rem;
+}
+.panelSideLi:hover , .panelBanerLi:hover {
+    background-color: #020258;
+    border-radius: 10px;
+}
+.panelSideTitle{
+    margin-top: .8rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.panelBanerLi{
+    padding: .3rem;
+}
+.panelBaner{
+    margin-right: .7rem;
+    border-right: 1px solid #FFEB3B;
+    padding-right: .6rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    transform:translateY(-12px)
+}
+.descProfileBtn{
+    font-size: 1.1rem;
+    width: 80px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
