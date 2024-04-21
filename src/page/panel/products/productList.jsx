@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
+import CustomModal from "../../../components/Modal";
 
 const ProductList = () => {
   const [product, setProduct] = useState();
   const [update, setUpdate] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [record, setRecord] = useState();
   const navigate = useNavigate();
 
   const getAllProduct = async () => {
@@ -15,12 +18,19 @@ const ProductList = () => {
     if (!data?.isSuccess) return;
     setProduct(data?.data);
   };
-  const handleDeleteProduct = async (record) => {
+
+  const handleDeleteModal = (record) => {
+    setShowRemoveModal(true)
+    setRecord(record)
+  }
+  
+  const handleDeleteProduct = async (id) => {
     const res = await axios.delete("http://localhost:8000/api/product/delete", {
-      data: { productId: record?._id },
+      data: { productId: id },
     });
 
     setUpdate(!update);
+    setShowRemoveModal(false)
   };
 
   useEffect(() => {
@@ -60,7 +70,7 @@ const ProductList = () => {
             <DeleteTwoTone
               twoToneColor="#eb2f96"
               style={{ fontSize: "1.2rem" }}
-              onClick={() => handleDeleteProduct(record)}
+              onClick={() => handleDeleteModal(record)}
             />
           </Link>
         </Space>
@@ -70,6 +80,15 @@ const ProductList = () => {
 
   return (
     <div>
+       {showRemoveModal ? (
+        <CustomModal
+          onOk={() => handleDeleteProduct(record?._id)}
+          visible={showRemoveModal}
+          onCancel={() => setShowRemoveModal(false)}
+          text={"از حذف محصول اطمینان دارید؟"}
+          title={"حذف محصول"}
+        />
+      ) : null}
       <div
         style={{
           display: "flex",

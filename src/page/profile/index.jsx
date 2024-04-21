@@ -13,7 +13,6 @@ const Profile = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [updateLoc, setupdateLoc] = useState(false);
   
-    console.log({location});
   const getLocationData = async() => {
     const userId="660eb7eaf4db4975e683f01c"
     const {data} = await axios.get(`http://localhost:8000/api/address/getAddress?userId=${userId}`)
@@ -21,9 +20,7 @@ const Profile = () => {
     const loc = data?.data?.locations
     setLocation(loc)
   }
-  console.log({ address });
   const handleAddressData = (event) => {
-    console.log(event.target.name);
     switch (event.target.name) {
       case "description":
         setAddress((prev) => ({

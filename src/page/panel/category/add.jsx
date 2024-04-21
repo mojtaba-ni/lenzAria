@@ -31,7 +31,7 @@ const AddCategory = () => {
         title: category,
         step:steps
     }
-    const res = await axios.post("http://localhost:8000/api/category/add" , data )
+     await axios.post("http://localhost:8000/api/category/add" , data )
     navigate("/panel/category")
   };
 
@@ -70,7 +70,7 @@ const AddCategory = () => {
               name="step"
               rules={[
                 {
-                  required: true,
+                  required: steps ? false :  true,
                   message: strings.profile.errorMessage.stepError,
                 },
               ]}

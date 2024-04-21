@@ -2,207 +2,74 @@ import { Col, Row, Select } from "antd";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const ProductPage = () => {
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+  const { id } = useParams();
+  const [product, setProduct] = useState([]);
+
+  const getProduct = async () => {
+    const { data } = await axios.get(
+      `http://localhost:8000/api/product/getById?id=${id}`
+    );
+    setProduct(data?.data);
   };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
+
   return (
     <div>
       <Navbar />
-      <div style={{ minHeight: "60vh", padding: "1.5rem 2rem" }}>
+      <div style={{ minHeight: "60vh", padding: "1.5rem 2rem" , display:'flex' , flexDirection:'column' , gap:"2rem" }}>
         <div
           style={{
             display: "flex",
+            justifyContent: "center",
             alignItems: "center",
-            justifyContent: "space-between",
+            flexDirection: "column",
+            gap: "1.5rem",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-              borderBottom: "2px solid gray",
-            }}
-          >
-            <p>مرتب سازی براساس</p>
-            <Select
-              defaultValue="jack"
-              variant="borderless"
-              style={{
-                width: 120,
-              }}
-              onChange={handleChange}
-              options={[
-                {
-                  value: "Yiminghe",
-                  label: "قیمت",
-                },
-                {
-                  value: "Yiminghe",
-                  label: "امتیاز",
-                },
-
-                {
-                  value: "lucy",
-                  label: "پرفروش ترین ها",
-                },
-                {
-                  value: "jack",
-                  label: "جدید ترین ها",
-                },
-              ]}
-            />
-          </div>
-          <div
+          <h4
             style={{
               minWidth: "100px",
               textAlign: "center",
               borderBottom: "3px solid #F0E68C",
             }}
           >
-            <h4>لنز طبی</h4>
-          </div>
+            {" "}
+            {product?.name}
+          </h4>
+          <img src={product?.image} alt="cover" />
         </div>
-        <Row style={{margin:"2rem 0 "}}>
-          <Col
-            span={6}
-            xs={{
-              order: 1,
-            }}
-            sm={{
-              order: 2,
-            }}
-            md={{
-              order: 3,
-            }}
-            lg={{
-              order: 4,
+        <div>
+          <h3
+            style={{
+              width: "120px",
+              display:"block",
+              borderBottom: "3px solid #F0E68C",
             }}
           >
-            <ProductCard />
-          </Col>
-          <Col
-            span={6}
-            xs={{
-              order: 2,
-            }}
-            sm={{
-              order: 1,
-            }}
-            md={{
-              order: 4,
-            }}
-            lg={{
-              order: 3,
+            توضیحات
+          </h3>
+          <p>{product?.description}</p>
+        </div>
+        <div>
+          <h3
+            style={{
+              width: "170px",
+              display:"block",
+              borderBottom: "3px solid #F0E68C",
             }}
           >
-           <ProductCard />
-          </Col>
-          <Col
-            span={6}
-            xs={{
-              order: 3,
-            }}
-            sm={{
-              order: 4,
-            }}
-            md={{
-              order: 2,
-            }}
-            lg={{
-              order: 1,
-            }}
-          >
-            <ProductCard />
-          </Col>
-          <Col
-            span={6}
-            xs={{
-              order: 4,
-            }}
-            sm={{
-              order: 3,
-            }}
-            md={{
-              order: 1,
-            }}
-            lg={{
-              order: 2,
-            }}
-          >
-            <ProductCard />
-          </Col>
-          <Col
-            span={6}
-            xs={{
-              order: 4,
-            }}
-            sm={{
-              order: 3,
-            }}
-            md={{
-              order: 1,
-            }}
-            lg={{
-              order: 2,
-            }}
-          >
-            <ProductCard />
-          </Col>
-          <Col
-            span={6}
-            xs={{
-              order: 4,
-            }}
-            sm={{
-              order: 3,
-            }}
-            md={{
-              order: 1,
-            }}
-            lg={{
-              order: 2,
-            }}
-          >
-            <ProductCard />
-          </Col>
-          <Col
-            span={6}
-            xs={{
-              order: 4,
-            }}
-            sm={{
-              order: 3,
-            }}
-            md={{
-              order: 1,
-            }}
-            lg={{
-              order: 2,
-            }}
-          >
-            <ProductCard />
-          </Col>
-          <Col
-            span={6}
-            xs={{
-              order: 4,
-            }}
-            sm={{
-              order: 3,
-            }}
-            md={{
-              order: 1,
-            }}
-            lg={{
-              order: 2,
-            }}
-          >
-            <ProductCard />
-          </Col>
-        </Row>
+            مشخصات فنی
+          </h3>
+          <p>{product?.Specifications}</p>
+        </div>
       </div>
 
       <Footer />
