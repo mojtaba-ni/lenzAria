@@ -4,22 +4,33 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { DeleteTwoTone } from "@ant-design/icons";
 import { strings } from "../../../../shared/language";
+import CustomModal from "../../../../components/Modal";
 
 const OfferBannerList = () => {
   const [baner, setBaner] = useState();
   const [update, setUpdate] = useState();
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [record, setRecord] = useState();
 
   const getAllOfferBanner = async () => {
     const { data } = await axios.get("http://localhost:8000/api/offerBanner/all");
     if (!data?.isSuccess) return;
     setBaner(data?.data);
   };
-  const handleDeleteBanner = async (record) => {
+
+  const handleDeleteModal = (record) => {
+    setShowRemoveModal(true);
+    setRecord(record);
+  };
+
+
+  const handleDeleteBanner = async (id) => {
     const res = await axios.delete("http://localhost:8000/api/offerBanner/delete", {
-      data: { bannerId: record?._id },
+      data: { bannerId: id},
     });
 
     setUpdate(!update);
+    setShowRemoveModal(false);
   };
 
   
@@ -56,7 +67,7 @@ const OfferBannerList = () => {
             <DeleteTwoTone
               twoToneColor="#eb2f96"
               style={{ fontSize: "1.2rem" }}
-              onClick={() => handleDeleteBanner(record)}
+              onClick={() => handleDeleteModal(record)}
             />
           </Link>
         </Space>
@@ -66,6 +77,15 @@ const OfferBannerList = () => {
 
   return (
     <div>
+        {showRemoveModal ? (
+        <CustomModal
+          onOk={() => handleDeleteBanner(record?._id)}
+          visible={showRemoveModal}
+          onCancel={() => setShowRemoveModal(false)}
+          text={"از حذف بنز خود اطمینان دارید؟"}
+          title={"حذف  بنز"}
+        />
+      ) : null}
       <div
         style={{
           display: "flex",
