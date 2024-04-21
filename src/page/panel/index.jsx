@@ -4,12 +4,12 @@ import {
   QuestionCircleOutlined,
   ShopOutlined,
   EditOutlined,
-  PictureOutlined
+  PictureOutlined,
 } from "@ant-design/icons";
 import { GoChecklist } from "react-icons/go";
 import { FiUsers } from "react-icons/fi";
 import style from "../styles/panel.module.css";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import AllUser from "./allUser";
 import Blog from "./blog";
 import Brand from "./brand";
@@ -18,12 +18,11 @@ import { useState } from "react";
 import MainBanner from "./baner/mainBanner";
 import OfferBanner from "./baner/offerBanner";
 import Category from "./category";
-
+import ModelBanner from "./baner/modelBanner";
 
 const Panel = () => {
-  const { pathname } = useLocation();
   const [banerShow, setBanerShow] = useState(false);
-  console.log({ pathname });
+
   return (
     <Row style={{ height: "100vh" }}>
       <Col span={5}>
@@ -97,15 +96,15 @@ const Panel = () => {
             </h4>
           </div>
           {banerShow && (
-            <div
-              className={style.panelBaner}
-             
-            >
-              <Link   className={style.panelBanerLi} to={"./mainBanner"}>
-                <h5 style={{color: "#F0E68C"}}>بنر اصلی</h5>
+            <div className={style.panelBaner}>
+              <Link className={style.panelBanerLi} to={"./mainBanner"}>
+                <h5 style={{ color: "#F0E68C" }}>بنر اصلی</h5>
               </Link>
-              <Link   className={style.panelBanerLi} to={"./offerBanner"}>
-                <h5 style={{color: "#F0E68C"}}>بنر پیشنهادات</h5>
+              <Link className={style.panelBanerLi} to={"./offerBanner"}>
+                <h5 style={{ color: "#F0E68C" }}>بنر پیشنهادات</h5>
+              </Link>
+              <Link className={style.panelBanerLi} to={"./modelBanner"}>
+                <h5 style={{ color: "#F0E68C" }}>بنر مدل</h5>
               </Link>
             </div>
           )}
@@ -127,6 +126,7 @@ const Panel = () => {
             <Route path="product/*" element={<Product />} />
             <Route path="mainBanner/*" element={<MainBanner />} />
             <Route path="offerBanner/*" element={<OfferBanner />} />
+            <Route path="modelbanner/*" element={<ModelBanner />} />
             <Route path="category/*" element={<Category />} />
           </Routes>
         </Card>

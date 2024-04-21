@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DownOutlined,
   UserOutlined,
@@ -10,17 +10,36 @@ import { strings } from "../../shared/language";
 import ariaLogo from "../../assets/images/logo.jpg";
 import styles from "./navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Navbar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [showLenz, setShowLenz] = useState(false);
+  const [category, setCategory] = useState([]);
+
+  const getAllCategories = async () => {
+    const { data } = await axios.get(
+      "http://localhost:8000/api/category/getAllCategory"
+    );
+    setCategory(data?.data);
+  };
+
   const handleShowMenu = () => {
     setShow(true);
   };
 
+  const handleShowLenzMenu = () => {
+    setShowLenz(true);
+  };
+
   const handleIconAddress = (address) => {
-    navigate(`/${address}`)
-  }
+    navigate(`/${address}`);
+  };
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
 
   return (
     <div className={styles.navContainer}>
@@ -54,7 +73,6 @@ const Navbar = () => {
                   <li>{strings.navbar.monthly}</li>
                   <li>{strings.navbar.seasonal}</li>
                   <li>{strings.navbar.yearly}</li>
-                 
                 </ul>
               </div>
               <div className={styles.navList}>
@@ -72,9 +90,35 @@ const Navbar = () => {
             <h4>{strings.navbar.medicalLens}</h4>
             <DownOutlined className={styles.navColIC} />
           </li>
-          <li className={styles.navCol}>
+          <li className={styles.navCol} onMouseOver={handleShowLenzMenu}>
             <h4>{strings.navbar.ColoredLens}</h4>
             <DownOutlined className={styles.navColIC} />
+            <div
+              className={showLenz ? styles.navColListActive : styles.navColList}
+              onMouseOut={() => setShowLenz(false)}
+            >
+              {category?.map((item, index) => (
+                <div className={styles.navList} key={index}>
+                  <Link
+                    className={styles.navListTitleLine}
+                    to={`/products/${item._id}`}
+                  >
+                    <h3>{item.title}</h3>
+                  </Link>
+                  <ul className={styles.navListBody}>
+                    {item.step.map((sub, index) => (
+                      <Link
+                        key={index}
+                        to={`/products/${sub._id}`}
+                        style={{color:"#4f4f4f"}}
+                      >
+                        <li>{sub?.title}</li>
+                      </Link>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </li>
           <li className={styles.navCol}>
             <h4>{strings.navbar.accessories}</h4>
@@ -84,8 +128,10 @@ const Navbar = () => {
             <h4>{strings.navbar.cosmetic}</h4>
           </li>
           <li className={styles.navCol}>
-            <Link to="./blog" style={{color:"#000"}}> <h4>{strings.navbar.blog}</h4></Link>
-           
+            <Link to="./blog" style={{ color: "#000" }}>
+              {" "}
+              <h4>{strings.navbar.blog}</h4>
+            </Link>
           </li>
           <li className={styles.navCol}>
             <h4>{strings.navbar.blogVideo}</h4>
@@ -97,10 +143,11 @@ const Navbar = () => {
         <SearchOutlined className={styles.navUserIc} />
         <HeartOutlined className={styles.navUserIc} />
         <ShoppingCartOutlined className={styles.navUserIc} />
-      
-        <UserOutlined className={styles.navUserIc} onClick={()=> handleIconAddress("profile")}  />
-       
-        
+
+        <UserOutlined
+          className={styles.navUserIc}
+          onClick={() => handleIconAddress("profile")}
+        />
       </div>
     </div>
   );

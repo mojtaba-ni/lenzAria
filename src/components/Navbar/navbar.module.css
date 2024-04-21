@@ -46,6 +46,7 @@
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: .2rem;
+    color: #4f4f4f !important;
 }
 
 .navColIC{
@@ -83,6 +84,7 @@
     display: block;
     border-bottom: 2px solid #eada4c;
     text-align: center;
+    color: #4f4f4f !important;
 }
 .navListBody li{
     text-align: center;

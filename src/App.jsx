@@ -7,6 +7,7 @@ import BlogUser from "./page/blog";
 import SingleBlog from "./page/blog/singleBlog";
 import Profile from "./page/profile";
 import ProductPage from "./page/product";
+import ProductList from "./page/product/productList";
 
 export default function App() {
   return (
@@ -19,7 +20,8 @@ export default function App() {
           <Route path="/blog" element={<BlogUser />} />
           <Route path="/blog/:id" element={<SingleBlog />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/product" element={<ProductPage />} />
+          <Route path="/products/:id" element={<ProductList />} />
+          <Route path="/product/:id" element={<ProductPage />} />
         </Routes>
         <ToastContainer />
       </Router>
