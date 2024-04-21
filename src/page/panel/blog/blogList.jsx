@@ -13,6 +13,7 @@ const BlogList = () => {
   const [blog, setBlog] = useState();
   const [update, setUpdate] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [record, setRecord] = useState();
   const geyAllBlog = async () => {
     const { data } = await axios.get(
       "http://localhost:8000/api/blog/getAllBlogs"
@@ -24,11 +25,11 @@ const BlogList = () => {
     const res = await axios.put();
   };
   const handleDelete = async (id) => {
-
     const { data } = await axios.delete(
       "http://localhost:8000/api/blog/delete",
-      { data: { blogId: id?._id } }
+      { data: { blogId: id} }
     );
+    setShowRemoveModal(false)
     if (data.isSuccess) {
       setUpdate(!update);
       toast.success(data.message, {
@@ -39,7 +40,14 @@ const BlogList = () => {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
+    
   };
+
+  const handleDeleteModal = (record) => {
+    setShowRemoveModal(true)
+    setRecord(record)
+  }
+
   useEffect(() => {
     geyAllBlog();
   }, [update]);
@@ -75,7 +83,7 @@ const BlogList = () => {
               twoToneColor="#eb2f96"
               style={{ fontSize: "1.2rem" }}
               // onClick={() => handleDelete(record)}
-              onClick={() => setShowRemoveModal(true)}
+              onClick={() => handleDeleteModal(record)}
             />
           </Link>
         </Space>
@@ -87,7 +95,7 @@ const BlogList = () => {
       {
         showRemoveModal ?
           <CustomModal
-            onOk={handleDelete}
+            onOk={() => handleDelete(record?._id)}
             visible={showRemoveModal}
             onCancel={() => setShowRemoveModal(false)}
             text={"از حذف وبلاگ خود اطمینان دارید؟"}

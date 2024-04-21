@@ -4,12 +4,15 @@ import { strings } from "../../../shared/language";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { DeleteTwoTone } from "@ant-design/icons";
+import CustomModal from "../../../components/Modal";
 
 const Brand = () => {
   const [brand, setBrand] = useState();
   const [newBrand, setNewBrand] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [update, setUpdate] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [record, setRecord] = useState();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -31,12 +34,20 @@ const Brand = () => {
     hideModal();
     setUpdate(!update);
   };
-  const handleDeleteBrand = async (record) => {
-    const res = await axios.delete("http://localhost:8000/api/brand/delete", 
-    { data: { brandId: record?._id } });
+  const handleDeleteModal = (record) => {
+    setShowRemoveModal(true);
+    setRecord(record);
+  };
+
+  const handleDeleteBrand = async (id) => {
+    const res = await axios.delete("http://localhost:8000/api/brand/delete", {
+      data: { brandId: id},
+    });
 
     setUpdate(!update);
+    setShowRemoveModal(false);
   };
+
   useEffect(() => {
     geyAllBrand();
   }, []);
@@ -69,7 +80,7 @@ const Brand = () => {
             <DeleteTwoTone
               twoToneColor="#eb2f96"
               style={{ fontSize: "1.2rem" }}
-              onClick={() => handleDeleteBrand(record)}
+              onClick={() => handleDeleteModal(record)}
             />
           </Link>
         </Space>
@@ -79,6 +90,15 @@ const Brand = () => {
 
   return (
     <div>
+      {showRemoveModal ? (
+        <CustomModal
+          onOk={() => handleDeleteBrand(record?._id)}
+          visible={showRemoveModal}
+          onCancel={() => setShowRemoveModal(false)}
+          text={"از حذف برند اطمینان دارید؟"}
+          title={"حذف برند"}
+        />
+      ) : null}
       <Modal
         title={strings.brand.addTitle}
         open={isModalOpen}

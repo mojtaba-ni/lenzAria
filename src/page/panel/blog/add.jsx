@@ -5,7 +5,6 @@ import TextArea from "antd/es/input/TextArea";
 
 const AddBlog = () => {
   const normFile = (e) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
