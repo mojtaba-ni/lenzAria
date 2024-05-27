@@ -8,6 +8,9 @@ import SingleBlog from "./page/blog/singleBlog";
 import Profile from "./page/profile";
 import ProductPage from "./page/product";
 import ProductList from "./page/product/productList";
+import BrandList from "./page/product/brandList";
+import PeriodList from "./page/product/periodList";
+import Search from "./page/search";
 
 export default function App() {
   return (
@@ -22,6 +25,9 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/products/:id" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/brands/:brandId" element={<BrandList />} />
+          <Route path="/periods/:periodId" element={<PeriodList />} />
+          <Route path="/search/:name" element={<Search />} />
         </Routes>
         <ToastContainer />
       </Router>

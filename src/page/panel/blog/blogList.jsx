@@ -6,6 +6,7 @@ import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomModal from "../../../components/Modal";
+import { shortText } from "../../../shared/utils";
 
 // import { useEffect, useState } from "react";
 
@@ -61,6 +62,11 @@ const BlogList = () => {
       title: strings.panel.blog.introduction,
       dataIndex: "introduction",
       key: "introduction",
+      render: (_, record) => (
+        <div>
+          {shortText(record?.introduction,80)}
+        </div>
+      )
     },
     {
       title: strings.panel.blog.createdAt,

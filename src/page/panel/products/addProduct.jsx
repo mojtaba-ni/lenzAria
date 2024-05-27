@@ -27,7 +27,24 @@ const AddProduct = () => {
   const [step, setStep] = useState([]);
   const [category, setCategory] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
+  const [brand, setBrand] = useState(null);
   const [activeStep, setActiveStep] = useState(null);
+  const [activeBrand, setActiveBrand] = useState(null);
+  const [activePeriod, setActivePeriod] = useState(null);
+  const [activeGroup, setActiveGroup] = useState(null);
+  const period = [
+    { value: 1, label: "روزانه" },
+    { value: 2, label: "ماهانه" },
+    { value: 3, label: "فصلی" },
+    { value: 4, label: "سالانه" },
+  ];
+  const group = [
+    { value: 1, label: "لنز طبی" },
+    { value: 2, label: "لنز رنگی" },
+    { value: 3, label: "محصولات جانبی" },
+    { value: 4, label: "آرایشی" },
+  ];
+
   const handleProductForm = (event, name) => {
     setProductForm((prevState) => ({
       ...prevState,
@@ -38,6 +55,67 @@ const AddProduct = () => {
     if (e.target.files) {
       setFile(e.target.files[0]);
     }
+  };
+  const handleSubmit = async () => {
+    const pic = await toBase64(file);
+    const data = {
+      group:{
+        id: parseInt(activeGroup?.value) ,
+        title: activeGroup?.label,
+      },
+      step: {
+        id: activeStep?.value,
+        title: activeStep?.label,
+      },
+      category: {
+        id: activeCategory?.value,
+        title: activeCategory?.label,
+      },
+      name: productForm?.name,
+      Specifications: productForm?.Specifications,
+      description: productForm?.description,
+      brand: {
+        id: activeBrand?.value,
+        title: activeBrand?.label,
+      },
+      period: activePeriod.label,
+      periodId: activePeriod.value,
+      price: parseInt(productForm?.price),
+      image: pic,
+    };
+    await axios.post("http://localhost:8000/api/product/add", data);
+    navigate("/panel/product");
+  };
+  const handleChangeGroup = (value) => {
+    setActiveGroup(value);
+  };
+  const handleChange = (value) => {
+    setActiveCategory(value);
+  };
+  const handleChangeBrand = (value) => {
+    setActiveBrand(value);
+  };
+  const handleChangePeriod = (value) => {
+    setActivePeriod(value);
+  };
+  const handleChangeStep = (value) => {
+    setActiveStep(value);
+  };
+
+  const getAllBrand = async () => {
+    const { data } = await axios.get(
+      "http://localhost:8000/api/brand/getAllBrand"
+    );
+    const brandList = [];
+    data?.data.forEach((element) => {
+      const brandLi = {
+        label: element?.name,
+        value: element?._id,
+      };
+      brandList.push(brandLi);
+    });
+
+    setBrand(brandList);
   };
   const getAllCategory = async () => {
     const { data } = await axios.get(
@@ -54,32 +132,13 @@ const AddProduct = () => {
     });
     setCategory(categoryList);
   };
-
-  const handleSubmit = async () => {
-    const pic = await toBase64(file);
-    const data = {
-      step:{
-        id:activeStep?.value,
-        title:activeStep?.label,
-      },
-      category:{
-        id:activeCategory?.value,
-        title:activeCategory?.label,
-      },
-      name: productForm?.name,
-      Specifications: productForm?.Specifications,
-      description: productForm?.description,
-      price: parseInt(productForm?.price),
-      image: pic,
-    };
-    const res = await axios.post("http://localhost:8000/api/product/add", data);
-    navigate("/panel/product");
-  };
-
   const getAllSteps = async (activeCt) => {
-    const {data} = await axios.get("http://localhost:8000/api/step/getAllStep", {
-      params: { id: activeCt?.value },
-    });
+    const { data } = await axios.get(
+      "http://localhost:8000/api/step/getAllStep",
+      {
+        params: { id: activeCt?.value },
+      }
+    );
     const stepList = [];
     data?.data.forEach((element) => {
       const categorLi = {
@@ -91,15 +150,10 @@ const AddProduct = () => {
     setStep(stepList);
   };
 
-  const handleChange = (value) => {
-  
-    setActiveCategory(value);
-  };
-  const handleChangeStep = (value) => {
-    setActiveStep(value);
-  };
+  //Effect
   useEffect(() => {
     getAllCategory();
+    getAllBrand();
   }, []);
   useEffect(() => {
     if (activeCategory) {
@@ -110,6 +164,25 @@ const AddProduct = () => {
   return (
     <div>
       <Form>
+        <div className={style.descprofileLi}>
+          <Typography.Title level={5}>انتخاب گروه</Typography.Title>
+          <Form.Item
+            name="group"
+            rules={[
+              {
+                required: true,
+                message: strings.profile.errorMessage.productNameError,
+              },
+            ]}
+          >
+            <Select
+              labelInValue
+              onChange={handleChangeGroup}
+              options={group}
+              defaultValue={activeGroup}
+            />
+          </Form.Item>
+        </div>
         <Row gutter={20}>
           <Col
             sm={{
@@ -118,7 +191,7 @@ const AddProduct = () => {
             span={6}
           >
             <div className={style.descprofileLi}>
-              <Typography.Title level={5}>اسم دسته</Typography.Title>
+              <Typography.Title level={5}>انتخاب دسته</Typography.Title>
               <Form.Item
                 name="category"
                 rules={[
@@ -144,7 +217,7 @@ const AddProduct = () => {
             span={6}
           >
             <div className={style.descprofileLi}>
-              <Typography.Title level={5}>اسم زیر دسته</Typography.Title>
+              <Typography.Title level={5}>انتخاب زیر دسته</Typography.Title>
               <Form.Item
                 name="step"
                 rules={[
@@ -165,7 +238,60 @@ const AddProduct = () => {
             </div>
           </Col>
         </Row>
-
+        <Row gutter={20}>
+          <Col
+            sm={{
+              span: 12,
+            }}
+            span={6}
+          >
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}> انتخاب برند</Typography.Title>
+              <Form.Item
+                name="brand"
+                rules={[
+                  {
+                    required: true,
+                    message: strings.profile.errorMessage.productNameError,
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  onChange={handleChangeBrand}
+                  options={brand}
+                  defaultValue={activeBrand}
+                />
+              </Form.Item>
+            </div>
+          </Col>
+          <Col
+            sm={{
+              span: 12,
+            }}
+            span={6}
+          >
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}>دوره مصرف</Typography.Title>
+              <Form.Item
+                name="period"
+                rules={[
+                  {
+                    required: true,
+                    message: strings.profile.errorMessage.productNameError,
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  onChange={handleChangePeriod}
+                  options={period}
+                  defaultValue={activePeriod}
+                />
+              </Form.Item>
+            </div>
+          </Col>
+        </Row>
         <div className={style.descprofileLi}>
           <Typography.Title level={5}>اسم محصول</Typography.Title>
           <Form.Item

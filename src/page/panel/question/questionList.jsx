@@ -1,36 +1,49 @@
 import { Button, Space, Table } from 'antd'
 import  { useEffect, useState } from 'react'
 import { strings } from '../../../shared/language'
-import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
+import { DeleteTwoTone } from "@ant-design/icons";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { shortText } from '../../../shared/utils';
 
 
 const QuestionList = () => {
-    const [blog, setBlog] = useState();
+    const [questionData, setQuestionData] = useState();
     const [update, setUpdate] = useState(false);
-    const geyAllBlog = async () => {
+
+    const getAllQuestion = async () => {
         const { data } = await axios.get(
-          "http://localhost:8000/api/blog/getAllBlogs"
+          "http://localhost:8000/api/question/getAllQuestion"
         );
+        setQuestionData(data?.data);
+      };
+      const handleDelete = async (id) => {
+        const res = await axios.delete("http://localhost:8000/api/brand/delete", {
+          data: { brandId: id},
+        });
     
-        setBlog(data?.data);
+        setUpdate(!update);
       };
 
       useEffect(() => {
-        geyAllBlog()
-      }, [])
+        getAllQuestion()
+      }, [update])
       
     const columns = [
         {
-          title: strings.panel.blog.blogTitle,
-          dataIndex: "blogTitle",
-          key: "blogTitle",
+          title: strings.panel.question.title,
+          dataIndex: "title",
+          key: "title",
         },
         {
-          title: strings.panel.blog.introduction,
-          dataIndex: "introduction",
-          key: "introduction",
+          title: strings.panel.question.description,
+          key: "description",
+          render: (_, record) => (
+            <div>
+              {shortText(record?.description,80)}
+            </div>
+          )
+
         },
         {
           title: strings.panel.blog.createdAt,
@@ -42,17 +55,17 @@ const QuestionList = () => {
           key: "action",
           render: (_, record) => (
             <Space size="middle">
-              <Link>
+              {/* <Link>
                 <EditTwoTone
                   style={{ fontSize: "1.2rem" }}
                   onClick={() => handleEdit(record)}
                 />
-              </Link>
+              </Link> */}
               <Link>
                 <DeleteTwoTone
                   twoToneColor="#eb2f96"
                   style={{ fontSize: "1.2rem" }}
-                  onClick={() => handleDelete(record)}
+                  onClick={() => handleDelete(record?._id)}
                 />
               </Link>
             </Space>
@@ -63,9 +76,9 @@ const QuestionList = () => {
   return (
     <div>
       <div style={{display:"flex" , alignItems:"center" , justifyContent:"end", margin:"1.5rem .5rem" }}>
-        <Button type="primary" size="large" href="question/add" style={{width:"100px"}}>{strings.add}</Button>
+        <Button type="primary" size="large" href="questions/add" style={{width:"100px"}}>{strings.add}</Button>
       </div>
-      <Table dataSource={blog} columns={columns} />
+      <Table dataSource={questionData} columns={columns} />
     </div>
   )
 }

@@ -12,17 +12,25 @@ import styles from "./navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Navbar = () => {
+// eslint-disable-next-line react/prop-types
+const Navbar = ({search , setSearch}) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showLenz, setShowLenz] = useState(false);
   const [category, setCategory] = useState([]);
+  const [brand, setBrand] = useState([]);
 
   const getAllCategories = async () => {
     const { data } = await axios.get(
       "http://localhost:8000/api/category/getAllCategory"
     );
     setCategory(data?.data);
+  };
+  const getAllBrand = async () => {
+    const { data } = await axios.get(
+      "http://localhost:8000/api/brand/getAllBrand"
+    );
+    setBrand(data?.data);
   };
 
   const handleShowMenu = () => {
@@ -39,6 +47,7 @@ const Navbar = () => {
 
   useEffect(() => {
     getAllCategories();
+    getAllBrand();
   }, []);
 
   return (
@@ -69,10 +78,19 @@ const Navbar = () => {
                   <h3>{strings.navbar.Period}</h3>
                 </div>
                 <ul className={styles.navListBody}>
-                  <li>{strings.navbar.daily}</li>
+                  <Link to={`/periods/1`} style={{ color: "#4f4f4f" }}>
+                    <li>{strings.navbar.daily}</li>
+                  </Link>
+                  <Link to={`/periods/2`} style={{ color: "#4f4f4f" }}>
                   <li>{strings.navbar.monthly}</li>
+                  </Link>
+                  <Link to={`/periods/3`} style={{ color: "#4f4f4f" }}>
                   <li>{strings.navbar.seasonal}</li>
+                  </Link>
+                  <Link to={`/periods/4`} style={{ color: "#4f4f4f" }}>
                   <li>{strings.navbar.yearly}</li>
+                  </Link>
+              
                 </ul>
               </div>
               <div className={styles.navList}>
@@ -80,8 +98,15 @@ const Navbar = () => {
                   <h3>{strings.navbar.brand}</h3>
                 </div>
                 <ul className={styles.navListBody}>
-                  <li>{strings.navbar.arian}</li>
-                  <li>{strings.navbar.elamor}</li>
+                  {brand?.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={`/brands/${item._id}`}
+                      style={{ color: "#4f4f4f" }}
+                    >
+                      <li key={index}>{item?.name}</li>
+                    </Link>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -110,7 +135,7 @@ const Navbar = () => {
                       <Link
                         key={index}
                         to={`/products/${sub._id}`}
-                        style={{color:"#4f4f4f"}}
+                        style={{ color: "#4f4f4f" }}
                       >
                         <li>{sub?.title}</li>
                       </Link>
@@ -128,7 +153,7 @@ const Navbar = () => {
             <h4>{strings.navbar.cosmetic}</h4>
           </li>
           <li className={styles.navCol}>
-            <Link to="./blog" style={{ color: "#000" }}>
+            <Link to="./blog" style={{color: "#4f4f4f" }}>
               {" "}
               <h4>{strings.navbar.blog}</h4>
             </Link>
@@ -140,7 +165,7 @@ const Navbar = () => {
       </div>
       <div className={styles.navUser}>
         <UserOutlined className={styles.navUserIc} />
-        <SearchOutlined className={styles.navUserIc} />
+        <SearchOutlined className={styles.navUserIc} onClick={() => setSearch(!search)} />
         <HeartOutlined className={styles.navUserIc} />
         <ShoppingCartOutlined className={styles.navUserIc} />
 

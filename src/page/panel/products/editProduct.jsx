@@ -23,6 +23,16 @@ const EditProduct = () => {
   const [activeStep, setActiveStep] = useState(null);
   const [step, setStep] = useState([]);
   const [img, setImg] = useState(null);
+  const [activeBrand, setActiveBrand] = useState(null);
+  const [activePeriod, setActivePeriod] = useState(null);
+  const [brand, setBrand] = useState(null);
+
+  const period = [
+    { value: 1, label: "روزانه" },
+    { value: 2, label: "ماهانه" },
+    { value: 3, label: "فصلی" },
+    { value: 4, label: "سالانه" },
+  ];
 
   const handleProductForm = (event, name) => {
     setProductForm((prevState) => ({
@@ -45,6 +55,12 @@ const EditProduct = () => {
   const handleChangeStep = (value) => {
     setActiveStep(value);
   };
+  const handleChangeBrand = (value) => {
+    setActiveBrand(value);
+  };
+  const handleChangePeriod = (value) => {
+    setActivePeriod(value);
+  };
 
   const handleSubmit = async () => {
     const data = {
@@ -59,6 +75,12 @@ const EditProduct = () => {
       },
       name: productForm?.name,
       Specifications: productForm?.Specifications,
+      brand:{
+        id: activeBrand?.value,
+        title: activeBrand?.label,
+      },
+      period:activePeriod.label,
+      periodId:activePeriod.value,
       description: productForm?.description,
       price: parseInt(productForm?.price),
       image:img ? img :  await toBase64(file),
@@ -86,6 +108,21 @@ const EditProduct = () => {
     });
     setCategory(categoryList);
   };
+  const getAllBrand = async() => {
+    const { data } = await axios.get(
+      "http://localhost:8000/api/brand/getAllBrand"
+    );
+    const brandList = []; 
+    data?.data.forEach((element) => {
+      const brandLi = {
+        label: element?.name,
+        value: element?._id,
+      };
+      brandList.push(brandLi);
+    });
+    
+    setBrand(brandList)
+  }
 
   const getAllSteps = async (activeCt) => {
     const { data } = await axios.get(
@@ -124,6 +161,7 @@ const EditProduct = () => {
   useEffect(() => {
     getProductDataById();
     getAllCategory();
+    getAllBrand()
   }, []);
   useEffect(() => {
     if (activeCategory) {
@@ -207,6 +245,60 @@ const EditProduct = () => {
                   options={step}
                   disabled={!step}
                   defaultValue={activeCategory}
+                />
+              </Form.Item>
+            </div>
+          </Col>
+        </Row>
+        <Row gutter={20}>
+          <Col
+            sm={{
+              span: 12,
+            }}
+            span={6}
+          >
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}> انتخاب برند</Typography.Title>
+              <Form.Item
+                name="brand"
+                rules={[
+                  {
+                    required: true,
+                    message: strings.profile.errorMessage.productNameError,
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  onChange={handleChangeBrand}
+                  options={brand}
+                  defaultValue={activeBrand}
+                />
+              </Form.Item>
+            </div>
+          </Col>
+          <Col
+            sm={{
+              span: 12,
+            }}
+            span={6}
+          >
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}>دوره مصرف</Typography.Title>
+              <Form.Item
+                name="period"
+                rules={[
+                  {
+                    required: true,
+                    message: strings.profile.errorMessage.productNameError,
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  onChange={handleChangePeriod}
+                  options={period}
+                  defaultValue={activePeriod}
                 />
               </Form.Item>
             </div>

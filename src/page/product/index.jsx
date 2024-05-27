@@ -1,7 +1,6 @@
-import { Col, Row, Select } from "antd";
+
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import ProductCard from "../../components/ProductCard";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";

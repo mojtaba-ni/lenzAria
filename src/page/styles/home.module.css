@@ -21,9 +21,12 @@
 .bannerBox{
     margin: 1rem 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-   
+}
+.bannerCol{
+    display: grid;
+    place-items: center;
 }
 .bannerBox img{
     width: 100%;
@@ -34,4 +37,12 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+@media screen and (max-width:1050px) {
+    .bannerBox{
+        flex-direction: column;
+        gap: 2rem;
+    }
+   
 }

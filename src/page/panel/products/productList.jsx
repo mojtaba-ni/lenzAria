@@ -2,16 +2,17 @@ import { Button, Space, Table } from "antd";
 import { strings } from "../../../shared/language";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import CustomModal from "../../../components/Modal";
+
 
 const ProductList = () => {
   const [product, setProduct] = useState();
   const [update, setUpdate] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [record, setRecord] = useState();
-  const navigate = useNavigate();
+
 
   const getAllProduct = async () => {
     const { data } = await axios.get("http://localhost:8000/api/product");

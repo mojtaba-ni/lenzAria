@@ -19,6 +19,9 @@ import MainBanner from "./baner/mainBanner";
 import OfferBanner from "./baner/offerBanner";
 import Category from "./category";
 import ModelBanner from "./baner/modelBanner";
+import Question from "./question";
+import PopularSection from "./popular/section";
+import PopularPrSection from "./popular/productSection";
 
 const Panel = () => {
   const [banerShow, setBanerShow] = useState(false);
@@ -71,7 +74,7 @@ const Panel = () => {
             <QuestionCircleOutlined
               style={{ fontSize: "1.3rem", color: "#F0E68C" }}
             />
-            <Link to={"/panel/brand"}>
+            <Link to={"/panel/questions"}>
               <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
                 مدیریت سوالات متداول
               </h4>
@@ -108,6 +111,22 @@ const Panel = () => {
               </Link>
             </div>
           )}
+          <div className={style.panelSideLi}>
+            <ShopOutlined style={{ fontSize: "1.3rem", color: "#F0E68C" }} />
+            <Link to={"/panel/popularSection"}>
+              <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                مدیریت لنزهای محبوب
+              </h4>
+            </Link>
+          </div>
+          <div className={style.panelSideLi}>
+            <ShopOutlined style={{ fontSize: "1.3rem", color: "#F0E68C" }} />
+            <Link to={"/panel/popularProductSection"}>
+              <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                مدیریت محصولات محبوب
+              </h4>
+            </Link>
+          </div>
         </div>
       </Col>
       <Col span={19} className={style.panelBox}>
@@ -122,12 +141,14 @@ const Panel = () => {
             <Route path="users" element={<AllUser />} />
             <Route path="brand" element={<Brand />} />
             <Route path="blog/*" element={<Blog />} />
-            <Route path="questions/*" element={<Blog />} />
+            <Route path="questions/*" element={<Question />} />
             <Route path="product/*" element={<Product />} />
             <Route path="mainBanner/*" element={<MainBanner />} />
             <Route path="offerBanner/*" element={<OfferBanner />} />
             <Route path="modelbanner/*" element={<ModelBanner />} />
             <Route path="category/*" element={<Category />} />
+            <Route path="popularSection/*" element={<PopularSection />} />
+            <Route path="popularProductSection/*" element={<PopularPrSection />} />
           </Routes>
         </Card>
       </Col>

@@ -48,6 +48,11 @@ export const strings = {
       introduction:"مقدمه",
       createdAt:"تاریخ ایجاد",
     },
+    question:{
+      title:"عنوان",
+      description:"توضیحات",
+      createdAt:"تاریخ ایجاد",
+    },
     category:{
       title:"نام دسته",
       introduction:"مقدمه",
@@ -79,6 +84,7 @@ export const strings = {
     errorMessage:{
       zipCodeError:"کد پستی را وارد کنید",
       numberError:"پلاک را وارد کنید",
+      titleError:"عنوان را وارد کنید",
       productNameError:"اسم محصول را وارد کنید",
       descriptionError:"توضیحات را وارد کنید",
       uploadError:"عکس محصول را وارد کنید",

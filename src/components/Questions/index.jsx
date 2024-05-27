@@ -1,8 +1,25 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { strings } from "../../shared/language";
 import styles from "./questions.module.css"
+import axios from "axios";
 
 const Questions = () => {
+
+  //State
+  const [questionData, setQuestionData] = useState()
+
+  //Func
+  const getAllQuestion = async() => {
+    const res = await axios.get("http://localhost:8000/api/question/getAllQuestion")
+  }
+  
+  //Effect
+  useEffect(() => {
+    getAllQuestion()
+  }, [])
+  
+  
+
   return (
     <div className={styles.questionsWrapper}>
       <div>
@@ -16,6 +33,9 @@ const Questions = () => {
         <li>لنز های طبی براساس دوره مصرف</li>
         <li>لنز های طبی براساس دوره مصرف</li>
       </ul>
+      <div>
+        ssss  
+      </div>
     </div>
   );
 };
