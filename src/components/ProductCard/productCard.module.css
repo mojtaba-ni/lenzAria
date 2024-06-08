@@ -5,6 +5,9 @@
     gap: .5rem;
     flex-direction: column;
     margin: .5rem;
+    padding: 30px 0 !important;
+    background: rgb(212,220,228);
+    background: linear-gradient(90deg, rgba(212,220,228,1) 0%, rgba(255,255,255,1) 55%, rgba(212,220,228,1) 100%);
 }
 .ProductImg{
     width: 100%;
