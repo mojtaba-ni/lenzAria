@@ -6,7 +6,6 @@ import {
   Row,
   Select,
   Typography,
-  Upload,
 } from "antd";
 import { strings } from "../../../shared/language";
 import { useNavigate } from "react-router-dom";
@@ -22,8 +21,10 @@ const AddProduct = () => {
     description: null,
     Specifications: null,
     price: null,
+    count: null,
   });
   const [file, setFile] = useState(null);
+  const [lenzFile, setLenzFile] = useState(null);
   const [step, setStep] = useState([]);
   const [category, setCategory] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
@@ -31,19 +32,15 @@ const AddProduct = () => {
   const [activeStep, setActiveStep] = useState(null);
   const [activeBrand, setActiveBrand] = useState(null);
   const [activePeriod, setActivePeriod] = useState(null);
-  const [activeGroup, setActiveGroup] = useState(null);
+  
+
   const period = [
     { value: 1, label: "روزانه" },
     { value: 2, label: "ماهانه" },
     { value: 3, label: "فصلی" },
     { value: 4, label: "سالانه" },
   ];
-  const group = [
-    { value: 1, label: "لنز طبی" },
-    { value: 2, label: "لنز رنگی" },
-    { value: 3, label: "محصولات جانبی" },
-    { value: 4, label: "آرایشی" },
-  ];
+
 
   const handleProductForm = (event, name) => {
     setProductForm((prevState) => ({
@@ -56,13 +53,17 @@ const AddProduct = () => {
       setFile(e.target.files[0]);
     }
   };
+
+  const handleLenzFileChange = (e) => {
+    if (e.target.files) {
+      setLenzFile(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async () => {
     const pic = await toBase64(file);
     const data = {
-      group:{
-        id: parseInt(activeGroup?.value) ,
-        title: activeGroup?.label,
-      },
+   
       step: {
         id: activeStep?.value,
         title: activeStep?.label,
@@ -82,13 +83,12 @@ const AddProduct = () => {
       periodId: activePeriod.value,
       price: parseInt(productForm?.price),
       image: pic,
+      count: productForm?.count,
     };
     await axios.post("http://localhost:8000/api/product/add", data);
     navigate("/panel/product");
   };
-  const handleChangeGroup = (value) => {
-    setActiveGroup(value);
-  };
+
   const handleChange = (value) => {
     setActiveCategory(value);
   };
@@ -164,25 +164,7 @@ const AddProduct = () => {
   return (
     <div>
       <Form>
-        <div className={style.descprofileLi}>
-          <Typography.Title level={5}>انتخاب گروه</Typography.Title>
-          <Form.Item
-            name="group"
-            rules={[
-              {
-                required: true,
-                message: strings.profile.errorMessage.productNameError,
-              },
-            ]}
-          >
-            <Select
-              labelInValue
-              onChange={handleChangeGroup}
-              options={group}
-              defaultValue={activeGroup}
-            />
-          </Form.Item>
-        </div>
+       
         <Row gutter={20}>
           <Col
             sm={{
@@ -325,7 +307,7 @@ const AddProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={500}
+              maxLength={1000}
               placeholder="..."
               style={{
                 height: 120,
@@ -351,7 +333,7 @@ const AddProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={120}
+              maxLength={300}
               placeholder="..."
               style={{
                 height: 120,
@@ -381,6 +363,24 @@ const AddProduct = () => {
           </Form.Item>
         </div>
         <div className={style.descprofileLi}>
+          <Typography.Title level={5}>تعداد</Typography.Title>
+          <Form.Item
+            name="count"
+            rules={[
+              {
+                required: true,
+                message: strings.profile.errorMessage.numberError,
+              },
+            ]}
+          >
+            <Input
+              placeholder="..."
+              name="count"
+              onChange={(e) => handleProductForm(e, "count")}
+            />
+          </Form.Item>
+        </div>
+        <div className={style.descprofileLi}>
           <Typography.Title level={5}>عکس محصول</Typography.Title>
           <Form.Item
             name="file"
@@ -401,6 +401,30 @@ const AddProduct = () => {
               <li>Name: {file.name}</li>
               <li>Type: {file.type}</li>
               <li>Size: {file.size} bytes</li>
+            </ul>
+          </section>
+        )}
+          <div className={style.descprofileLi}>
+          <Typography.Title level={5}>عکس لنز</Typography.Title>
+          <Form.Item
+            name="file"
+            rules={[
+              {
+                required: true,
+                message: strings.profile.errorMessage.uploadError,
+              },
+            ]}
+          >
+            <input id="file" type="file" onChange={handleLenzFileChange} />
+          </Form.Item>
+        </div>
+        {file && (
+          <section>
+            جزیات عکس:
+            <ul>
+              <li>Name: {lenzFile.name}</li>
+              <li>Type: {lenzFile.type}</li>
+              <li>Size: {lenzFile.size} bytes</li>
             </ul>
           </section>
         )}

@@ -5,6 +5,7 @@ import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import CustomModal from "../../../components/Modal";
+import { dateFullFilter } from "../../../shared/utils";
 
 const CategoryList = () => {
   const [category, setCategories] = useState();
@@ -51,11 +52,9 @@ const CategoryList = () => {
       key: "createdAt",
       render: (_, record) => (
         <Space size="middle">
-           <div>
-              {new Date(record?.createdAt).toString()}
-           </div>
+            {dateFullFilter(record?.createdAt)}
         </Space>
-      ),
+        ),
     },
     {
       title: "عملیات",

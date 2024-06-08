@@ -1,8 +1,9 @@
-import { Button, Table } from "antd";
+import { Button, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import { strings } from "../../../../shared/language";
 import axios from "axios";
 import style from "../../../styles/panel/allUser/style.module.css";
+import { dateFullFilter } from "../../../../shared/utils";
 
 const PrSectionList = () => {
   const [sectionData, setSectionData] = useState();
@@ -35,7 +36,11 @@ const PrSectionList = () => {
     {
       title: strings.panel.allUserPage.createdAt,
       dataIndex: "createdAt",
-      key: "createdAt",
+      render: (_, record) => (
+        <Space size="middle">
+            {dateFullFilter(record?.createdAt)}
+        </Space>
+        ),
     },
   ];
   return (

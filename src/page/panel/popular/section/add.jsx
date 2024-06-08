@@ -23,8 +23,8 @@ const AddSection = () => {
   const handleChangeStep = (value) => {
     setActiveStep(value);
   };
-  const handleChangTitle = (value) => {
-    setSectionTitle(value);
+  const handleChangTitle = (e) => {
+    setSectionTitle(e.target.value);
   };
 
   const handleFileChange = (e) => {
@@ -80,7 +80,7 @@ const AddSection = () => {
         title:sectionTitle,
         image: pic,
     }
-    await axios.post("http://localhost:8000/api/section/add")
+    await axios.post("http://localhost:8000/api/section/add" , data)
     navigate("/panel/popularSection");
   }
 

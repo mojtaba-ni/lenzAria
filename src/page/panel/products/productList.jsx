@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import CustomModal from "../../../components/Modal";
+import { dateFullFilter } from "../../../shared/utils";
 
 
 const ProductList = () => {
@@ -57,7 +58,11 @@ const ProductList = () => {
     {
       title: strings.panel.blog.createdAt,
       dataIndex: "createdAt",
-      key: "createdAt",
+      render: (_, record) => (
+        <Space size="middle">
+            {dateFullFilter(record?.createdAt)}
+        </Space>
+        ),
     },
     {
       title: "عملیات",

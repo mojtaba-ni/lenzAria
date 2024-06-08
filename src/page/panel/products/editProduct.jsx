@@ -15,6 +15,7 @@ const EditProduct = () => {
     Specifications: null,
     price: null,
     productId: null,
+    count: null,
   });
 
   const [file, setFile] = useState(null);
@@ -84,6 +85,7 @@ const EditProduct = () => {
       description: productForm?.description,
       price: parseInt(productForm?.price),
       image:img ? img :  await toBase64(file),
+      count: productForm?.count,
     };
     
     const res = await axios.put(
@@ -152,6 +154,7 @@ const EditProduct = () => {
       name: data?.data?.name,
       price: data?.data?.price,
       productId: data?.data?._id,
+      count: data?.data?.count,
     });
     setActiveStep({ label : data?.data?.step?.title , value : data?.data?.step?.id})
     setActiveCategory({ label : data?.data?.category?.title , value : data?.data?.category?.id})
@@ -167,7 +170,7 @@ const EditProduct = () => {
     if (activeCategory) {
       getAllSteps(activeCategory);
     }
-  }, [activeCategory]);
+  }, [activeCategory , id]);
   return (
     <div>
       <Form
@@ -337,7 +340,7 @@ const EditProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={500}
+              maxLength={1000}
               value={productForm?.description}
               placeholder="..."
               style={{
@@ -364,7 +367,7 @@ const EditProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={120}
+              maxLength={300}
               value={productForm?.Specifications}
               placeholder="..."
               style={{
@@ -392,6 +395,25 @@ const EditProduct = () => {
               name="price"
               value={productForm?.price}
               onChange={(e) => handleProductForm(e, "price")}
+            />
+          </Form.Item>
+        </div>
+        <div className={style.descprofileLi}>
+          <Typography.Title level={5}>تعداد</Typography.Title>
+          <Form.Item
+            name="count"
+            rules={[
+              {
+                required: true,
+                message: strings.profile.errorMessage.numberError,
+              },
+            ]}
+          >
+            <Input
+              placeholder="..."
+              name="count"
+              value={productForm?.price}
+              onChange={(e) => handleProductForm(e, "count")}
             />
           </Form.Item>
         </div>
