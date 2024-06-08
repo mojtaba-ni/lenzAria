@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { DeleteTwoTone } from "@ant-design/icons";
 import { strings } from "../../../../shared/language";
 import CustomModal from "../../../../components/Modal";
+import { dateFullFilter } from "../../../../shared/utils";
 
 const ModelBannerList = () => {
   const [baner, setBaner] = useState();
@@ -58,7 +59,11 @@ const ModelBannerList = () => {
     {
       title: strings.panel.blog.createdAt,
       dataIndex: "createdAt",
-      key: "createdAt",
+      render: (_, record) => (
+        <Space size="middle">
+            {dateFullFilter(record?.createdAt)}
+        </Space>
+        ),
     },
     {
       title: "عملیات",
