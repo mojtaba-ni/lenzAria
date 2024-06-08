@@ -1,3 +1,5 @@
+import moment from "moment-jalaali";
+
 export const shortText = (text, length, appendar) => {
   let textLength = text.length;
   if (textLength > length)
@@ -11,6 +13,20 @@ export const toBase64 = file => new Promise((resolve, reject) => {
   reader.onload = () => resolve(reader.result);
   reader.onerror = reject;
 });
+
+
+
+export const dateFullFilter = function (params) {
+  return params && params !== Infinity
+    ? moment(params).format("HH:mm  jYYYY/jMM/jDD")
+    : "";
+};
+
+export const dateFilter = function (params) {
+  return params && params !== Infinity
+    ? moment(params).format("jYYYY/jMM/jDD")
+    : "-";
+};
 
 // const _base64ToArrayBuffer = (base64) => {
 //   var binary_string = window.atob(base64);
