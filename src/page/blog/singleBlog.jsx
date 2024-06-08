@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -22,7 +22,7 @@ const SingleBlog = () => {
 
   useEffect(() => {
     getBlogById();
-  }, []);
+  }, [id]);
 
   return (
     <div>
