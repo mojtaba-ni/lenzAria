@@ -7,6 +7,7 @@ import {
   SunOutlined,
   MoonOutlined,
   EnvironmentOutlined,
+  HeartOutlined,
 } from "@ant-design/icons";
 import { strings } from "../../shared/language";
 import ariaLogo from "../../assets/images/logo.jpg";
@@ -301,6 +302,10 @@ const Navbar = () => {
           <EnvironmentOutlined
             className={styles.navUserIc}
             onClick={() => handleIconAddress("map")}
+          />
+          <HeartOutlined
+            className={styles.navUserIc}
+            onClick={() => handleIconAddress("favorite")}
           />
         </div>
         <div className={styles.navSearch}>

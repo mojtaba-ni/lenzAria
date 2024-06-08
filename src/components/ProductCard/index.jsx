@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 
 const ProductCard = ({productInfo}) => {
+  console.log({productInfo});
   return (
     <Link to={`/product/${productInfo?._id}`}>
      <Card className={styles.ProductContainer} hoverable>

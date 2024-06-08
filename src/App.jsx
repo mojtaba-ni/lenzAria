@@ -19,6 +19,7 @@ import VideoBlogList from "./page/blog/video";
 import VBlogSingle from "./page/blog/video/vBlogSingle";
 import Order from "./page/order";
 import LenzTest from "./page/lenzTest";
+import FavoritePage from "./page/favorite";
 
 
 export default function App() {
@@ -50,6 +51,7 @@ const switchTheme = () => {
           <Route path="/map" element={<MapPage />} />
           <Route path="/order" element={<Order />} />
           <Route path="/lenzTest" element={<LenzTest />} />
+          <Route path="/favorite" element={<FavoritePage />} />
         </Routes>
         <ToastContainer />
       </Router>

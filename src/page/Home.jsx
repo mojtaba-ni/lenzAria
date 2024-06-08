@@ -1,11 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import Navbar from "../components/Navbar";
-import { Col, Row, Card, Modal, Input } from "antd";
+import { Col, Row, Card, Modal, Input, Skeleton } from "antd";
 import { Pagination } from "swiper/modules";
 import sliderImg from "../assets/images/newImg.jpg";
-import lenzP1 from "../assets/images/lensNew.jpg";
-import lenzP2 from "../assets/images/lenzNew2.jpg";
-import lenzP3 from "../assets/images/lenzNew3.jpg";
 import bannerImg from "../assets/images/slider1.jpg";
 import bannerImgSec from "../assets/images/slider2.jpg";
 import bannerPt from "../assets/images/slider3.jpg";
@@ -20,32 +17,53 @@ import Education from "../components/Education";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSearch } from "../shared/store/useSearch";
+import useLocalStorage from "use-local-storage";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const { updateTitle } = useSearch();
 
-  const navigate = useNavigate()
-  const {updateTitle} = useSearch()
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [search, setSearch] = useState(false);
-  console.log({ isModalOpen });
   const [brand, setBrand] = useState();
+  const [section, setSection] = useState();
+  const [newPr, setNewPr] = useState([]);
+  const [sectionLoading, setSectionLoading] = useState(false);
+
+  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
+
+  const arrSkeleton = [0, 1, 2, 3];
 
   const handleOk = () => {
-    updateTitle(search)
+    updateTitle(search);
     setIsModalOpen(false);
-    
-    navigate("/search")
+
+    navigate("/search");
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
   const handleSearchTitle = () => {
-    setSearch(search)
+    setSearch(search);
+  };
+  const getNewProduct = async () => {
+    const { data } = await axios.get(
+      "http://localhost:8000/api/product/getNewProduct"
+    );
+    setNewPr(data?.data);
   };
 
+  const getAllSection = async () => {
+    setSectionLoading(true);
+    const { data } = await axios.get(
+      "http://localhost:8000/api/section/getAll"
+    );
+    setSection(data?.data);
+    setSectionLoading(false);
+  };
   const geyAllBrand = async () => {
     const { data } = await axios.get(
       "http://localhost:8000/api/brand/getAllBrand"
@@ -54,6 +72,8 @@ const Home = () => {
   };
   useEffect(() => {
     geyAllBrand();
+    getAllSection();
+    getNewProduct();
   }, []);
 
   return (
@@ -88,50 +108,45 @@ const Home = () => {
           </SwiperSlide>
         </Swiper>
 
-        <div className={styles.lenzBox}>
-          <Row>
-            <Col className={`gutter-row ${styles.rowCol} `} md={6}>
-              <Card
-                hoverable
-                style={{
-                  width: 300,
-                  position: "relative",
-                  padding: "0px !important",
-                }}
-                cover={<img alt="example" src={lenzP1} />}
-              >
-                <div className={styles.cardTitle}>sss</div>
-              </Card>
-            </Col>
-            <Col className={`gutter-row ${styles.rowCol} `} md={6}>
-              <Card
-                hoverable
-                style={{
-                  width: 300,
-                }}
-                cover={<img alt="example" src={lenzP2} />}
-              ></Card>
-            </Col>{" "}
-            <Col className={`gutter-row ${styles.rowCol} `} md={6}>
-              <Card
-                hoverable
-                style={{
-                  width: 300,
-                }}
-                cover={<img alt="example" src={lenzP3} />}
-              ></Card>
-            </Col>{" "}
-            <Col className={`gutter-row ${styles.rowCol} `} md={6}>
-              <Card
-                hoverable
-                style={{
-                  width: 280,
-                }}
-                cover={<img alt="example" src={lenzP3} />}
-              ></Card>
-            </Col>
+        <div className={theme === 'light' ? styles.lenzBox : styles.lenzBoxDark }>
+          <Row justify="space-evenly"> 
+            {sectionLoading
+              ? arrSkeleton?.map((item, index) => (
+                  <Col
+                    className={`gutter-row ${styles.rowCol} `}
+                    md={6}
+                    key={index}
+                  >
+                    <Skeleton.Input style={{ marginBottom: ".5rem" , minHeight:"230px", minWidth:"250px" }} />
+                  </Col>
+                ))
+              : section?.map((item, index) => (
+                  <Col
+                    className={`gutter-row ${styles.rowCol} `}
+                    md={6}
+                    key={index}
+                  >
+                    <Link to={`/products/${item?.step?.id}`}>
+                      <Card
+                        hoverable
+                        style={{
+                          width: 300,
+                          position: "relative !important",
+                          padding: "0px !important",
+                        }}
+                      >
+                        <img
+                          alt="example"
+                          src={item?.image}
+                          style={{ width: "100%" }}
+                        />
+                        <div className={styles.cardTitle}>{item?.title}</div>
+                      </Card>
+                    </Link>
+                  </Col>
+                ))}
           </Row>
-          <Bestpart title={strings.landing.bestSellers} />
+          <Bestpart title={strings.landing.newSellers} data={newPr} />
         </div>
         <Row className={styles.bannerBox}>
           <Col sm={24} md={12} className={styles.bannerCol}>
@@ -141,10 +156,10 @@ const Home = () => {
             <img src={bannerImgSec} alt="offer" />
           </Col>
         </Row>
-        <Bestpart title={strings.landing.bestSellers} />
+        <Bestpart title={strings.landing.bestSellers} data={newPr}  />
         <div
           style={{
-            backgroundColor: "#e3e3e3",
+            backgroundColor: "#6fb5be69",
             minHeight: "120px",
             margin: "3rem 0",
             display: "flex",
@@ -158,10 +173,16 @@ const Home = () => {
         </div>
         <Row className={styles.bannerBox}>
           <Col sm={24} md={12} className={styles.bannerCol}>
-            <img src={bannerPt} alt="offer" />
+            <Card hoverable>
+              <img src={bannerPt} alt="offer" />
+              <div className={styles.cardTitle}>لنز عسلی</div>
+            </Card>
           </Col>
           <Col sm={24} md={12} className={styles.bannerCol}>
-            <img src={bannerPtSec} alt="offer" />
+            <Card hoverable>
+              <img src={bannerPtSec} alt="offer" />
+              <div className={styles.cardTitle}>لنز عسلی</div>
+            </Card>
           </Col>
         </Row>
         <Questions />
