@@ -14,7 +14,7 @@ const MapPage = () => {
   const getAllMap = async() => {
     const {data} = await axios.get("http://localhost:8000/api/map/getAllMap")
     setMapData(data?.data)
-    debugger
+  
   }
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import {
   ShopOutlined,
   EditOutlined,
   PictureOutlined,
+  EnvironmentOutlined
 } from "@ant-design/icons";
 import { GoChecklist } from "react-icons/go";
 import { FiUsers } from "react-icons/fi";
@@ -22,6 +23,9 @@ import ModelBanner from "./baner/modelBanner";
 import Question from "./question";
 import PopularSection from "./popular/section";
 import PopularPrSection from "./popular/productSection";
+import Map from "./map";
+import MapPage from "../map";
+import MapPanel from "./map";
 
 const Panel = () => {
   const [banerShow, setBanerShow] = useState(false);
@@ -127,6 +131,14 @@ const Panel = () => {
               </h4>
             </Link>
           </div>
+          <div className={style.panelSideLi}>
+            <EnvironmentOutlined style={{ fontSize: "1.3rem", color: "#F0E68C" }} />
+            <Link to={"/panel/map"}>
+              <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                مدیریت آدرس
+              </h4>
+            </Link>
+          </div>
         </div>
       </Col>
       <Col span={19} className={style.panelBox}>
@@ -135,6 +147,7 @@ const Panel = () => {
           style={{
             margin: "2rem",
             minHeight: "90vh",
+            padding:"20px 25px"
           }}
         >
           <Routes>
@@ -149,6 +162,7 @@ const Panel = () => {
             <Route path="category/*" element={<Category />} />
             <Route path="popularSection/*" element={<PopularSection />} />
             <Route path="popularProductSection/*" element={<PopularPrSection />} />
+            <Route path="map/*" element={<MapPanel />} />
           </Routes>
         </Card>
       </Col>

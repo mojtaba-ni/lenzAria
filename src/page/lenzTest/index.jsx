@@ -7,6 +7,7 @@ import axios from "axios";
 import { toBase64 } from "../../shared/utils";
 import { strings } from "../../shared/language";
 import { LoadingOutlined } from "@ant-design/icons";
+import videoIc from "../../assets/images/images.png";
 
 const LenzTest = () => {
   const [file, setFile] = useState();
@@ -14,6 +15,7 @@ const LenzTest = () => {
   const [chosenPr, setChosenPr] = useState();
   const [product, setProduct] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isImage, setIsImage] = useState(false);
 
   const getAllLenzProduct = async () => {
     const { data } = await axios.get(
@@ -56,8 +58,10 @@ const LenzTest = () => {
       fileFormat === "data:image/jpg;base64"
     ) {
       image = true;
+      setIsImage(true);
     } else {
       image = false;
+      setIsImage(false);
     }
     const newFile = file.split(",")[1];
 
@@ -67,13 +71,15 @@ const LenzTest = () => {
       lenzFile: chosenPr?.value,
       lenzFilename: image ? "lenzFile.png" : "lenzFile.mp4",
     };
-   
+
     const res = await axios.post(
       "http://localhost:8000/api/eye/upload",
       requestBody
     );
     var a = document.createElement("a"); //Create <a>
-    a.href = image ? "data:image/png;base64," : "data:video/mp4;base64," + res.data; //Image Base64 Goes here
+    a.href = image
+      ? "data:image/png;base64,"
+      : "data:video/mp4;base64," + res.data; //Image Base64 Goes here
     a.download = image ? "overlayedData.png" : "overlayedData.mp4"; //File name Here
     a.click();
     setIsModalOpen(false);
@@ -152,13 +158,19 @@ const LenzTest = () => {
           </Typography.Title>
           <input id="file" type="file" onChange={handleFileChange} />
         </div>
-        {file && (
+        {file && isImage ? (
           <img
             src={file}
             alt="file"
             style={{ width: "200px", height: "200px" }}
           />
-        )}
+        ) : (file && !isImage) ? (
+          <img
+            src={videoIc}
+            alt="file"
+            style={{ width: "200px", height: "200px" }}
+          />
+        ) : null}
         <div
           style={{
             width: "100%",
