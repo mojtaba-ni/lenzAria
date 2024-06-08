@@ -1,0 +1,19 @@
+.titleLine{
+    width: 215px;
+    border: 2px solid #F0E68C;
+    margin-top: .6rem;
+}
+.titleBox{
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+.titleDot{
+    font-size: 1.5rem;
+}
+.descBox{
+    padding-right: 1.4rem;
+    font-size: 1.1rem;
+}

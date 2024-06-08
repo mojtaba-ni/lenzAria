@@ -17,6 +17,7 @@
     background-repeat: no-repeat;
     background-position: center;
     margin:2rem 0;
+   
 }
 .bannerBox{
     margin: 1rem 0;
@@ -34,9 +35,18 @@
 }
 
 .cardTitle{
-    position: absolute;
+    position: absolute !important;
     bottom: 0;
     width: 100%;
+    background-color: #8080805a;
+    min-height: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 24px;
+   font-weight: 600;
+   color: rgb(234, 230, 45);
+
 }
 
 @media screen and (max-width:1050px) {
