@@ -5,6 +5,24 @@
 
 }
 
+:root {
+    --background: white;
+    --text-primary: black;
+    --text-secondary: royalblue;
+    --accent: purple;
+  }
+  [data-theme='dark'] {
+    --background: #292929;
+    --text-primary: white;
+    --text-secondary: grey;
+    --accent: darkred;
+  }
+
+  .app{
+    color: var(--text-primary);
+    background-color: var(--background);
+  }
+
 *{
     direction: rtl;
     font-family: "iransans !important";
@@ -21,7 +39,7 @@ ul{
 p{
     margin-bottom: 0 !important;
 }
-h1,h2,h3,h4{
+h1,h2,h3,h4,h5{
     margin: 0;
 }
 .ant-table-thead .ant-table-cell {
@@ -41,4 +59,19 @@ h1,h2,h3,h4{
 .ant-upload.ant-upload-select{
     width:"100px !important";
     height:"60px !important"
+}
+.ant-select-selection-item{
+    color: var(--text-primary);
+}
+.ant-card-body{
+    padding: 0 !important;
+}
+.ant-form-item{
+    width: 100%;
+}
+.ant-skeleton.ant-skeleton-element{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
