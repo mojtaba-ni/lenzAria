@@ -6,7 +6,7 @@ import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomModal from "../../../components/Modal";
-import { shortText } from "../../../shared/utils";
+import { dateFullFilter, shortText } from "../../../shared/utils";
 
 // import { useEffect, useState } from "react";
 
@@ -71,7 +71,11 @@ const BlogList = () => {
     {
       title: strings.panel.blog.createdAt,
       dataIndex: "createdAt",
-      key: "createdAt",
+      render: (_, record) => (
+        <Space size="middle">
+            {dateFullFilter(record?.createdAt)}
+        </Space>
+        ),
     },
     {
       title: "عملیات",

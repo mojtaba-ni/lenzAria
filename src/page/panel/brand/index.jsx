@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { DeleteTwoTone } from "@ant-design/icons";
 import CustomModal from "../../../components/Modal";
+import {  dateFullFilter } from "../../../shared/utils";
 
 const Brand = () => {
   const [brand, setBrand] = useState();
@@ -13,7 +14,7 @@ const Brand = () => {
   const [update, setUpdate] = useState(false);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [record, setRecord] = useState();
-
+  
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -69,7 +70,11 @@ const Brand = () => {
     {
       title: strings.panel.blog.createdAt,
       dataIndex: "createdAt",
-      key: "createdAt",
+      render: (_, record) => (
+        <Space size="middle">
+            {dateFullFilter(record?.createdAt)}
+        </Space>
+        ),
     },
     {
       title: "عملیات",

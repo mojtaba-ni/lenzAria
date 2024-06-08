@@ -1,8 +1,9 @@
-import { Table } from "antd";
+import { Space, Table } from "antd";
 import style from "../../styles/panel/allUser/style.module.css"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { strings } from "../../../shared/language";
+import { dateFullFilter } from "../../../shared/utils";
 
 
 const AllUser = () => {
@@ -38,7 +39,11 @@ console.log({users});
         {
           title: strings.panel.allUserPage.createdAt,
           dataIndex: 'createdAt',
-          key: 'createdAt',
+          render: (_, record) => (
+            <Space size="middle">
+                {dateFullFilter(record?.createdAt)}
+            </Space>
+            ),
         },
       ];
   return (
