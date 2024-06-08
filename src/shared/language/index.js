@@ -22,10 +22,13 @@ export const strings = {
     daily:"روزانه",
     monthly:"ماهانه",
     yearly:"سالانه",
-    seasonal:"فصلی"
+    seasonal:"فصلی",
+    lenzTest:"تست لنز",
   },
   landing: {
     bestSellers: "پر فروش ترین ها",
+    samePr: "محصولات مشابه",
+    newSellers: "جدید ترین ها",
     brands: "برند ها",
     questions: "سوالات متداول",
     educationCv: "مقالات آموزشی",
@@ -42,6 +45,9 @@ export const strings = {
       username:"نام کاربری",
       phoneNumber:"شماره تلفن",
       createdAt:"تاریخ ثبت نام",
+      stepTitle:"عنوان زیر دسته",
+      categoryTitle:"عنوان دسته",
+      sectionTitle:"عنوان",
     },
     blog:{
       blogTitle:"عنوان بلاگ",
@@ -83,6 +89,8 @@ export const strings = {
     zipCode:"کد پستی",
     errorMessage:{
       zipCodeError:"کد پستی را وارد کنید",
+      addressTitleError:"عنوان آدرس را وارد کنید",
+      addressDescError:"توضیحات آدرس را وارد کنید",
       numberError:"پلاک را وارد کنید",
       titleError:"عنوان را وارد کنید",
       productNameError:"اسم محصول را وارد کنید",

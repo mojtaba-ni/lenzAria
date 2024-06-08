@@ -19,6 +19,15 @@
     margin:2rem 0;
    
 }
+
+.lenzBoxDark{
+    background-image: url("../../assets/images/bg.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin:2rem 0;
+   
+}
 .bannerBox{
     margin: 1rem 0;
     display: flex;
