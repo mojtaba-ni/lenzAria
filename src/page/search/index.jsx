@@ -1,4 +1,3 @@
-
 import { Col, Row, Select } from "antd";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
@@ -7,24 +6,21 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const Search = () => {
   const params = useParams();
-  console.log({params});
+  console.log({ params });
 
-  
-
-  const [allProduct, setAllProduct] = useState();
+  const [allProduct, setAllProduct] = useState([]);
   const [periodTitle, setPeriodtitle] = useState();
 
   const getProduct = async () => {
-   
     const { data } = await axios.get(
       `http://localhost:8000/api/product/search?name=${params?.name}`
     );
     const product = data?.data;
-    setPeriodtitle(data?.data[0].period)
-    setAllProduct(product)
+
+    setPeriodtitle(data?.data[0].period);
+    setAllProduct(product ? product : []);
   };
 
   const handleChange = (value) => {
@@ -33,10 +29,9 @@ const Search = () => {
 
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [params?.name]);
 
   return (
-    
     <div>
       <Navbar />
       <div style={{ minHeight: "70vh", padding: "1.5rem 2rem" }}>
@@ -113,15 +108,7 @@ const Search = () => {
               }}
             >
               <Link to={`/product/${item?._id}`}>
-                <ProductCard
-                  data={{
-                    image: item?.image,
-                    Specifications: item?.Specifications,
-                    description: item?.description,
-                    name: item?.name,
-                    price: item?.price,
-                  }}
-                />
+                <ProductCard productInfo={item} />
               </Link>
             </Col>
           ))}
@@ -132,4 +119,4 @@ const Search = () => {
   );
 };
 
-export default Search
+export default Search;

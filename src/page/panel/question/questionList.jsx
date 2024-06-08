@@ -4,7 +4,7 @@ import { strings } from '../../../shared/language'
 import { DeleteTwoTone } from "@ant-design/icons";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { shortText } from '../../../shared/utils';
+import { dateFullFilter, shortText } from '../../../shared/utils';
 
 
 const QuestionList = () => {
@@ -48,7 +48,11 @@ const QuestionList = () => {
         {
           title: strings.panel.blog.createdAt,
           dataIndex: "createdAt",
-          key: "createdAt",
+          render: (_, record) => (
+            <Space size="middle">
+                {dateFullFilter(record?.createdAt)}
+            </Space>
+            ),
         },
         {
           title: "عملیات",

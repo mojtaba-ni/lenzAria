@@ -1,25 +1,30 @@
-import { Col, Row, Select } from "antd";
+import { Col, Row, Select, Skeleton } from "antd";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import style from "../styles/product/style.module.css";
 
 const BrandList = () => {
   const params = useParams();
-  console.log({params});
+  console.log({ params });
   const [allProduct, setAllProduct] = useState();
   const [brandTitle, setBrandTitle] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const SkeletonArr = [0, 1, 2, 3];
 
   const getProduct = async () => {
-   
+    setLoading(true);
     const { data } = await axios.get(
       `http://localhost:8000/api/product/getProductByBrandId?brandId=${params.brandId}`
     );
     const product = data?.data;
-    setBrandTitle(data?.data[0].brand?.title)
-    setAllProduct(product)
+    setBrandTitle(data?.data[0].brand?.title);
+    setAllProduct(product);
+    setLoading(false);
   };
 
   const handleChange = (value) => {
@@ -28,7 +33,7 @@ const BrandList = () => {
 
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [params?.brandId]);
 
   return (
     <div>
@@ -56,6 +61,7 @@ const BrandList = () => {
               style={{
                 width: 120,
               }}
+              className={style.selectOp}
               onChange={handleChange}
               options={[
                 {
@@ -85,40 +91,68 @@ const BrandList = () => {
               borderBottom: "3px solid #F0E68C",
             }}
           >
-            <h4>{brandTitle}</h4>
+            {loading ? (
+              <Skeleton.Input style={{ marginBottom: ".5rem" }} />
+            ) : (
+              <h4 style={{ marginBottom: ".5rem" }}>{brandTitle}</h4>
+            )}
           </div>
         </div>
         <Row style={{ margin: "2rem 0 " }}>
-          {allProduct?.map((item, index) => (
-            <Col
-              key={index}
-              span={6}
-              xs={{
-                order: 1,
-              }}
-              sm={{
-                order: 2,
-              }}
-              md={{
-                order: 3,
-              }}
-              lg={{
-                order: 4,
-              }}
-            >
-              <Link to={`/product/${item?._id}`}>
-                <ProductCard
-                  data={{
-                    image: item?.image,
-                    Specifications: item?.Specifications,
-                    description: item?.description,
-                    name: item?.name,
-                    price: item?.price,
+          {loading
+            ? SkeletonArr.map((item, index) => (
+                <Col
+                  key={index}
+                  span={6}
+                  xs={{
+                    order: 1,
                   }}
-                />
-              </Link>
-            </Col>
-          ))}
+                  sm={{
+                    order: 2,
+                  }}
+                  md={{
+                    order: 3,
+                  }}
+                  lg={{
+                    order: 4,
+                  }}
+                >
+                  <Skeleton.Input
+                    active
+                    style={{ width: "260px", height: "200px" }}
+                  />
+                </Col>
+              ))
+            : allProduct?.map((item, index) => (
+                <Col
+                  key={index}
+                  span={6}
+                  xs={{
+                    order: 1,
+                  }}
+                  sm={{
+                    order: 2,
+                  }}
+                  md={{
+                    order: 3,
+                  }}
+                  lg={{
+                    order: 4,
+                  }}
+                >
+                  <Link to={`/product/${item?._id}`}>
+                    <ProductCard
+                      data={{
+                        image: item?.image,
+                        Specifications: item?.Specifications,
+                        description: item?.description,
+                        name: item?.name,
+                        price: item?.price,
+                      }}
+                    />
+                  </Link>
+                </Col>
+              ))}
         </Row>
       </div>
       <Footer />

@@ -1,4 +1,4 @@
-import { Col, Row, Select } from "antd";
+import { Col, Row, Select, Skeleton } from "antd";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
@@ -7,20 +7,24 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const PeriodList = () => {
-  const params = useParams();
-  console.log({params});
+  const {periodId} = useParams();
+
   const [allProduct, setAllProduct] = useState();
   const [periodTitle, setPeriodtitle] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const SkeletonArr = [0, 1, 2, 3];
 
   const getProduct = async () => {
-   
+    setLoading(true);
     const { data } = await axios.get(
-      `http://localhost:8000/api/product/getProductByPeriodId?periodId=${params.periodId}`
+      `http://localhost:8000/api/product/getProductByPeriodId?periodId=${periodId}`
     );
     const product = data?.data;
-    debugger
-    setPeriodtitle(data?.data[0].period)
-    setAllProduct(product)
+
+    setPeriodtitle(data?.data[0].period);
+    setAllProduct(product);
+    setLoading(false);
   };
 
   const handleChange = (value) => {
@@ -29,10 +33,9 @@ const PeriodList = () => {
 
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [periodId]);
 
   return (
-    
     <div>
       <Navbar />
       <div style={{ minHeight: "70vh", padding: "1.5rem 2rem" }}>
@@ -87,40 +90,61 @@ const PeriodList = () => {
               borderBottom: "3px solid #F0E68C",
             }}
           >
-            <h4>{periodTitle}</h4>
+           
+            {loading ? (
+              <Skeleton.Input style={{ marginBottom: ".5rem" }} />
+            ) : (
+              <h4 style={{ marginBottom: ".5rem" }}>{periodTitle}</h4>
+            )}
           </div>
         </div>
         <Row style={{ margin: "2rem 0 " }}>
-          {allProduct?.map((item, index) => (
-            <Col
-              key={index}
-              span={6}
-              xs={{
-                order: 1,
-              }}
-              sm={{
-                order: 2,
-              }}
-              md={{
-                order: 3,
-              }}
-              lg={{
-                order: 4,
-              }}
-            >
-              <Link to={`/product/${item?._id}`}>
-                <ProductCard
-                  data={{
-                    image: item?.image,
-                    Specifications: item?.Specifications,
-                    description: item?.description,
-                    name: item?.name,
-                    price: item?.price,
+          {loading
+            ? SkeletonArr.map((item, index) => (
+                <Col
+                  key={index}
+                  span={6}
+                  xs={{
+                    order: 1,
                   }}
-                />
-              </Link>
-            </Col>
-          ))}
+                  sm={{
+                    order: 2,
+                  }}
+                  md={{
+                    order: 3,
+                  }}
+                  lg={{
+                    order: 4,
+                  }}
+                >
+                  <Skeleton.Input active style={{ width: "260px" , height:"200px"}} />
+                </Col>
+              ))
+            : allProduct?.map((item, index) => (
+                <Col
+                  key={index}
+                  span={6}
+                  xs={{
+                    order: 1,
+                  }}
+                  sm={{
+                    order: 2,
+                  }}
+                  md={{
+                    order: 3,
+                  }}
+                  lg={{
+                    order: 4,
+                  }}
+                >
+                  <Link to={`/product/${item?._id}`}>
+                    <ProductCard
+                    productInfo={item}
+                   
+                    />
+                  </Link>
+                </Col>
+              ))}
         </Row>
       </div>
       <Footer />
