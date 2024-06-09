@@ -40,7 +40,7 @@ const LenzTest = () => {
     }
   };
 
-  const handleChange = (value) => {
+  const handleChange = async (value) => {
     setChosenPr(value);
   };
 
@@ -63,13 +63,10 @@ const LenzTest = () => {
       image = false;
       setIsImage(false);
     }
-    const newFile = file.split(",")[1];
 
     const requestBody = {
-      uploadedFile: newFile,
-      filename: image ? "fileUploaded.png" : "fileUploaded.mp4",
-      lenzFile: chosenPr?.value,
-      lenzFilename: "lenzFile.png",
+      uploadedFileBase64: file,
+      lenzFileBase64: chosenPr?.value,
     };
 
     const res = await axios.post(
@@ -77,10 +74,9 @@ const LenzTest = () => {
       requestBody
     );
     var a = document.createElement("a"); //Create <a>
-    a.href = (image
-      ? "data:image/png;base64,"
-      : "data:video/mp4;base64,") + res.data; //Image Base64 Goes here
-    a.download = image ? "overlayedData.png" : "overlayedData.mp4"; //File name Here
+    a.href = res.data; //Image Base64 Goes here
+    const dataType = res.data.split(';')[0].split('/')[1];
+    a.download = `overlayedData.${dataType}`; //File name Here
     a.click();
     setIsModalOpen(false);
   };
