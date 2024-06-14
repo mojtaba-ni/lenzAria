@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toBase64 } from "../../../shared/utils";
 import axios from "axios";
 import style from "../../styles/product/style.module.css";
+import { path } from "../../../shared/config";
 
 const AddQuestion = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const AddQuestion = () => {
       image: pic,
     };
    await axios.post(
-      "http://localhost:8000/api/question/add",
+      `${path}/api/question/add`,
       data
     );
     navigate("/panel/questions");

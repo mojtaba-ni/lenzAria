@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { DeleteTwoTone } from "@ant-design/icons";
 import CustomModal from "../../../components/Modal";
 import {  dateFullFilter } from "../../../shared/utils";
+import { path } from "../../../shared/config";
 
 const Brand = () => {
   const [brand, setBrand] = useState();
@@ -20,7 +21,7 @@ const Brand = () => {
   };
   const geyAllBrand = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/brand/getAllBrand"
+      "${path}/api/brand/getAllBrand"
     );
 
     setBrand(data?.data);
@@ -28,7 +29,7 @@ const Brand = () => {
 
   const handleAddBrand = async () => {
     if (newBrand) {
-      const res = await axios.post("http://localhost:8000/api/brand/add", {
+      const res = await axios.post(`${path}/api/brand/add`, {
         name: newBrand,
       });
     }
@@ -41,7 +42,7 @@ const Brand = () => {
   };
 
   const handleDeleteBrand = async (id) => {
-    const res = await axios.delete("http://localhost:8000/api/brand/delete", {
+    const res = await axios.delete(`${path}/api/brand/delete`, {
       data: { brandId: id},
     });
 

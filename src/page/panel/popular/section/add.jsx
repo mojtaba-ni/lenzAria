@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toBase64 } from "../../../../shared/utils";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { path } from "../../../../shared/config";
 
 const AddSection = () => {
 
@@ -35,7 +36,7 @@ const AddSection = () => {
 
   const getAllCategory = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/category/getAllCategory"
+      `${path}/api/category/getAllCategory`
     );
 
     const categoryList = [];
@@ -50,7 +51,7 @@ const AddSection = () => {
   };
   const getAllSteps = async (activeCt) => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/step/getAllStep",
+      `${path}/api/step/getAllStep`,
       {
         params: { id: activeCt?.value },
       }
@@ -80,7 +81,7 @@ const AddSection = () => {
         title:sectionTitle,
         image: pic,
     }
-    await axios.post("http://localhost:8000/api/section/add" , data)
+    await axios.post(`${path}/api/section/add` , data)
     navigate("/panel/popularSection");
   }
 

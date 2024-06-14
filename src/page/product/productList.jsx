@@ -5,6 +5,7 @@ import ProductCard from "../../components/ProductCard";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { path } from "../../shared/config";
 
 const ProductList = () => {
   const params = useParams();
@@ -16,7 +17,7 @@ const ProductList = () => {
 
   const getProduct = async () => {
     setLoading(true);
-    const { data } = await axios.get("http://localhost:8000/api/product");
+    const { data } = await axios.get(`${path}/api/product`);
     const product = data?.data;
     const categoryPr = product.filter((item) => item.category.id === params.id);
     const stepPr = product.filter((item) => item.step.id === params.id);

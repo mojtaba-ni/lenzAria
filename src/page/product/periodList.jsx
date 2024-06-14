@@ -5,11 +5,13 @@ import ProductCard from "../../components/ProductCard";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { path } from "../../shared/config";
 
 const PeriodList = () => {
   const {periodId} = useParams();
 
   const [allProduct, setAllProduct] = useState();
+  console.log({allProduct});
   const [periodTitle, setPeriodtitle] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +20,7 @@ const PeriodList = () => {
   const getProduct = async () => {
     setLoading(true);
     const { data } = await axios.get(
-      `http://localhost:8000/api/product/getProductByPeriodId?periodId=${periodId}`
+      `${path}/api/product/getProductByPeriodId?periodId=${periodId}`
     );
     const product = data?.data;
 
@@ -120,31 +122,33 @@ const PeriodList = () => {
                   <Skeleton.Input active style={{ width: "260px" , height:"200px"}} />
                 </Col>
               ))
-            : allProduct?.map((item, index) => (
-                <Col
-                  key={index}
-                  span={6}
-                  xs={{
-                    order: 1,
-                  }}
-                  sm={{
-                    order: 2,
-                  }}
-                  md={{
-                    order: 3,
-                  }}
-                  lg={{
-                    order: 4,
-                  }}
-                >
-                  <Link to={`/product/${item?._id}`}>
-                    <ProductCard
-                    productInfo={item}
+            : allProduct !== undefined ? (allProduct?.map((item, index) => (
+              <Col
+                key={index}
+                span={6}
+                xs={{
+                  order: 1,
+                }}
+                sm={{
+                  order: 2,
+                }}
+                md={{
+                  order: 3,
+                }}
+                lg={{
+                  order: 4,
+                }}
+              >
+                <Link to={`/product/${item?._id}`}>
+                  <ProductCard
+                  productInfo={item}
                    
-                    />
-                  </Link>
-                </Col>
-              ))}
+                  />
+                </Link>
+              </Col>
+            ))) : <div>
+              محصولی یافت نشد
+            </div> }  
         </Row>
       </div>
       <Footer />

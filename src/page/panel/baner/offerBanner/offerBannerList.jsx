@@ -6,6 +6,7 @@ import { DeleteTwoTone } from "@ant-design/icons";
 import { strings } from "../../../../shared/language";
 import CustomModal from "../../../../components/Modal";
 import { dateFullFilter } from "../../../../shared/utils";
+import { path } from "../../../../shared/config";
 
 const OfferBannerList = () => {
   const [baner, setBaner] = useState();
@@ -14,7 +15,7 @@ const OfferBannerList = () => {
   const [record, setRecord] = useState();
 
   const getAllOfferBanner = async () => {
-    const { data } = await axios.get("http://localhost:8000/api/offerBanner/all");
+    const { data } = await axios.get(`${path}/api/offerBanner/all`);
     if (!data?.isSuccess) return;
     setBaner(data?.data);
   };
@@ -26,7 +27,7 @@ const OfferBannerList = () => {
 
 
   const handleDeleteBanner = async (id) => {
-    const res = await axios.delete("http://localhost:8000/api/offerBanner/delete", {
+    const res = await axios.delete(`${path}/api/offerBanner/delete`, {
       data: { bannerId: id},
     });
 

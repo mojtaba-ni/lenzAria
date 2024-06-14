@@ -6,6 +6,7 @@ import { Row, Col, Avatar, Button, Input, Typography, Form } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { strings } from "../../shared/language";
 import axios from "axios";
+import { path } from "../../shared/config";
 
 const Profile = () => {
   const [address, setAddress] = useState({});
@@ -15,7 +16,7 @@ const Profile = () => {
   
   const getLocationData = async() => {
     const userId="660eb7eaf4db4975e683f01c"
-    const {data} = await axios.get(`http://localhost:8000/api/address/getAddress?userId=${userId}`)
+    const {data} = await axios.get(`${path}/api/address/getAddress?userId=${userId}`)
    
     const loc = data?.data?.locations
     setLocation(loc)
@@ -56,7 +57,7 @@ const Profile = () => {
       address: [address],
     };
     const { data } = await axios.post(
-      "http://localhost:8000/api/address/add",
+      `${path}/api/address/add`,
       addressData
     );
 

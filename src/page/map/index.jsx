@@ -6,13 +6,14 @@ import { EnvironmentTwoTone } from '@ant-design/icons';
 import styles from "../styles/map/style.module.css";
 import Map from "../../components/Map";
 import axios from "axios";
+import { path } from "../../shared/config";
 
 const MapPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mapData, setMapData] = useState([])
 
   const getAllMap = async() => {
-    const {data} = await axios.get("http://localhost:8000/api/map/getAllMap")
+    const {data} = await axios.get(`${path}/api/map/getAllMap`)
     setMapData(data?.data)
   
   }

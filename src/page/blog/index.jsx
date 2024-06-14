@@ -6,6 +6,7 @@ import { EducationCard } from "../../components/Education";
 import { Col, Row, Skeleton } from "antd";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { path } from "../../shared/config";
 
 const BlogUser = () => {
   const [blogsData, setBlogsData] = useState();
@@ -16,7 +17,7 @@ const BlogUser = () => {
   const getAllBlogs = async () => {
     setLoading(true)
     const { data } = await axios.get(
-      "http://localhost:8000/api/blog/getAllBlogs"
+      `${path}/api/blog/getAllBlogs`
     );
     if (!data?.isSuccess) {
       toast.error(data?.message);

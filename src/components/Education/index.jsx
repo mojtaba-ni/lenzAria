@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import { strings } from "../../shared/language";
 import imgEd from "../../assets/images/faceImg.jpg";
-import { Button, Col, Row, Skeleton } from "antd";
+import { Button, Col,Skeleton } from "antd";
 import styles from "./education.module.css";
 import { shortText } from "../../shared/utils";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { path } from "../../shared/config";
 
 const Education = () => {
   const [blogs, setBlogs] = useState([]);
@@ -17,7 +18,7 @@ const Education = () => {
   const getAllblog = async () => {
     setLoading(true);
     const { data } = await axios.get(
-      "http://localhost:8000/api/blog/getAllBlogs"
+      `${path}/api/blog/getAllBlogs`
     );
 
     const listBlog = [];

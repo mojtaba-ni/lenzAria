@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import CustomModal from "../../../components/Modal";
 import { dateFullFilter } from "../../../shared/utils";
+import { path } from "../../../shared/config";
 
 const CategoryList = () => {
   const [category, setCategories] = useState();
@@ -15,7 +16,7 @@ const CategoryList = () => {
 
   const getAllCategory = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/category/getAllCategory"
+      `${path}/api/category/getAllCategory`
     );
 
     setCategories(data?.data);
@@ -26,7 +27,7 @@ const CategoryList = () => {
   };
   const handleDelete = async (id) => {
       await axios.delete(
-      "http://localhost:8000/api/category/delete",
+      `${path}/api/category/delete`,
       { data: { categoryId: id} }
     );
     setUpdate(!update)

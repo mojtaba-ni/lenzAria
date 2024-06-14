@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CustomModal from "../../../components/Modal";
 import { dateFullFilter, shortText } from "../../../shared/utils";
+import { path } from "../../../shared/config";
 
 // import { useEffect, useState } from "react";
 
@@ -17,7 +18,7 @@ const BlogList = () => {
   const [record, setRecord] = useState();
   const geyAllBlog = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/blog/getAllBlogs"
+      `${path}/api/blog/getAllBlogs`
     );
 
     setBlog(data?.data);
@@ -27,7 +28,7 @@ const BlogList = () => {
   };
   const handleDelete = async (id) => {
     const { data } = await axios.delete(
-      "http://localhost:8000/api/blog/delete",
+      `${path}/api/blog/delete`,
       { data: { blogId: id} }
     );
     setShowRemoveModal(false)

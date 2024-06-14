@@ -5,6 +5,7 @@ import style from "../../styles/panel.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { path } from "../../../shared/config";
 
 const EditCategory = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const EditCategory = () => {
 
   const getCategoryById = async () => {
     const { data } = await axios.get(
-      `http://localhost:8000/api/category/getCategoryById?id=${id}`
+      `${path}/api/category/getCategoryById?id=${id}`
     );
    
     setCategory(data?.data?.title);
@@ -65,7 +66,7 @@ const EditCategory = () => {
       categoryId:id
     };
     const res = await axios.put(
-      `http://localhost:8000/api/category/edit`,
+      `${path}/api/category/edit`,
       data
     );  
     navigate("/panel/category");

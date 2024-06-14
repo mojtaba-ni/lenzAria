@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { dateFullFilter, shortText } from "../../../shared/utils";
 import CustomModal from "../../../components/Modal";
+import { path } from "../../../shared/config";
 
 const MapList = () => {
   const [mapData, setMapData] = useState();
@@ -18,7 +19,7 @@ const MapList = () => {
     setRecord(record);
   };
   const handleDeleteMap = async (id) => {
-    const res = await axios.delete("http://localhost:8000/api/map/delete", {
+    const res = await axios.delete(`${path}/api/map/delete`, {
       data: { mapId: id },
     });
 
@@ -27,7 +28,7 @@ const MapList = () => {
   };
 
   const getAllMap = async () => {
-    const { data } = await axios.get("http://localhost:8000/api/map/getAllMap");
+    const { data } = await axios.get(`${path}/api/map/getAllMap`);
     setMapData(data?.data);
   };
 

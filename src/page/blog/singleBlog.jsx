@@ -5,6 +5,7 @@ import Footer from "../../components/Footer";
 import style from "../styles/blog/blogStyle.module.css";
 import axios from "axios";
 import imgBl from "../../assets/images/faceImg2.jpg";
+import { path } from "../../shared/config";
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const SingleBlog = () => {
 
   const getBlogById = async () => {
     const { data } = await axios.get(
-      `http://localhost:8000/api/blog/getById?id=${id}`
+      `${path}/api/blog/getById?id=${id}`
     );
     if (!data.isSuccess) {
       return;

@@ -5,6 +5,7 @@ import ProductCard from "../../components/ProductCard";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { path } from "../../shared/config";
 
 const Search = () => {
   const params = useParams();
@@ -15,7 +16,7 @@ const Search = () => {
 
   const getProduct = async () => {
     const { data } = await axios.get(
-      `http://localhost:8000/api/product/search?name=${params?.name}`
+      `${path}/api/product/search?name=${params?.name}`
     );
     const product = data?.data;
 

@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useLocalStorage from "use-local-storage";
 import { Button, Input } from "antd";
+import { path } from "../../shared/config";
 
 // eslint-disable-next-line react/prop-types
 const Navbar = () => {
@@ -47,7 +48,7 @@ const Navbar = () => {
 
   const getAllCategories = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/category/getAllCategory"
+      `${path}/api/category/getAllCategory`
     );
     setCategory(data?.data);
     let listMd = [];
@@ -76,7 +77,7 @@ const Navbar = () => {
   };
   const getAllBrand = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/brand/getAllBrand"
+      `${path}/api/brand/getAllBrand`
     );
     setBrand(data?.data);
   };

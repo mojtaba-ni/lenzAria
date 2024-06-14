@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSearch } from "../shared/store/useSearch";
 import useLocalStorage from "use-local-storage";
+import { path } from "../shared/config";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const Home = () => {
   };
   const getNewProduct = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/product/getNewProduct"
+      `${path}/api/product/getNewProduct`
     );
     setNewPr(data?.data);
   };
@@ -59,14 +60,14 @@ const Home = () => {
   const getAllSection = async () => {
     setSectionLoading(true);
     const { data } = await axios.get(
-      "http://localhost:8000/api/section/getAll"
+      `${path}/api/section/getAll`
     );
     setSection(data?.data);
     setSectionLoading(false);
   };
   const geyAllBrand = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/brand/getAllBrand"
+      `${path}/api/brand/getAllBrand`
     );
     setBrand(data?.data);
   };

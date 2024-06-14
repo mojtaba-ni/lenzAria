@@ -5,6 +5,7 @@ import style from "../../styles/panel.module.css";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { path } from "../../../shared/config";
 
 const AddCategory = () => {
   const navigate = useNavigate()
@@ -46,7 +47,7 @@ const AddCategory = () => {
         title: category,
         step:steps
     }
-     await axios.post("http://localhost:8000/api/category/add" , data )
+     await axios.post(`${path}/api/category/add` , data )
     navigate("/panel/category")
   };
 

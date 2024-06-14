@@ -16,7 +16,7 @@ const Questions = () => {
   //Func
   const getAllQuestion = async() => {
     setLoading(true)
-    const {data} = await axios.get("http://localhost:8000/api/question/getAllQuestion")
+    const {data} = await axios.get("${path}/api/question/getAllQuestion")
     setQuestionData(data?.data)
     setActiveQuestion(data?.data[0])
     setLoading(false)

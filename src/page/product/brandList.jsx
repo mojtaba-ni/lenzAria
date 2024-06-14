@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import style from "../styles/product/style.module.css";
+import { path } from "../../shared/config";
 
 const BrandList = () => {
   const params = useParams();
@@ -19,7 +20,7 @@ const BrandList = () => {
   const getProduct = async () => {
     setLoading(true);
     const { data } = await axios.get(
-      `http://localhost:8000/api/product/getProductByBrandId?brandId=${params.brandId}`
+      `${path}/api/product/getProductByBrandId?brandId=${params.brandId}`
     );
     const product = data?.data;
     setBrandTitle(data?.data[0].brand?.title);

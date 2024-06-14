@@ -5,6 +5,7 @@ import axios from "axios";
 import { DeleteTwoTone } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import CustomModal from "../../../../components/Modal";
+import { path } from "../../../../shared/config";
 
 const SectionList = () => {
   const [sectionData, setSectionData] = useState();
@@ -15,7 +16,7 @@ const SectionList = () => {
   const getAllSection = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8000/api/section/getall"
+        `${path}/api/section/getall`
       );
 
       setSectionData(data?.data);
@@ -29,7 +30,7 @@ const SectionList = () => {
   }
 
   const handleDelete = async (id) => {
-    const res = await axios.delete("http://localhost:8000/api/section/delete", {
+    const res = await axios.delete(`${path}/api/section/delete`, {
       data: { sectionId: id},
     });
     setShowRemoveModal(false)

@@ -5,6 +5,7 @@ import axios from "axios";
 import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SelectLocationOnMap from "../../../components/Map/selectedLoc";
+import { path } from "../../../shared/config";
 
 const AddMap = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const AddMap = () => {
       latitude: lat,
       longitude: lng,
     };
-    axios.post("http://localhost:8000/api/map/add", data);
+    axios.post(`${path}/api/map/add`, data);
     navigate("/panel/map");
   };
 

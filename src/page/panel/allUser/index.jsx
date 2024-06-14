@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { strings } from "../../../shared/language";
 import { dateFullFilter } from "../../../shared/utils";
+import { path } from "../../../shared/config";
 
 
 const AllUser = () => {
@@ -13,7 +14,7 @@ const AllUser = () => {
 console.log({users});
   const geyAllUser = async () =>{
     
-    const {data} = await axios.get("http://localhost:8000/api/getAllUsers")
+    const {data} = await axios.get(`${path}/api/getAllUsers`)
     
     setUsers(data?.data)
    

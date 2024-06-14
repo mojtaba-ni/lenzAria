@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toBase64 } from "../../../../shared/utils";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { path } from "../../../../shared/config";
 
 const AddPrSection = () => {
 
@@ -35,7 +36,7 @@ const AddPrSection = () => {
 
   const getAllCategory = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/category/getAllCategory"
+      `${path}/api/category/getAllCategory`
     );
 
     const categoryList = [];
@@ -50,7 +51,7 @@ const AddPrSection = () => {
   };
   const getAllSteps = async (activeCt) => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/step/getAllStep",
+      `${path}/api/step/getAllStep`,
       {
         params: { id: activeCt?.value },
       }
@@ -80,7 +81,7 @@ const AddPrSection = () => {
         title:sectionTitle,
         image: pic,
     }
-    await axios.post("http://localhost:8000/api/productSection/add" ,data)
+    await axios.post(`${path}/api/productSection/add` ,data)
     navigate("/panel/popularProductSection");
   }
 

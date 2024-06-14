@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import CustomModal from "../../../components/Modal";
 import { dateFullFilter } from "../../../shared/utils";
+import { path } from "../../../shared/config";
 
 
 const ProductList = () => {
@@ -16,7 +17,7 @@ const ProductList = () => {
 
 
   const getAllProduct = async () => {
-    const { data } = await axios.get("http://localhost:8000/api/product");
+    const { data } = await axios.get(`${path}/api/product`);
     if (!data?.isSuccess) return;
     setProduct(data?.data);
   };
@@ -27,7 +28,7 @@ const ProductList = () => {
   }
   
   const handleDeleteProduct = async (id) => {
-    const res = await axios.delete("http://localhost:8000/api/product/delete", {
+    const res = await axios.delete(`${path}/api/product/delete`, {
       data: { productId: id },
     });
 

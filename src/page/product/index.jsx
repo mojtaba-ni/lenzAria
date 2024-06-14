@@ -7,9 +7,10 @@ import { Card, Divider } from "antd";
 import Bestpart from "../../components/Bestpart";
 import { strings } from "../../shared/language";
 import { useOrder } from "../../shared/store/useOrder";
-import { ShopOutlined, HeartTwoTone, HeartOutlined } from "@ant-design/icons";
+import { ShopOutlined, HeartOutlined } from "@ant-design/icons";
 import { StarFilled } from "@ant-design/icons";
 import style from "../styles/product/style.module.css";
+import { path } from "../../shared/config";
 
 
 const ProductPage = () => {
@@ -27,13 +28,13 @@ const ProductPage = () => {
 
   const getProduct = async () => {
     const { data } = await axios.get(
-      `http://localhost:8000/api/product/getById?id=${id}`
+      `${path}/api/product/getById?id=${id}`
     );
     setProduct(data?.data);
   };
   const getNewProduct = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/product/getnewProduct"
+      `${path}/api/product/getnewProduct`
     );
     setNewProduct(data?.data);
   };
@@ -80,6 +81,7 @@ const ProductPage = () => {
   useEffect(() => {
     getProduct();
   }, [id]);
+  
   useEffect(() => {
     getNewProduct();
   }, []);

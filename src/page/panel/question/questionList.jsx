@@ -5,6 +5,7 @@ import { DeleteTwoTone } from "@ant-design/icons";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { dateFullFilter, shortText } from '../../../shared/utils';
+import { path } from '../../../shared/config';
 
 
 const QuestionList = () => {
@@ -13,12 +14,12 @@ const QuestionList = () => {
 
     const getAllQuestion = async () => {
         const { data } = await axios.get(
-          "http://localhost:8000/api/question/getAllQuestion"
+          `${path}/api/question/getAllQuestion`
         );
         setQuestionData(data?.data);
       };
       const handleDelete = async (id) => {
-        const res = await axios.delete("http://localhost:8000/api/brand/delete", {
+        const res = await axios.delete("${path}/api/brand/delete", {
           data: { brandId: id},
         });
     

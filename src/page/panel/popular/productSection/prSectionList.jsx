@@ -4,6 +4,7 @@ import { strings } from "../../../../shared/language";
 import axios from "axios";
 import style from "../../../styles/panel/allUser/style.module.css";
 import { dateFullFilter } from "../../../../shared/utils";
+import { path } from "../../../../shared/config";
 
 const PrSectionList = () => {
   const [sectionData, setSectionData] = useState();
@@ -11,7 +12,7 @@ const PrSectionList = () => {
   const getAllSection = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8000/api/productSection/getall"
+        `${path}/api/productSection/getall`
       );
     } catch (error) {
       console.log(error);

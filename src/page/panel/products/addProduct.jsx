@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { toBase64 } from "../../../shared/utils";
 import axios from "axios";
 import style from "../../styles/product/style.module.css";
+import { path } from "../../../shared/config";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const AddProduct = () => {
     price: null,
     count: null,
   });
+ 
   const [file, setFile] = useState(null);
   const [lenzFile, setLenzFile] = useState(null);
   const [step, setStep] = useState([]);
@@ -48,6 +50,7 @@ const AddProduct = () => {
       [name]: event.target.value,
     }));
   };
+
   const handleFileChange = (e) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
@@ -85,7 +88,7 @@ const AddProduct = () => {
       image: pic,
       count: productForm?.count,
     };
-    await axios.post("http://localhost:8000/api/product/add", data);
+    await axios.post(`${path}/api/product/add`, data);
     navigate("/panel/product");
   };
 
@@ -104,7 +107,7 @@ const AddProduct = () => {
 
   const getAllBrand = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/brand/getAllBrand"
+      `${path}/api/brand/getAllBrand`
     );
     const brandList = [];
     data?.data.forEach((element) => {
@@ -119,7 +122,7 @@ const AddProduct = () => {
   };
   const getAllCategory = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/category/getAllCategory"
+      `${path}/api/category/getAllCategory`
     );
 
     const categoryList = [];
@@ -134,7 +137,7 @@ const AddProduct = () => {
   };
   const getAllSteps = async (activeCt) => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/step/getAllStep",
+      `${path}/api/step/getAllStep`,
       {
         params: { id: activeCt?.value },
       }
@@ -164,7 +167,6 @@ const AddProduct = () => {
   return (
     <div>
       <Form>
-       
         <Row gutter={20}>
           <Col
             sm={{
@@ -398,9 +400,9 @@ const AddProduct = () => {
           <section>
             جزیات عکس:
             <ul>
-              <li>Name: {file.name}</li>
-              <li>Type: {file.type}</li>
-              <li>Size: {file.size} bytes</li>
+              <li>Name: {file?.name}</li>
+              <li>Type: {file?.type}</li>
+              <li>Size: {file?.size} bytes</li>
             </ul>
           </section>
         )}
@@ -415,16 +417,16 @@ const AddProduct = () => {
               },
             ]}
           >
-            <input id="file" type="file" onChange={handleLenzFileChange} />
+            <input id="lenzFile" type="file" onChange={handleLenzFileChange} />
           </Form.Item>
         </div>
         {file && (
           <section>
             جزیات عکس:
             <ul>
-              <li>Name: {lenzFile.name}</li>
-              <li>Type: {lenzFile.type}</li>
-              <li>Size: {lenzFile.size} bytes</li>
+              <li>Name: {lenzFile?.name}</li>
+              <li>Type: {lenzFile?.type}</li>
+              <li>Size: {lenzFile?.size} bytes</li>
             </ul>
           </section>
         )}

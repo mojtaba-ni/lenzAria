@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toBase64 } from "../../../shared/utils";
 import axios from "axios";
 import style from "../../styles/product/style.module.css";
+import { path } from "../../../shared/config";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -89,7 +90,7 @@ const EditProduct = () => {
     };
     
     const res = await axios.put(
-      "http://localhost:8000/api/product/update",
+      `${path}/api/product/update`,
       data
     );
     navigate("/panel/product");
@@ -97,7 +98,7 @@ const EditProduct = () => {
 
   const getAllCategory = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/category/getAllCategory"
+      `${path}/api/category/getAllCategory`
     );
 
     const categoryList = [];
@@ -112,7 +113,7 @@ const EditProduct = () => {
   };
   const getAllBrand = async() => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/brand/getAllBrand"
+      `${path}/api/brand/getAllBrand`
     );
     const brandList = []; 
     data?.data.forEach((element) => {
@@ -128,7 +129,7 @@ const EditProduct = () => {
 
   const getAllSteps = async (activeCt) => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/step/getAllStep",
+      `${path}/api/step/getAllStep`,
       {
         params: { id: activeCt?.value},
       }
@@ -146,7 +147,7 @@ const EditProduct = () => {
 
   const getProductDataById = async () => {
     const { data } = await axios.get(
-      `http://localhost:8000/api/product/getById?id=${id}`
+      `${path}/api/product/getById?id=${id}`
     );
     setProductForm({
       Specifications: data?.data?.Specifications,

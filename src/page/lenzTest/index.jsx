@@ -8,6 +8,7 @@ import { toBase64 } from "../../shared/utils";
 import { strings } from "../../shared/language";
 import { LoadingOutlined } from "@ant-design/icons";
 import videoIc from "../../assets/images/images.png";
+import { path } from "../../shared/config";
 
 const LenzTest = () => {
   const [file, setFile] = useState();
@@ -19,7 +20,7 @@ const LenzTest = () => {
 
   const getAllLenzProduct = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/product/getLenzProduct"
+      `${path}/api/product/getLenzProduct`
     );
     const prList = [];
     data?.data.forEach((element) => {
@@ -73,7 +74,7 @@ const LenzTest = () => {
     };
 
     const res = await axios.post(
-      "http://localhost:8000/api/eye/upload",
+      `${path}/api/eye/upload`,
       requestBody
     );
     var a = document.createElement("a"); //Create <a>

@@ -6,6 +6,7 @@ import { toBase64 } from "../../../shared/utils";
 import { strings } from "../../../shared/language";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { path } from "../../../shared/config";
 
 const AddBlog = () => {
   const navigate = useNavigate()
@@ -64,7 +65,7 @@ const AddBlog = () => {
         detail: detail,
       }
      
-      const res = await axios.post("http://localhost:8000/api/blog/add" , requestBody)
+      const res = await axios.post(`${path}/api/blog/add` , requestBody)
     }
   
     const requestBody = {
@@ -72,7 +73,7 @@ const AddBlog = () => {
       introduction: introduction,
       detail: detail,
     }
-    const res = await axios.post("http://localhost:8000/api/blog/add" , requestBody)
+    const res = await axios.post(`${path}/api/blog/add` , requestBody)
   
     navigate("/panel/blog")
   };
