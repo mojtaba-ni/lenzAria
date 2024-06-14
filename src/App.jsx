@@ -31,6 +31,8 @@ const switchTheme = () => {
   setTheme(newTheme )
 }
 
+console.log({meta: import.meta})
+
   return (
     <div data-theme={theme} className="app"> 
       <Router>

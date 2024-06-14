@@ -3,6 +3,7 @@ import { strings } from "../../shared/language";
 import styles from "./questions.module.css"
 import axios from "axios";
 import { Skeleton } from "antd";
+import { path } from "../../shared/config";
 
 const Questions = () => {
 
@@ -16,7 +17,7 @@ const Questions = () => {
   //Func
   const getAllQuestion = async() => {
     setLoading(true)
-    const {data} = await axios.get("${path}/api/question/getAllQuestion")
+    const {data} = await axios.get(`${path}/api/question/getAllQuestion`)
     setQuestionData(data?.data)
     setActiveQuestion(data?.data[0])
     setLoading(false)

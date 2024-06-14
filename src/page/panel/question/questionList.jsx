@@ -19,7 +19,7 @@ const QuestionList = () => {
         setQuestionData(data?.data);
       };
       const handleDelete = async (id) => {
-        const res = await axios.delete("${path}/api/brand/delete", {
+        const res = await axios.delete(`${path}/api/brand/delete`, {
           data: { brandId: id},
         });
     
