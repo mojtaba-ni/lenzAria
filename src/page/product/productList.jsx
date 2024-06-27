@@ -147,7 +147,7 @@ const ProductList = () => {
                   </Link>
                 </Col>
               ))}{" "}
-          :<div>محصولی یافت نشد</div>
+          
         </Row>
       </div>
 
