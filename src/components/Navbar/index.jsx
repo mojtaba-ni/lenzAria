@@ -44,7 +44,6 @@ const Navbar = () => {
   const [showUser, setShowUser] = useState(false);
   const [search, setSearch] = useState(false);
   const [searchInp, setSearchInp] = useState();
-
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
   const [medicalLenz, setMedicalLenz] = useState([]);
@@ -88,7 +87,7 @@ const Navbar = () => {
     setShow(true);
   };
   const handleShowUser = () => {
-    setShowUser(true);
+    setShowUser(!showUser);
   };
 
   const handleShowLenzMenu = () => {
@@ -302,7 +301,7 @@ const Navbar = () => {
           <div>
             <UserOutlined
               className={styles.navUserIc}
-              onMouseOver={handleShowUser}
+              onClick={handleShowUser}
             />
             <div
               className={

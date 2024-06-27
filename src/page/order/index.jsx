@@ -7,9 +7,9 @@ import { useOrder } from "../../shared/store/useOrder";
 import { useEffect, useState } from "react";
 
 const Order = () => {
-  const { orderList } = useOrder();
+  const { updateOrderUser,orderList } = useOrder();
   const [price, setPrice] = useState()
-
+  console.log({orderList});
 
   const sumOrderPrice = () => {
     let price = 0
@@ -22,6 +22,24 @@ const Order = () => {
   const handleTitle = () => {
     console.log("orderT");
   }
+
+  const handleRemove = (order, orderIndex) => {
+    const orderNew = orderList.filter((item , index) => index !== orderIndex)
+   
+    if(order?.count === 1){
+      updateOrderUser(orderNew)
+      return
+    }
+    
+    const newOrder = {
+      name : order?.name,
+      price : order?.price/order?.count,
+      count : order?.count - 1,
+    }
+    orderNew.push(newOrder)
+    updateOrderUser(orderNew)
+  }
+
 
   useEffect(() => {
     sumOrderPrice()
@@ -84,6 +102,7 @@ const Order = () => {
                   <CloseCircleTwoTone
                     twoToneColor="red"
                     style={{ fontSize: "1.3rem", cursor: "pointer" }}
+                    onClick={() => handleRemove(item ,index)}
                   />
                 </Col>
               </Row>
