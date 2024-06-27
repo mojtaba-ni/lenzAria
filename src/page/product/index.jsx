@@ -16,12 +16,11 @@ import { path } from "../../shared/config";
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState();
-  console.log({ product });
   const [newproduct, setNewProduct] = useState([]);
   const [count, setCount] = useState(0);
   const [ShowPart, setShowPart] = useState(1);
 
-  const { orderList, updateOrderList } = useOrder();
+  const { orderList, updateOrderList , updateOrderUser } = useOrder();
   let lastPr = []
   let allPr = JSON.parse(localStorage.getItem("favoritePr")) 
   
@@ -42,14 +41,16 @@ const ProductPage = () => {
   const handleOrderSubmit = () => {
     setCount(count + 1);
     
-
+    
     const data = {
       name: product?.name,
       price: count + 1 > 0 ? product?.price * (count + 1) : product?.price,
       count: count + 1,
     };
-    
-    updateOrderList(data);
+
+    const newOrder = orderList.filter(item => item.name !== product?.name ) 
+    newOrder.push(data)
+    updateOrderUser(newOrder);
   };
 
   const handleCancelOrder = () => {
@@ -282,10 +283,10 @@ const ProductPage = () => {
             >
               <div style={{display:"flex" , gap:".3rem"}}>
                 <ShopOutlined
-                  style={{ cursor: "pointer", fontSize: "1.7rem" }}
+                  className={count > 0  ? style.shopIcActive  : style.shopIc}
                   onClick={handleOrderSubmit}
                 />
-                {count > 0 && <strong>{count}</strong>}
+                {count > 0 && <strong style={{color:"red"}}>{count}</strong>}
               </div>
 
               <HeartOutlined
