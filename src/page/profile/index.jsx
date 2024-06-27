@@ -7,12 +7,17 @@ import { UserOutlined } from "@ant-design/icons";
 import { strings } from "../../shared/language";
 import axios from "axios";
 import { path } from "../../shared/config";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+
+  const navigate = useNavigate()
+
   const [address, setAddress] = useState({});
   const [location, setLocation] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
   const [updateLoc, setupdateLoc] = useState(false);
+  const [activePart, setActivePart] = useState(2);
   
   const getLocationData = async() => {
     const userId="660eb7eaf4db4975e683f01c"
@@ -68,6 +73,10 @@ const Profile = () => {
     setupdateLoc(!updateLoc)
   };
 
+  const handleFavorite = () => {
+    navigate("/favorite")
+  }
+
   useEffect(() => {
     getLocationData()
   }, [updateLoc])
@@ -89,7 +98,7 @@ const Profile = () => {
               }}
             >
               <h2>{strings.profile.info}</h2>
-              <h4 style={{ color: "gray" }}>سفارشات</h4>
+              {/* <h4 style={{ color: "gray" }}>سفارشات</h4> */}
             </li>
             <li
               style={{
@@ -105,11 +114,11 @@ const Profile = () => {
               <h4>a.moradi</h4>
             </li>
             <div>
-              <li className={style.profileLi}>{strings.profile.orders}</li>
-              <li className={style.profileLi}>{strings.profile.address}</li>
-              <li className={style.profileLi}>{strings.profile.account}</li>
-              <li className={style.profileLi}>{strings.profile.favorite}</li>
-              <li className={style.profileLi}>{strings.profile.logout}</li>
+              {/* <li className={ activePart === 1 ? style.profileLiActive : style.profileLi}>{strings.profile.orders}</li> */}
+              <li className={activePart === 2 ? style.profileLiActive : style.profileLi }>{strings.profile.address}</li>
+              {/* <li className={activePart === 3 ? style.profileLiActive : style.profileLi }>{strings.profile.account}</li> */}
+              <li className={activePart === 4 ? style.profileLiActive : style.profileLi } onClick={handleFavorite}>{strings.profile.favorite}</li>
+              <li className={activePart === 5 ? style.profileLiActive : style.profileLi }>{strings.profile.logout}</li>
             </div>
           </ul>
         </Col>

@@ -8,6 +8,8 @@ import {
   MoonOutlined,
   EnvironmentOutlined,
   HeartOutlined,
+  LogoutOutlined,
+  EditFilled
 } from "@ant-design/icons";
 import { strings } from "../../shared/language";
 import ariaLogo from "../../assets/images/logo.jpg";
@@ -15,11 +17,12 @@ import styles from "./navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useLocalStorage from "use-local-storage";
-import { Button, Input } from "antd";
+import { Button, Divider, Input } from "antd";
 import { path } from "../../shared/config";
 
 // eslint-disable-next-line react/prop-types
 const Navbar = () => {
+  
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
     "theme",
@@ -30,12 +33,15 @@ const Navbar = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
   };
+  const userData = JSON.parse(localStorage.getItem("userData"));
+ 
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showLenz, setShowLenz] = useState(false);
   const [showAcc, setShowAcc] = useState(false);
   const [showListPr, setShowListPr] = useState(false);
+  const [showUser, setShowUser] = useState(false);
   const [search, setSearch] = useState(false);
   const [searchInp, setSearchInp] = useState();
 
@@ -47,9 +53,7 @@ const Navbar = () => {
   const [listP, setListP] = useState([]);
 
   const getAllCategories = async () => {
-    const { data } = await axios.get(
-      `${path}/api/category/getAllCategory`
-    );
+    const { data } = await axios.get(`${path}/api/category/getAllCategory`);
     setCategory(data?.data);
     let listMd = [];
     let listCl = [];
@@ -76,14 +80,15 @@ const Navbar = () => {
     });
   };
   const getAllBrand = async () => {
-    const { data } = await axios.get(
-      `${path}/api/brand/getAllBrand`
-    );
+    const { data } = await axios.get(`${path}/api/brand/getAllBrand`);
     setBrand(data?.data);
   };
 
   const handleShowMenu = () => {
     setShow(true);
+  };
+  const handleShowUser = () => {
+    setShowUser(true);
   };
 
   const handleShowLenzMenu = () => {
@@ -101,6 +106,10 @@ const Navbar = () => {
   const handleSearchPr = () => {
     navigate(`/search/${searchInp}`);
   };
+  const handleLogOut = () => {
+    localStorage. removeItem('userData')
+    navigate(`/login`);
+  }
 
   useEffect(() => {
     getAllCategories();
@@ -290,11 +299,92 @@ const Navbar = () => {
             className={styles.navUserIc}
             onClick={() => handleIconAddress("order")}
           />
+          <div>
+            <UserOutlined
+              className={styles.navUserIc}
+              onMouseOver={handleShowUser}
+            />
+            <div
+              className={
+                showUser
+                  ? userData
+                    ? styles.navUserActive
+                    : styles.navUserActiveSign
+                  : styles.navUserList
+              }
+            >
+              {userData ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    justifyContent: "space-between",
+                    gap: ".6rem",
+                  }}
+                >
+                  <div
+                    className={styles.navUserLi}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: ".3rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "100%",
+                        backgroundColor: "#6fb5be69",
+                        height: "25px",
+                      }}
+                    ></div>
+                    <h5>{userData?.username}</h5>
 
-          <UserOutlined
-            className={styles.navUserIc}
-            onClick={() => handleIconAddress("profile")}
-          />
+                    <h5>{userData?.phoneNumber}</h5>
+                  </div>
+                  <Divider />
+                  <div
+                    className={styles.navUserLi}
+                    onClick={() => handleIconAddress("profile")}
+                  >
+                    <h5>ناحیه کاربری</h5>
+                    <UserOutlined style={{ fontSize: "1.6rem" }} />
+                  </div>
+                  <Divider />
+                  <div className={styles.navUserLi} onClick={handleLogOut}>
+                    <h5 style={{ color: "red" }}>خروج</h5>
+                    <LogoutOutlined
+                      style={{ fontSize: "1.6rem", color: "red" }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    width: "100%",
+                    justifyContent: "space-between",
+                    gap: ".6rem",
+                  }}
+                >
+                  <Link to={"/login"} className={styles.linkSign}>
+                    <h5>ورود</h5>
+                    <LogoutOutlined
+                      style={{ fontSize: "1.6rem"}}
+                    />
+                  </Link>
+
+                  <Divider />
+                  <Link to={"/signup"} className={styles.linkSign}>
+                  <h5>ثبت نام</h5>
+                    <EditFilled />
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
 
           <SearchOutlined
             className={styles.navUserIc}

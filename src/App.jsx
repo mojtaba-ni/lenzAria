@@ -20,6 +20,7 @@ import VBlogSingle from "./page/blog/video/vBlogSingle";
 import Order from "./page/order";
 import LenzTest from "./page/lenzTest";
 import FavoritePage from "./page/favorite";
+import Login from "./page/login";
 
 
 export default function App() {
@@ -31,7 +32,7 @@ const switchTheme = () => {
   setTheme(newTheme )
 }
 
-console.log({meta: import.meta})
+
 
   return (
     <div data-theme={theme} className="app"> 
@@ -39,6 +40,7 @@ console.log({meta: import.meta})
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/panel/*" element={<Panel />} />
           <Route path="/blog" element={<BlogUser />} />
           <Route path="/blog/:id" element={<SingleBlog />} />

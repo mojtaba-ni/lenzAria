@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 const Order = () => {
   const { orderList } = useOrder();
   const [price, setPrice] = useState()
-  console.log({ orderList });
+
 
   const sumOrderPrice = () => {
     let price = 0
@@ -17,6 +17,10 @@ const Order = () => {
       price = price + element?.price
     });
     setPrice(price)
+  }
+
+  const handleTitle = () => {
+    console.log("orderT");
   }
 
   useEffect(() => {
@@ -44,7 +48,7 @@ const Order = () => {
                 alignItems: "center",
                 justifyContent: "space-evenly",
                 width: "100%",
-                marginTop: "1rem",
+                margin: "1rem",
               }}
             >
               <Col md={6}>نام محصول</Col>
@@ -94,6 +98,7 @@ const Order = () => {
                 alignItems: "center",
                 flexDirection: "column",
                 gap: "1rem",
+                minHeight:"300px",
                 marginBottom: "1.5rem",
               }}
             >

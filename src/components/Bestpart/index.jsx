@@ -13,7 +13,7 @@ import { Col, Row, Skeleton } from "antd";
 
 const Bestpart = ({ title, data }) => {
   const arrSkeleton = [0, 1, 2, 4];
-  console.log({data});
+  
   return (
     <div className={styles.bestSellerBox}>
       <div>

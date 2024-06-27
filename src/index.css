@@ -68,10 +68,24 @@ h1,h2,h3,h4,h5{
 }
 .ant-form-item{
     width: 100%;
+    margin: .3rem !important;
 }
 .ant-skeleton.ant-skeleton-element{
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.ant-divider-horizontal {
+    margin: 0;
+}
+.ant-message-notice-content{
+    padding: 14px !important;
+    width: 320px !important;
+    text-align: right;
+    font-weight: 600;
+    font-size: 1rem;
+    svg{
+        font-size: 1.4rem;
+    }
 }

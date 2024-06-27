@@ -9,7 +9,7 @@ import { path } from "../../shared/config";
 
 const Search = () => {
   const params = useParams();
-  console.log({ params });
+  
 
   const [allProduct, setAllProduct] = useState([]);
   const [periodTitle, setPeriodtitle] = useState();

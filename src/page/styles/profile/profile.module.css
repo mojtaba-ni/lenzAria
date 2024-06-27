@@ -24,7 +24,21 @@
     border-right: 2px solid rgb(234, 234, 31);
     cursor: pointer;
     transition: .3s ease-in-out;
+    color: gray;
 
+}
+.profileLiActive{
+    width:200px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-right:1rem ;
+    margin:1rem 2rem;
+    font-size:1.3rem;
+    border-right: 2px solid rgb(234, 234, 31);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+    
 }
 .profileLi:hover{
     scale: 1.05;
@@ -62,3 +76,4 @@
     align-items: flex-start;
     padding-right: .3rem;
 }
+

@@ -13,6 +13,7 @@
     "@cedarstudios/cedarmaps": "^1.0.2",
     "@cedarstudios/cedarmaps-geo-tools": "^2.0.5",
     "@cedarstudios/react-cedarmaps": "^1.0.3",
+    "@hcaptcha/react-hcaptcha": "^1.10.1",
     "antd": "^5.15.1",
     "axios": "^1.6.8",
     "leaflet": "^1.9.0",

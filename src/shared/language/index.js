@@ -40,6 +40,10 @@ export const strings = {
     title: "ثبت نام",
     submit: "ثبت",
   },
+  login: {
+    title: "ورود",
+    submit: "ثبت",
+  },
   panel :{
     allUserPage :{
       username:"نام کاربری",

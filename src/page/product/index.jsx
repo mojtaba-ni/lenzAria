@@ -24,7 +24,7 @@ const ProductPage = () => {
   const { orderList, updateOrderList } = useOrder();
   let lastPr = []
   let allPr = JSON.parse(localStorage.getItem("favoritePr")) 
-  console.log({lastPr});
+  
 
   const getProduct = async () => {
     const { data } = await axios.get(

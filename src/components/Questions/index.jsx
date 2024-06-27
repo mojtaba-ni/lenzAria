@@ -12,7 +12,7 @@ const Questions = () => {
   const [activeQuestion, setActiveQuestion] = useState()
   const [loading, setLoading] = useState(false)
 
-  console.log({questionData});
+ 
 
   //Func
   const getAllQuestion = async() => {

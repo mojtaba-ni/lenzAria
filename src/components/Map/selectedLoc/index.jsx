@@ -55,11 +55,11 @@ function SelectLocationOnMap({ handleLocationCoords }) {
 
   const handleMarkerDragEnd = (e) => {
     const { lat, lng } = e.target.getLatLng();
-    console.log("Marker dragged to: ", lat, lng); // Debug log
+    // console.log("Marker dragged to: ", lat, lng); // Debug log
     getAddressOfLocationPoints(lat, lng).then((result) => {
       setSelectedLocationInfo(result);
       handleLocationCoords({ lat, lng, result });
-      console.log("Updated location info: ", result); // Debug log
+      // console.log("Updated location info: ", result); // Debug log
     });
     setSelectedLocation({ lat, lng });
   };
@@ -72,7 +72,7 @@ function SelectLocationOnMap({ handleLocationCoords }) {
     return null;
   }
 
-  console.log("test", location);
+ 
 
   return (
     <MapContainer

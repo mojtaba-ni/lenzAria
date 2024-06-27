@@ -28,7 +28,7 @@ const AddMainBanner = () => {
             image: pic
         }
         const res = await axios.post(`${path}/api/mainBanner/add` , data )
-        console.log({res});
+        
         navigate('/panel/mainBanner')
       }
   return (

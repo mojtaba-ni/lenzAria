@@ -36,7 +36,7 @@ const AddMap = () => {
   };
 
   const handleLocationCoords = (data) => {
-    console.log(data);
+   
     setDesc(data?.result?.formatted_address)
     setLat(data?.lat)
     setLng(data?.lng)

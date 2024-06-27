@@ -11,7 +11,7 @@ const AllUser = () => {
  
  
   const [users, setUsers] = useState()
-console.log({users});
+
   const geyAllUser = async () =>{
     
     const {data} = await axios.get(`${path}/api/getAllUsers`)

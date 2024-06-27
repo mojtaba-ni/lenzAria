@@ -1,8 +1,20 @@
 .inputBox{
     width: 350px;
     height: 40px;
+    
 }
 .inputBoxTitle{
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
+    min-width: 59px;
+}
+.singupBox{
+    border-radius: "25px";
+    width: 520;
+    display: "flex";
+    align-items: "center";
+    justify-content: "center";
+    padding: 1rem 2rem;
+    background: rgb(212,220,228);
+    background: linear-gradient(90deg, rgba(212,220,228,1) 0%, rgba(255,255,255,1) 55%, rgba(212,220,228,1) 100%);
 }

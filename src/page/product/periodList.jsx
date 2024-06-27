@@ -11,7 +11,6 @@ const PeriodList = () => {
   const {periodId} = useParams();
 
   const [allProduct, setAllProduct] = useState();
-  console.log({allProduct});
   const [periodTitle, setPeriodtitle] = useState();
   const [loading, setLoading] = useState(false);
 
