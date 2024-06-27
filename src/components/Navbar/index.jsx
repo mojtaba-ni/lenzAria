@@ -9,7 +9,7 @@ import {
   EnvironmentOutlined,
   HeartOutlined,
   LogoutOutlined,
-  EditFilled
+  EditFilled,
 } from "@ant-design/icons";
 import { strings } from "../../shared/language";
 import ariaLogo from "../../assets/images/logo.jpg";
@@ -17,12 +17,12 @@ import styles from "./navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useLocalStorage from "use-local-storage";
-import { Button, Divider, Input } from "antd";
+import { Badge, Button, Divider, Input } from "antd";
 import { path } from "../../shared/config";
+import { useOrder } from "../../shared/store/useOrder";
 
 // eslint-disable-next-line react/prop-types
 const Navbar = () => {
-  
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
     "theme",
@@ -34,7 +34,8 @@ const Navbar = () => {
     setTheme(newTheme);
   };
   const userData = JSON.parse(localStorage.getItem("userData"));
- 
+
+  const { orderList} = useOrder();
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -106,9 +107,9 @@ const Navbar = () => {
     navigate(`/search/${searchInp}`);
   };
   const handleLogOut = () => {
-    localStorage. removeItem('userData')
+    localStorage.removeItem("userData");
     navigate(`/login`);
-  }
+  };
 
   useEffect(() => {
     getAllCategories();
@@ -293,11 +294,13 @@ const Navbar = () => {
           ) : (
             <SunOutlined className={styles.navUserIc} onClick={switchTheme} />
           )}
+          <Badge count={orderList && orderList[0]?.count} size="large">
+            <ShoppingCartOutlined
+              className={styles.navUserIc}
+              onClick={() => handleIconAddress("order")}
+            />
+          </Badge>
 
-          <ShoppingCartOutlined
-            className={styles.navUserIc}
-            onClick={() => handleIconAddress("order")}
-          />
           <div>
             <UserOutlined
               className={styles.navUserIc}
@@ -370,14 +373,12 @@ const Navbar = () => {
                 >
                   <Link to={"/login"} className={styles.linkSign}>
                     <h5>ورود</h5>
-                    <LogoutOutlined
-                      style={{ fontSize: "1.6rem"}}
-                    />
+                    <LogoutOutlined style={{ fontSize: "1.6rem" }} />
                   </Link>
 
                   <Divider />
                   <Link to={"/signup"} className={styles.linkSign}>
-                  <h5>ثبت نام</h5>
+                    <h5>ثبت نام</h5>
                     <EditFilled />
                   </Link>
                 </div>
