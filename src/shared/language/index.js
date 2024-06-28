@@ -103,6 +103,9 @@ export const strings = {
       SpecificationsError:"مشخصات فنی را وارد کنید",
       categoryError:"اسم دسته را وارد کنید",
       stepError:"اسم زیر دسته را وارد کنید",
+      passwordError:"رمز عبور را وارد کنید",
+      phoneNumberError:"شماره تلفن را وارد کنید",
+      usernameError:"نام کاربری را وارد کنید",
     }
   },
   brand:{
