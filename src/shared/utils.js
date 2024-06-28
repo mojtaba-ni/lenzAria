@@ -28,6 +28,11 @@ export const dateFilter = function (params) {
     : "-";
 };
 
+export function commaThousondSeperator(input) {
+  let str = isNaN(input) ? input : input.toString();
+  return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 // const _base64ToArrayBuffer = (base64) => {
 //   var binary_string = window.atob(base64);
 //   var len = binary_string.length;
