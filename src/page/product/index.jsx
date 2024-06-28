@@ -11,6 +11,7 @@ import { ShopOutlined, HeartOutlined } from "@ant-design/icons";
 import { StarFilled } from "@ant-design/icons";
 import style from "../styles/product/style.module.css";
 import { path } from "../../shared/config";
+import { commaThousondSeperator } from "../../shared/utils";
 
 
 const ProductPage = () => {
@@ -183,7 +184,7 @@ const ProductPage = () => {
                 >
                   <h6 style={{ margin: 0, fontWeight: "600" }}>قیمت :</h6>
                   <strong style={{ fontSize: "16px" }}>
-                    {product?.price} تومان
+                  {product?.price && commaThousondSeperator(product?.price)} تومان
                   </strong>
                 </div>
                 <div

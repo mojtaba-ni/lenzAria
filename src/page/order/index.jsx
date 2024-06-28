@@ -5,6 +5,7 @@ import { CloseCircleTwoTone } from "@ant-design/icons";
 import style from "../styles/order/style.module.css";
 import { useOrder } from "../../shared/store/useOrder";
 import { useEffect, useState } from "react";
+import { commaThousondSeperator } from "../../shared/utils";
 
 const Order = () => {
   const { updateOrderUser,orderList } = useOrder();
@@ -97,7 +98,7 @@ const Order = () => {
                 >
                   {item?.count}
                 </Col>
-                <Col md={6}>{item?.price} تومان</Col>
+                <Col md={6}>{item?.price && commaThousondSeperator(item?.price)} تومان</Col>
                 <Col md={6}>
                   <CloseCircleTwoTone
                     twoToneColor="red"
@@ -125,7 +126,7 @@ const Order = () => {
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
                 <h6 style={{ fontWeight: "600" }}>جمع مبلغ خرید : </h6>
-                <h6 style={{ fontWeight: "600" }}>{price} تومان</h6>
+                <h6 style={{ fontWeight: "600" }}>{price && commaThousondSeperator(price)} تومان</h6>
               </div>
               <Input
                 placeholder="کد تخفیف"
@@ -136,7 +137,7 @@ const Order = () => {
                 style={{ display: "flex", alignItems: "center", gap: "1rem" }}
               >
                 <h6 style={{ fontWeight: "600" }}>جمع مبلغ خرید : </h6>
-                <h6 style={{ fontWeight: "600" }}>{price} تومان</h6>
+                <h6 style={{ fontWeight: "600" }}>{price && commaThousondSeperator(price)} تومان</h6>
               </div>
               <Button
                 type="primary"

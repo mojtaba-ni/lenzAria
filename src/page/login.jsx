@@ -1,20 +1,21 @@
 import { useRef, useState } from "react";
 
-import { Input, Form, Button, Card , message} from "antd";
-import { EyeInvisibleOutlined, EyeTwoTone , PhoneFilled } from "@ant-design/icons";
+import { Input, Form, Button, Card , message, Spin} from "antd";
+import { EyeInvisibleOutlined, EyeTwoTone , PhoneFilled ,LoadingOutlined } from "@ant-design/icons";
 import { strings } from "../shared/language";
-import { BiSolidUser } from "react-icons/bi";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { Alert } from 'antd';
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import style from "./styles/signup.module.css";
 import { hCaptchaSiteToken, path } from "../shared/config";
 // import useButtonLoader from "../shared/hooks/useButtonLoader";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
   const [signInData, setSignInData] = useState({
-    username: null,
     phoneNumber: null,
     password: null,
   });
@@ -23,28 +24,29 @@ const Login = () => {
 
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const captcha = useRef();
   // const [element, setLoading] = useButtonLoader("ورود");
 
   const onSignUp = async() => {
-    // if (!token) {
-    //   setError("کد امنیتی را وارد کنید");
-    //   return;
-    // }
+    setLoading(true);
+    if (!token) {
+      setError("کد امنیتی را وارد کنید");
+      return;
+    }
     setError("");
-    // setLoading(true);
-    const data ={
-    //   username: signInData.username,
+    
+    const data = {
       phoneNumber: signInData.phoneNumber,
       password: signInData.password,
-      // token:token
-    } 
-    const res = await axios.post(`${path}/api/register/signup` , data)
+      token:token
+    };
+    const res = await axios.post(`${path}/api/register/login` , data)
     
     messageApi.open({
-      type: 'error',
-      content: res?.data?.title,
+      type: res?.data?.isSuccess ? "success" : "error",
+      content: res?.data?.message,
       style: {
         marginTop: '10vh',
         height:"100px !important",
@@ -52,7 +54,11 @@ const Login = () => {
       },
       duration: 5,
     });
-    
+    setLoading(false);
+    if(res?.data?.isSuccess ){
+      localStorage.setItem('userData', JSON.stringify(res?.data?.data));
+      navigate("/");
+    }
   };
 
   const handleInp = (event) => {
@@ -67,14 +73,7 @@ const Login = () => {
     <>
         {contextHolder}
     <div
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#e3e3e3",
-        height: "100vh",
-      }}
+     className={style.signupWrapper}
     >
       <Card
         className={style.singupBox}
@@ -120,7 +119,7 @@ const Login = () => {
                 rules={[
                   {
                     required: true,
-                    message: strings.profile.errorMessage.productNameError,
+                    message: strings.profile.errorMessage.phoneNumberError,
                   },
                 ]}
               >
@@ -142,7 +141,7 @@ const Login = () => {
                 rules={[
                   {
                     required: true,
-                    message: strings.profile.errorMessage.productNameError,
+                    message: strings.profile.errorMessage.passwordError,
                   },
                 ]}
               >
@@ -157,7 +156,7 @@ const Login = () => {
               </Form.Item>
             </div>
 
-            {/* <div className="d-flex flex-row align-items-center mb-4" style={{justifyContent:"space-around"}} >
+            <div className="d-flex flex-row align-items-center mb-4" style={{justifyContent:"space-around"}} >
               <h5 className={style.inputBoxTitle}>کد امنیتی</h5>
               <HCaptcha
                 ref={captcha}
@@ -165,7 +164,7 @@ const Login = () => {
                 onVerify={(token) => setToken(token)}
                 onExpire={(e) => setToken("")}
               />
-            </div> */}
+            </div>
             {/* {error && <p style={{textAlign:"center" , color:"red"}}>{error}</p>} */}
 
             <div
@@ -179,13 +178,18 @@ const Login = () => {
             >
               <Button
                 type="primary"
+                ghost
                 size="large"
                 htmlType="submit"
                 style={{ width: "100px", fontSize: "1.1rem" }}
                 onClick={onSignUp}
                 disabled={!signInData?.password || !signInData?.phoneNumber}
               >
-                {strings.login.submit}
+                  {loading ? (
+                    <Spin indicator={<LoadingOutlined spin />} />
+                  ) : (
+                    strings.register.submit
+                  )}
               </Button>
             </div>
           </Form>

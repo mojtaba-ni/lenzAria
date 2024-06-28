@@ -40,7 +40,7 @@ const SingleBlog = () => {
         />
         {blog?.detail?.length > 0 &&
         blog?.detail.map((item,index) => (
-          <div key={index} className={style.singleBlogWrapper}>
+          <div key={index} className={style.singleBlogWrapperInside}>
             <div>
               <h2>{item?.headline}</h2>
             </div>

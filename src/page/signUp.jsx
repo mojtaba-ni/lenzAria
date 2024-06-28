@@ -81,14 +81,7 @@ const SignUp = () => {
     <>
       {contextHolder}
       <div
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#e3e3e3",
-          height: "100vh",
-        }}
+        className={style.signupWrapper}
       >
         <Card className={style.singupBox}>
           <div className=" d-flex flex-column align-items-center">
@@ -108,7 +101,7 @@ const SignUp = () => {
                   rules={[
                     {
                       required: true,
-                      message: strings.profile.errorMessage.productNameError,
+                      message: strings.profile.errorMessage.usernameError,
                     },
                   ]}
                 >
@@ -131,7 +124,7 @@ const SignUp = () => {
                   rules={[
                     {
                       required: true,
-                      message: strings.profile.errorMessage.productNameError,
+                      message: strings.profile.errorMessage.phoneNumberError,
                     },
                   ]}
                 >
@@ -153,7 +146,7 @@ const SignUp = () => {
                   rules={[
                     {
                       required: true,
-                      message: strings.profile.errorMessage.productNameError,
+                      message: strings.profile.errorMessage.passwordError,
                     },
                   ]}
                 >

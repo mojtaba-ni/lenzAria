@@ -77,6 +77,12 @@ const Profile = () => {
     navigate("/favorite")
   }
 
+  const handleLogOut = () => {
+    localStorage.removeItem("userData");
+    localStorage.removeItem("favoritePr");
+    navigate(`/login`);
+  };
+
   useEffect(() => {
     getLocationData()
   }, [updateLoc])
@@ -118,7 +124,7 @@ const Profile = () => {
               <li className={activePart === 2 ? style.profileLiActive : style.profileLi }>{strings.profile.address}</li>
               {/* <li className={activePart === 3 ? style.profileLiActive : style.profileLi }>{strings.profile.account}</li> */}
               <li className={activePart === 4 ? style.profileLiActive : style.profileLi } onClick={handleFavorite}>{strings.profile.favorite}</li>
-              <li className={activePart === 5 ? style.profileLiActive : style.profileLi }>{strings.profile.logout}</li>
+              <li className={activePart === 5 ? style.profileLiActive : style.profileLi } onClick={handleLogOut}>{strings.profile.logout}</li>
             </div>
           </ul>
         </Col>

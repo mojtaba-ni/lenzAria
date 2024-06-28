@@ -6,6 +6,7 @@ import {
   StarFilled
 } from "@ant-design/icons";
 import { Link } from 'react-router-dom';
+import { commaThousondSeperator } from "../../shared/utils";
 
 const ProductCard = ({productInfo}) => {
   console.log({productInfo});
@@ -23,7 +24,8 @@ const ProductCard = ({productInfo}) => {
         <StarFilled style={{color:"#e3e3e3" , fontSize:"1.2rem"}} />
         </div>
        
-        <strong>{productInfo ? `${productInfo?.price} تومان` : "485000 تومان"}</strong>
+        <strong>{productInfo && commaThousondSeperator(productInfo?.price) + ` تومان` }</strong>
+        
         </div>
        
     </Card>

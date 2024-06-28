@@ -52,6 +52,9 @@ const Navbar = () => {
   const [acc, setAcc] = useState([]);
   const [listP, setListP] = useState([]);
 
+  
+
+
   const getAllCategories = async () => {
     const { data } = await axios.get(`${path}/api/category/getAllCategory`);
     setCategory(data?.data);
@@ -108,13 +111,19 @@ const Navbar = () => {
   };
   const handleLogOut = () => {
     localStorage.removeItem("userData");
+    localStorage.removeItem("favoritePr");
     navigate(`/login`);
   };
+  
+ 
 
   useEffect(() => {
     getAllCategories();
     getAllBrand();
+    
   }, []);
+
+  
 
   return (
     <div className={styles.navContainer}>
@@ -294,7 +303,7 @@ const Navbar = () => {
           ) : (
             <SunOutlined className={styles.navUserIc} onClick={switchTheme} />
           )}
-          <Badge count={orderList && orderList[0]?.count} size="large">
+          <Badge count={orderList && orderList?.length} size="large">
             <ShoppingCartOutlined
               className={styles.navUserIc}
               onClick={() => handleIconAddress("order")}

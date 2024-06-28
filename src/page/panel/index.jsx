@@ -26,6 +26,7 @@ import PopularPrSection from "./popular/productSection";
 import Map from "./map";
 import MapPage from "../map";
 import MapPanel from "./map";
+import notFoundImg from "../../assets/images/notFound.jpg" 
 
 const Panel = () => {
   const [banerShow, setBanerShow] = useState(false);
@@ -34,7 +35,22 @@ const Panel = () => {
   return (
     <>
       {(!userData || userData?.role === "user") ? (
-        <div>nothing</div>
+        <div    style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          minHeight:"100vh",
+          gap:"2rem"
+        }}>
+          <img src={notFoundImg} style={{borderRadius:"25%"}} alt="notFoundImg" width={400} height={400} />
+          <div
+                className={style.notFoundTitle}
+              >
+                <h4>صفحه مورد نظر یافت نشد</h4>
+              </div>
+        </div>
       ) : (
         <Row style={{ height: "100vh" }}>
           <Col span={5}>
