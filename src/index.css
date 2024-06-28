@@ -1,7 +1,7 @@
 @font-face {
-    font-family: "iransans";
-    src: url("./assets/fonts/iransans.eot"),
-        url("./assets/fonts/iransans.ttf")
+    font-family: "yekan";
+    src: url("./assets/fonts/YekanBakhRegular.ttf")
+       
 
 }
 
@@ -10,12 +10,17 @@
     --text-primary: black;
     --text-secondary: royalblue;
     --accent: purple;
+    --blog: white;
+    --TitleImg: rgb(52 8 94 / 100%);
+    --bgTitleImg: rgb(52 8 94 / 10%);
   }
   [data-theme='dark'] {
     --background: #292929;
     --text-primary: white;
     --text-secondary: grey;
-    --accent: darkred;
+    --blog: #33323294;
+    --TitleImg: white;
+    --bgTitleImg: rgb(193 127 255 / 10%);
   }
 
   .app{
@@ -25,7 +30,7 @@
 
 *{
     direction: rtl;
-    font-family: "iransans !important";
+    font-family: "yekan !important";
 }
 body{
     margin: 0;
@@ -41,6 +46,7 @@ p{
 }
 h1,h2,h3,h4,h5{
     margin: 0;
+    
 }
 .ant-table-thead .ant-table-cell {
     color: blue !important;

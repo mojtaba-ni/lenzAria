@@ -16,13 +16,21 @@
     min-height: 60vh;
 }
 .singleBlogWrapper{
-    background-color: #e3e3e3;
+    background-color: var(--blog);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
     padding:2rem 0;
+}
+.singleBlogWrapperInside{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding:2rem 0;
 }
 
 .singleBlogImg{
