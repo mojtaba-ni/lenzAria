@@ -6,6 +6,7 @@ import {
   EditOutlined,
   PictureOutlined,
   EnvironmentOutlined,
+  HomeOutlined
 } from "@ant-design/icons";
 import { GoChecklist } from "react-icons/go";
 import { FiUsers } from "react-icons/fi";
@@ -23,15 +24,13 @@ import ModelBanner from "./baner/modelBanner";
 import Question from "./question";
 import PopularSection from "./popular/section";
 import PopularPrSection from "./popular/productSection";
-import Map from "./map";
-import MapPage from "../map";
 import MapPanel from "./map";
 import notFoundImg from "../../assets/images/notFound.jpg" 
 
 const Panel = () => {
   const [banerShow, setBanerShow] = useState(false);
   const userData = JSON.parse(localStorage.getItem("userData"));
-  console.log({userData});
+ 
   return (
     <>
       {(!userData || userData?.role === "user") ? (
@@ -61,7 +60,10 @@ const Panel = () => {
                   icon={<UserOutlined />}
                   className={style.panelSideIcon}
                 />
-                <h4 style={{ color: "#F0E68C" }}>amir.moradi</h4>
+                <h4 style={{ color: "#F0E68C" }}>{userData?.username}</h4>
+                <Link to={"/"} className={style.homeIC}>
+                <HomeOutlined />
+                </Link>
               </div>
               <div className={style.panelSideLi}>
                 <FiUsers style={{ fontSize: "1.3rem", color: "#F0E68C" }} />

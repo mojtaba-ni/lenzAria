@@ -5,16 +5,16 @@ import {
   EyeTwoTone,
   PhoneFilled,
   LoadingOutlined,
+  InteractionOutlined
 } from "@ant-design/icons";
 import { strings } from "../shared/language";
 import { BiSolidUser } from "react-icons/bi";
 import { RiLockPasswordFill } from "react-icons/ri";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
 import style from "./styles/signup.module.css";
-import { hCaptchaSiteToken, path } from "../shared/config";
+import { path } from "../shared/config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import ClientCaptcha from "react-client-captcha";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -22,23 +22,32 @@ const SignUp = () => {
     username: null,
     phoneNumber: null,
     password: null,
+    captcha: null,
   });
 
   const [messageApi, contextHolder] = message.useMessage();
-  
 
 
-  const [token, setToken] = useState("");
   const [error, setError] = useState("");
+  const [captchaCode, setcCaptchaCode] = useState("");
   const [loading, setLoading] = useState(false);
 
   const captcha = useRef();
- 
 
   const onSignUp = async () => {
     setLoading(true);
-    if (!token) {
-      setError("کد امنیتی را وارد کنید");
+    if (signInData?.captcha !== captchaCode) {
+      messageApi.open({
+        type: "error",
+        content: "کد امنیتی اشتباه وارد شده است",
+        style: {
+          marginTop: '10vh',
+          height:"100px !important",
+          width:"200px !important"
+        },
+        duration: 5,
+      });
+      setLoading(false);
       return;
     }
     setError("");
@@ -47,7 +56,6 @@ const SignUp = () => {
       username: signInData.username,
       phoneNumber: signInData.phoneNumber,
       password: signInData.password,
-      token:token
     };
 
     const res = await axios.post(`${path}/api/register/signup`, data);
@@ -61,15 +69,16 @@ const SignUp = () => {
       },
       duration: 5,
     });
-   
+
     setLoading(false);
-    if(res?.data?.isSuccess ){
-      localStorage.setItem('userData', JSON.stringify(res?.data?.data));
+    if (res?.data?.isSuccess) {
+      localStorage.setItem("userData", JSON.stringify(res?.data?.data));
       navigate("/");
     }
-    
   };
-
+    const handleCaptcha = (code) =>{
+      setcCaptchaCode(code)
+    }
   const handleInp = (event) => {
     setSignInData((prevState) => ({
       ...prevState,
@@ -80,9 +89,7 @@ const SignUp = () => {
   return (
     <>
       {contextHolder}
-      <div
-        className={style.signupWrapper}
-      >
+      <div className={style.signupWrapper}>
         <Card className={style.singupBox}>
           <div className=" d-flex flex-column align-items-center">
             <p className="text-center h2 fw-bold mb-5 mx-1 mx-md-4 mt-4">
@@ -140,6 +147,7 @@ const SignUp = () => {
                 style={{ gap: ".7rem" }}
               >
                 <RiLockPasswordFill style={{ fontSize: "1.8rem" }} />
+              
                 <h5 className={style.inputBoxTitle}>رمز عبور</h5>
                 <Form.Item
                   name="password"
@@ -161,15 +169,29 @@ const SignUp = () => {
                 </Form.Item>
               </div>
 
-              <div className="d-flex flex-row align-items-center mb-4" style={{justifyContent:"space-around"}} >
-              <h5 className={style.inputBoxTitle}>کد امنیتی</h5>
-              <HCaptcha
+              <div
+                className="d-flex flex-row align-items-center mb-4"
+                style={{ gap:".7rem" }}
+              >
+                <InteractionOutlined style={{ fontSize: "1.8rem" }} />
+                <h5 className={style.inputBoxTitle}>کد امنیتی</h5>
+                {/* <HCaptcha
                 ref={captcha}
                 sitekey={hCaptchaSiteToken}
                 onVerify={(token) => setToken(token)}
                 onExpire={(e) => setToken("")}
-              />
-            </div> 
+              /> */}
+                <div className={style.inputBoxCaptcha}>
+                  <Input
+                    name="captcha"
+                    onChange={(e) => handleInp(e)}
+                    className={style.inputBox}
+                  />
+                  <div style={{ position: "absolute", top: "2px", left: 0 }}>
+                    <ClientCaptcha captchaCode={(code) => handleCaptcha(code)}/>
+                  </div>
+                </div>
+              </div>
               {/* /* {error && <p style={{textAlign:"center" , color:"red"}}>{error}</p>} */}
 
               <div
@@ -191,7 +213,8 @@ const SignUp = () => {
                   disabled={
                     !signInData?.password ||
                     !signInData?.phoneNumber ||
-                    !signInData?.username
+                    !signInData?.username ||
+                    !signInData?.captcha
                   }
                 >
                   {loading ? (

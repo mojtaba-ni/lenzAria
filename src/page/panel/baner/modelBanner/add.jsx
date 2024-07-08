@@ -28,7 +28,6 @@ const AddModelBanner = () => {
             image: pic
         }
         const res = await axios.post(`${path}/api/modelBanner/add` , data )
-        console.log({res});
         navigate('/panel/modelBanner')
       }
   return (

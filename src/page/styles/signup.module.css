@@ -9,13 +9,17 @@
   
 .inputBox {
   width: 350px;
-  height: 40px;
+  height: 44px;
+}
+.inputBoxCaptcha{
+  position: relative;
 }
 .inputBoxTitle {
   font-weight: 600;
   font-size: 1rem;
   min-width: 70px;
 }
+
 .singupBox {
   border-radius: "25px";
   width: 520;

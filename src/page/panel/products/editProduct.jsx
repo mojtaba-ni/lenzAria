@@ -25,9 +25,11 @@ const EditProduct = () => {
   const [activeStep, setActiveStep] = useState(null);
   const [step, setStep] = useState([]);
   const [img, setImg] = useState(null);
+  const [lenzImg, setLenzImg] = useState(null);
   const [activeBrand, setActiveBrand] = useState(null);
   const [activePeriod, setActivePeriod] = useState(null);
   const [brand, setBrand] = useState(null);
+  const [lenzFile, setLenzFile] = useState(null);
 
   const period = [
     { value: 1, label: "روزانه" },
@@ -35,6 +37,13 @@ const EditProduct = () => {
     { value: 3, label: "فصلی" },
     { value: 4, label: "سالانه" },
   ];
+
+  const handleLenzFileChange = (e) => {
+    if (e.target.files) {
+      setLenzFile(e.target.files[0]);
+      setLenzImg(null);
+    }
+  };
 
   const handleProductForm = (event, name) => {
     setProductForm((prevState) => ({
@@ -65,6 +74,10 @@ const EditProduct = () => {
   };
 
   const handleSubmit = async () => {
+    var lenz = null
+    if(lenzFile){
+      lenz = await toBase64(lenzFile);
+    }
     const data = {
       productId:productForm?.productId,
       step:{
@@ -86,7 +99,7 @@ const EditProduct = () => {
       description: productForm?.description,
       price: parseInt(productForm?.price),
       image:img ? img :  await toBase64(file),
-      count: productForm?.count,
+      imageLenz: lenz
     };
     
     const res = await axios.put(
@@ -160,6 +173,7 @@ const EditProduct = () => {
     setActiveStep({ label : data?.data?.step?.title , value : data?.data?.step?.id})
     setActiveCategory({ label : data?.data?.category?.title , value : data?.data?.category?.id})
     setImg(data?.data?.image);
+    setLenzImg(data?.data?.imageLenz);
   };
 
   useEffect(() => {
@@ -436,6 +450,26 @@ const EditProduct = () => {
           <section>
             جزیات عکس:
             <img src={file || img} alt="image" width={200} />
+          </section>
+        )}
+             <div className={style.descprofileLi}>
+          <Typography.Title level={5}>عکس لنز</Typography.Title>
+          <Form.Item
+            name="file"
+            rules={[
+              {
+                required: true,
+                message: strings.profile.errorMessage.uploadError,
+              },
+            ]}
+          >
+            <input id="lenzFile" type="file" onChange={handleLenzFileChange} />
+          </Form.Item>
+        </div>
+        {(file || lenzImg)  &&(
+          <section>
+            جزیات عکس:
+            <img src={file || lenzImg} alt="image" width={200} />
           </section>
         )}
 

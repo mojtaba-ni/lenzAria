@@ -13,7 +13,6 @@ const Search = () => {
   const params = useParams();
 
   const [allProduct, setAllProduct] = useState([]);
-  console.log({ allProduct });
   const [periodTitle, setPeriodtitle] = useState();
   const [loading, setLoading] = useState(false);
  

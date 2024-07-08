@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const FavoritePage = () => {
   const [favPr, setFavPr] = useState();
-  console.log({ favPr });
+ 
 
   useEffect(() => {
     const product = localStorage.getItem("favoritePr");

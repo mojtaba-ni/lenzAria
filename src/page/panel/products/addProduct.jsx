@@ -22,7 +22,6 @@ const AddProduct = () => {
     description: null,
     Specifications: null,
     price: null,
-    count: null,
   });
  
   const [file, setFile] = useState(null);
@@ -53,7 +52,7 @@ const AddProduct = () => {
 
   const handleFileChange = (e) => {
     if (e.target.files) {
-      setFile(e.target.files[0]);
+      setFile(e?.target?.files[0]);
     }
   };
 
@@ -65,6 +64,11 @@ const AddProduct = () => {
 
   const handleSubmit = async () => {
     const pic = await toBase64(file);
+    var lenz = null
+    if(lenzFile){
+      lenz = await toBase64(lenzFile);
+    }
+   
     const data = {
    
       step: {
@@ -86,7 +90,8 @@ const AddProduct = () => {
       periodId: activePeriod.value,
       price: parseInt(productForm?.price),
       image: pic,
-      count: productForm?.count,
+      imageLenz: lenz
+
     };
     await axios.post(`${path}/api/product/add`, data);
     navigate("/panel/product");
@@ -365,24 +370,6 @@ const AddProduct = () => {
           </Form.Item>
         </div>
         <div className={style.descprofileLi}>
-          <Typography.Title level={5}>تعداد</Typography.Title>
-          <Form.Item
-            name="count"
-            rules={[
-              {
-                required: true,
-                message: strings.profile.errorMessage.numberError,
-              },
-            ]}
-          >
-            <Input
-              placeholder="..."
-              name="count"
-              onChange={(e) => handleProductForm(e, "count")}
-            />
-          </Form.Item>
-        </div>
-        <div className={style.descprofileLi}>
           <Typography.Title level={5}>عکس محصول</Typography.Title>
           <Form.Item
             name="file"
@@ -400,16 +387,16 @@ const AddProduct = () => {
           <section>
             جزیات عکس:
             <ul>
-              <li>Name: {file?.name}</li>
-              <li>Type: {file?.type}</li>
-              <li>Size: {file?.size} bytes</li>
+              <li>Name: {file.name}</li>
+              <li>Type: {file.type}</li>
+              <li>Size: {file.size} bytes</li>
             </ul>
           </section>
         )}
           <div className={style.descprofileLi}>
           <Typography.Title level={5}>عکس لنز</Typography.Title>
           <Form.Item
-            name="file"
+            name="lenzFile"
             rules={[
               {
                 required: true,
@@ -420,7 +407,7 @@ const AddProduct = () => {
             <input id="lenzFile" type="file" onChange={handleLenzFileChange} />
           </Form.Item>
         </div>
-        {file && (
+        {lenzFile && (
           <section>
             جزیات عکس:
             <ul>

@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import CustomModal from "../../../components/Modal";
-import { dateFullFilter } from "../../../shared/utils";
+import { commaThousondSeperator, dateFullFilter } from "../../../shared/utils";
 import { path } from "../../../shared/config";
 
 
@@ -54,7 +54,11 @@ const ProductList = () => {
     {
       title: strings.panel.product.price,
       dataIndex: "price",
-      key: "price",
+      render: (_, record) => (
+        <Space size="middle">
+            {record?.price && commaThousondSeperator(record?.price)}
+        </Space>
+        ),
     },
     {
       title: strings.panel.blog.createdAt,

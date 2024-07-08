@@ -10,7 +10,7 @@ import { commaThousondSeperator } from "../../shared/utils";
 const Order = () => {
   const { updateOrderUser,orderList } = useOrder();
   const [price, setPrice] = useState()
-  console.log({orderList});
+  
 
   const sumOrderPrice = () => {
     let price = 0

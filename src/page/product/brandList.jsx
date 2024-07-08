@@ -10,7 +10,6 @@ import { path } from "../../shared/config";
 
 const BrandList = () => {
   const params = useParams();
-  console.log({ params });
   const [allProduct, setAllProduct] = useState();
   const [brandTitle, setBrandTitle] = useState();
   const [loading, setLoading] = useState(false);

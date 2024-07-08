@@ -33,6 +33,25 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  position: relative;
+}
+.homeIC{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  svg{
+    color: #fff;
+    width: 20px;
+    height: 20px;
+  
+  }
 }
 .panelBanerLi {
   padding: 0.3rem;
@@ -59,3 +78,4 @@
   border-radius: 10px;
   padding: 0.5rem 1rem;
 }
+

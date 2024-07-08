@@ -21,6 +21,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSearch } from "../shared/store/useSearch";
 import useLocalStorage from "use-local-storage";
 import { path } from "../shared/config";
+import Model from "../components/model";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -187,6 +188,7 @@ const Home = () => {
           </Col>
         </Row>
         <Questions />
+        <Model/>
         <Education />
         <Footer />
       </div>

@@ -28,7 +28,7 @@ const AddOfferBanner = () => {
             image: pic
         }
         const res = await axios.post(`${path}/api/offerBanner/add` , data )
-        console.log({res});
+      
         navigate('/panel/offerBanner')
       }
   return (
