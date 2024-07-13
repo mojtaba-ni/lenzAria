@@ -35,7 +35,7 @@ const Navbar = () => {
   };
   const userData = JSON.parse(localStorage.getItem("userData"));
 
-  const { orderList} = useOrder();
+  const { orderList } = useOrder();
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -52,11 +52,9 @@ const Navbar = () => {
   const [acc, setAcc] = useState([]);
   const [listP, setListP] = useState([]);
 
-  
-
-
   const getAllCategories = async () => {
     const { data } = await axios.get(`${path}/api/category/getAllCategory`);
+    console.log({ data });
     setCategory(data?.data);
     let listMd = [];
     let listCl = [];
@@ -97,6 +95,9 @@ const Navbar = () => {
   const handleShowLenzMenu = () => {
     setShowLenz(true);
   };
+  const handleShowAcc = () => {
+    setShowAcc(true);
+  };
   const handleShowListPr = () => {
     setShowListPr(true);
   };
@@ -114,16 +115,11 @@ const Navbar = () => {
     localStorage.removeItem("favoritePr");
     navigate(`/login`);
   };
-  
- 
 
   useEffect(() => {
     getAllCategories();
     getAllBrand();
-    
   }, []);
-
-  
 
   return (
     <div className={styles.navContainer}>
@@ -216,7 +212,7 @@ const Navbar = () => {
               ))}
             </div>
           </li>
-          <li className={styles.navCol}>
+          <li className={styles.navCol} onMouseOver={handleShowAcc}>
             <h4>{strings.navbar.accessories}</h4>
             <DownOutlined className={styles.navColIC} />
             <div
@@ -229,7 +225,7 @@ const Navbar = () => {
                     className={styles.navListTitleLine}
                     to={`/products/${item._id}`}
                   >
-                    <h3>{item.title}</h3>
+                    <h3>{item?.title}</h3>
                   </Link>
                   <ul className={styles.navListBody}>
                     {item.step.map((sub, index) => (

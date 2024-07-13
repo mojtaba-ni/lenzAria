@@ -30,7 +30,7 @@ const SectionList = () => {
   }
 
   const handleDelete = async (id) => {
-    const res = await axios.delete(`${path}/api/section/delete`, {
+    await axios.delete(`${path}/api/section/delete`, {
       data: { sectionId: id},
     });
     setShowRemoveModal(false)

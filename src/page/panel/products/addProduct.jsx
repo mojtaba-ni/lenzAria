@@ -90,7 +90,7 @@ const AddProduct = () => {
       periodId: activePeriod.value,
       price: parseInt(productForm?.price),
       image: pic,
-      imageLenz: lenz
+      lenzImage: lenz ? lenz : null 
 
     };
     await axios.post(`${path}/api/product/add`, data);
@@ -340,7 +340,7 @@ const AddProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={300}
+              maxLength={500}
               placeholder="..."
               style={{
                 height: 120,

@@ -24,8 +24,8 @@ const AddPrSection = () => {
   const handleChangeStep = (value) => {
     setActiveStep(value);
   };
-  const handleChangTitle = (value) => {
-    setSectionTitle(value);
+  const handleChangeTitle = (e) => {
+    setSectionTitle(e?.target.value);
   };
 
   const handleFileChange = (e) => {
@@ -81,7 +81,7 @@ const AddPrSection = () => {
         title:sectionTitle,
         image: pic,
     }
-    await axios.post(`${path}/api/productSection/add` ,data)
+   await axios.post(`${path}/api/productSection/add` ,data)
     navigate("/panel/popularProductSection");
   }
 
@@ -112,7 +112,7 @@ const AddPrSection = () => {
             <Input
               placeholder="..."
               name="name"
-              onChange={(e) => handleChangTitle(e)}
+              onChange={(e) => handleChangeTitle(e)}
             />
           </Form.Item>
         </div>

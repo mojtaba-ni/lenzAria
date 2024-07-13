@@ -12,9 +12,7 @@ const SingleBlog = () => {
   const [blog, setBlog] = useState();
 
   const getBlogById = async () => {
-    const { data } = await axios.get(
-      `${path}/api/blog/getById?id=${id}`
-    );
+    const { data } = await axios.get(`${path}/api/blog/getById?id=${id}`);
     if (!data.isSuccess) {
       return;
     }
@@ -32,28 +30,30 @@ const SingleBlog = () => {
         <div>
           <h2>{blog?.blogTitle}</h2>
         </div>
-        <p>{blog?.introduction}</p>
+        <div style={{textAlign:"right" , width:"100%"}}>
+          <p style={{fontSize:"18px"}}>{blog?.introduction}</p>
+        </div>
+
         <img
           src={imgBl}
           alt={blog?.blogTitle}
           className={style.singleBlogImg}
         />
         {blog?.detail?.length > 0 &&
-        blog?.detail.map((item,index) => (
-          <div key={index} className={style.singleBlogWrapperInside}>
-            <div>
-              <h2>{item?.headline}</h2>
+          blog?.detail.map((item, index) => (
+            <div key={index} className={style.singleBlogWrapperInside}>
+              <div style={{textAlign:"right" , width:"100%"}}>
+                <h2>{item?.headline}</h2>
+              </div>
+              <p style={{fontSize:"18px"}}>{item?.desc}</p>
+              <img
+                src={imgBl}
+                alt={blog?.blogTitle}
+                className={style.singleBlogImg}
+              />
             </div>
-            <p>{item?.desc}</p>
-            <img
-              src={imgBl}
-              alt={blog?.blogTitle}
-              className={style.singleBlogImg}
-            />
-          </div>
-        ))}
+          ))}
       </div>
-      
 
       <Footer />
     </div>

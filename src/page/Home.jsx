@@ -31,11 +31,15 @@ const Home = () => {
   const [search, setSearch] = useState(false);
   const [brand, setBrand] = useState();
   const [section, setSection] = useState();
+  const [prSection, setPrSection] = useState();
   const [newPr, setNewPr] = useState([]);
   const [sectionLoading, setSectionLoading] = useState(false);
 
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
+  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [theme, setTheme] = useLocalStorage(
+    "theme",
+    defaultDark ? "dark" : "light"
+  );
 
   const arrSkeleton = [0, 1, 2, 3];
 
@@ -52,30 +56,30 @@ const Home = () => {
     setSearch(search);
   };
   const getNewProduct = async () => {
-    const { data } = await axios.get(
-      `${path}/api/product/getNewProduct`
-    );
+    const { data } = await axios.get(`${path}/api/product/getNewProduct`);
     setNewPr(data?.data);
+  };
+
+  const getAllPrSection = async () => {
+    const { data } = await axios.get(`${path}/api/productSection/getAll`);
+    setPrSection(data?.data);
   };
 
   const getAllSection = async () => {
     setSectionLoading(true);
-    const { data } = await axios.get(
-      `${path}/api/section/getAll`
-    );
+    const { data } = await axios.get(`${path}/api/section/getAll`);
     setSection(data?.data);
     setSectionLoading(false);
   };
   const geyAllBrand = async () => {
-    const { data } = await axios.get(
-      `${path}/api/brand/getAllBrand`
-    );
+    const { data } = await axios.get(`${path}/api/brand/getAllBrand`);
     setBrand(data?.data);
   };
   useEffect(() => {
     geyAllBrand();
     getAllSection();
     getNewProduct();
+    getAllPrSection();
   }, []);
 
   return (
@@ -110,8 +114,10 @@ const Home = () => {
           </SwiperSlide>
         </Swiper>
 
-        <div className={theme === 'light' ? styles.lenzBox : styles.lenzBoxDark }>
-          <Row justify="space-evenly"> 
+        <div
+          className={theme === "light" ? styles.lenzBox : styles.lenzBoxDark}
+        >
+          <Row justify="space-evenly">
             {sectionLoading
               ? arrSkeleton?.map((item, index) => (
                   <Col
@@ -119,7 +125,13 @@ const Home = () => {
                     md={6}
                     key={index}
                   >
-                    <Skeleton.Input style={{ marginBottom: ".5rem" , minHeight:"230px", minWidth:"250px" }} />
+                    <Skeleton.Input
+                      style={{
+                        marginBottom: ".5rem",
+                        minHeight: "230px",
+                        minWidth: "250px",
+                      }}
+                    />
                   </Col>
                 ))
               : section?.map((item, index) => (
@@ -158,7 +170,7 @@ const Home = () => {
             <img src={bannerImgSec} alt="offer" />
           </Col>
         </Row>
-        <Bestpart title={strings.landing.bestSellers} data={newPr}  />
+        <Bestpart title={strings.landing.bestSellers} data={newPr} />
         <div
           style={{
             backgroundColor: "#6fb5be69",
@@ -174,21 +186,26 @@ const Home = () => {
           ))}
         </div>
         <Row className={styles.bannerBox}>
-          <Col sm={24} md={12} className={styles.bannerCol}>
-            <Card hoverable>
-              <img src={bannerPt} alt="offer" />
-              <div className={styles.cardTitle}>لنز عسلی</div>
-            </Card>
-          </Col>
-          <Col sm={24} md={12} className={styles.bannerCol}>
+          {prSection?.map((item, index) => (
+            <Col sm={24} md={12} className={styles.bannerCol} key={index}>
+              <Link to={`/products/${item?.step?.id}`}>
+                <Card hoverable>
+                  <img src={item?.image} alt="offer" />
+                  <div className={styles.cardTitle}>{item?.title}</div>
+                </Card>
+              </Link>
+            </Col>
+          ))}
+
+          {/* <Col sm={24} md={12} className={styles.bannerCol}>
             <Card hoverable>
               <img src={bannerPtSec} alt="offer" />
               <div className={styles.cardTitle}>لنز عسلی</div>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
         <Questions />
-        <Model/>
+        <Model />
         <Education />
         <Footer />
       </div>

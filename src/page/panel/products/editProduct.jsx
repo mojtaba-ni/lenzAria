@@ -16,10 +16,10 @@ const EditProduct = () => {
     Specifications: null,
     price: null,
     productId: null,
-    count: null,
   });
 
   const [file, setFile] = useState(null);
+  const [lenzFile, setLenzFile] = useState(null);
   const [category, setCategory] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeStep, setActiveStep] = useState(null);
@@ -29,7 +29,6 @@ const EditProduct = () => {
   const [activeBrand, setActiveBrand] = useState(null);
   const [activePeriod, setActivePeriod] = useState(null);
   const [brand, setBrand] = useState(null);
-  const [lenzFile, setLenzFile] = useState(null);
 
   const period = [
     { value: 1, label: "روزانه" },
@@ -55,12 +54,11 @@ const EditProduct = () => {
   const handleFileChange = (e) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
-      setImg(null)
+      setImg(null);
     }
   };
 
   const handleChange = (value) => {
-  
     setActiveCategory(value);
   };
   const handleChangeStep = (value) => {
@@ -74,45 +72,40 @@ const EditProduct = () => {
   };
 
   const handleSubmit = async () => {
-    var lenz = null
-    if(lenzFile){
+    var lenz = null;
+    if (lenzFile) {
       lenz = await toBase64(lenzFile);
     }
     const data = {
-      productId:productForm?.productId,
-      step:{
-        id:activeStep?.value,
-        title:activeStep?.label,
+      productId: productForm?.productId,
+      step: {
+        id: activeStep?.value,
+        title: activeStep?.label,
       },
-      category:{
-        id:activeCategory?.value,
-        title:activeCategory?.label,
+      category: {
+        id: activeCategory?.value,
+        title: activeCategory?.label,
       },
       name: productForm?.name,
       Specifications: productForm?.Specifications,
-      brand:{
+      brand: {
         id: activeBrand?.value,
         title: activeBrand?.label,
       },
-      period:activePeriod.label,
-      periodId:activePeriod.value,
+      period: activePeriod.label,
+      periodId: activePeriod.value,
       description: productForm?.description,
       price: parseInt(productForm?.price),
-      image:img ? img :  await toBase64(file),
-      imageLenz: lenz
+      image: img ? img : await toBase64(file),
+      imageLenz: lenz,
     };
-    
-    const res = await axios.put(
-      `${path}/api/product/update`,
-      data
-    );
+
+    const res = await axios.put(`${path}/api/product/update`, data);
     navigate("/panel/product");
   };
 
   const getAllCategory = async () => {
-    const { data } = await axios.get(
-      `${path}/api/category/getAllCategory`
-    );
+    const { data } = await axios.get(`${path}/api/category/getAllCategory`);
 
     const categoryList = [];
     data?.data.forEach((element) => {
@@ -124,11 +117,9 @@ const EditProduct = () => {
     });
     setCategory(categoryList);
   };
-  const getAllBrand = async() => {
-    const { data } = await axios.get(
-      `${path}/api/brand/getAllBrand`
-    );
-    const brandList = []; 
+  const getAllBrand = async () => {
+    const { data } = await axios.get(`${path}/api/brand/getAllBrand`);
+    const brandList = [];
     data?.data.forEach((element) => {
       const brandLi = {
         label: element?.name,
@@ -136,17 +127,14 @@ const EditProduct = () => {
       };
       brandList.push(brandLi);
     });
-    
-    setBrand(brandList)
-  }
+
+    setBrand(brandList);
+  };
 
   const getAllSteps = async (activeCt) => {
-    const { data } = await axios.get(
-      `${path}/api/step/getAllStep`,
-      {
-        params: { id: activeCt?.value},
-      }
-    );
+    const { data } = await axios.get(`${path}/api/step/getAllStep`, {
+      params: { id: activeCt?.value },
+    });
     const stepList = [];
     data?.data.forEach((element) => {
       const categorLi = {
@@ -159,33 +147,44 @@ const EditProduct = () => {
   };
 
   const getProductDataById = async () => {
-    const { data } = await axios.get(
-      `${path}/api/product/getById?id=${id}`
-    );
+    const { data } = await axios.get(`${path}/api/product/getById?id=${id}`);
     setProductForm({
       Specifications: data?.data?.Specifications,
       description: data?.data?.description,
       name: data?.data?.name,
       price: data?.data?.price,
       productId: data?.data?._id,
-      count: data?.data?.count,
     });
-    setActiveStep({ label : data?.data?.step?.title , value : data?.data?.step?.id})
-    setActiveCategory({ label : data?.data?.category?.title , value : data?.data?.category?.id})
+    setActiveStep({
+      label: data?.data?.step?.title,
+      value: data?.data?.step?.id,
+    });
+    setActiveBrand({
+      label: data?.data?.brand?.title,
+      value: data?.data?.brand?.id,
+    });
+    setActivePeriod({
+      label: data?.data?.period,
+      value: data?.data?.periodId,
+    });
+    setActiveCategory({
+      label: data?.data?.category?.title,
+      value: data?.data?.category?.id,
+    });
     setImg(data?.data?.image);
-    setLenzImg(data?.data?.imageLenz);
+    setLenzImg(data?.data?.lenzImage);
   };
 
   useEffect(() => {
     getProductDataById();
     getAllCategory();
-    getAllBrand()
+    getAllBrand();
   }, []);
   useEffect(() => {
     if (activeCategory) {
       getAllSteps(activeCategory);
     }
-  }, [activeCategory , id]);
+  }, [activeCategory, id]);
   return (
     <div>
       <Form
@@ -205,6 +204,22 @@ const EditProduct = () => {
           {
             name: ["price"],
             value: productForm?.price,
+          },
+          {
+            name: ["category"],
+            value: activeCategory?.value,
+          },
+          {
+            name: ["step"],
+            value: activeStep?.value,
+          },
+          {
+            name: ["brand"],
+            value: activeBrand?.value,
+          },
+          {
+            name: ["period"],
+            value: activePeriod?.value,
           },
         ]}
       >
@@ -230,12 +245,10 @@ const EditProduct = () => {
                   labelInValue
                   onChange={handleChange}
                   options={category}
-                  defaultValue={
-                    {
-                      label: activeCategory?.label,
-                      value: activeCategory?.value,
-                    }
-                  }
+                  defaultValue={{
+                    label: activeCategory?.label,
+                    value: activeCategory?.value,
+                  }}
                 />
               </Form.Item>
             </div>
@@ -382,7 +395,7 @@ const EditProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={300}
+              maxLength={500}
               value={productForm?.Specifications}
               placeholder="..."
               style={{
@@ -413,65 +426,54 @@ const EditProduct = () => {
             />
           </Form.Item>
         </div>
-        <div className={style.descprofileLi}>
-          <Typography.Title level={5}>تعداد</Typography.Title>
-          <Form.Item
-            name="count"
-            rules={[
-              {
-                required: true,
-                message: strings.profile.errorMessage.numberError,
-              },
-            ]}
-          >
-            <Input
-              placeholder="..."
-              name="count"
-              value={productForm?.price}
-              onChange={(e) => handleProductForm(e, "count")}
-            />
-          </Form.Item>
+        <div style={{display:"flex" , gap:"1rem", marginTop:"1rem"}}>
+          <div>
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}>عکس محصول</Typography.Title>
+              <Form.Item
+                name="file"
+                rules={[
+                  {
+                    required: file || img ? false : true,
+                    message: strings.profile.errorMessage.uploadError,
+                  },
+                ]}
+              >
+                <input id="file" type="file" onChange={handleFileChange} />
+              </Form.Item>
+            </div>
+            {(file || img) && (
+              <section>
+                <img src={file || img} alt="image" width={200} style={{maxHeight:"200px"}}/>
+              </section>
+            )}
+          </div>
+          <div>
+            <div className={style.descprofileLi} style={{ marginTop: "1rem" }}>
+              <Typography.Title level={5}>عکس لنز</Typography.Title>
+              <Form.Item
+                name="lenzFile"
+                rules={[
+                  {
+                    required: lenzFile || lenzImg ? false : true,
+                    message: strings.profile.errorMessage.uploadError,
+                  },
+                ]}
+              >
+                <input
+                  id="lenzFile"
+                  type="file"
+                  onChange={handleLenzFileChange}
+                />
+              </Form.Item>
+            </div>
+            {(lenzFile || lenzImg) && (
+              <section>
+                <img src={lenzFile || lenzImg} alt="image" width={200} style={{maxHeight:"200px"}} />
+              </section>
+            )}
+          </div>
         </div>
-        <div className={style.descprofileLi}>
-          <Typography.Title level={5}>عکس محصول</Typography.Title>
-          <Form.Item
-            name="file"
-            rules={[
-              {
-                required: (file || img)? false : true,
-                message: strings.profile.errorMessage.uploadError,
-              },
-            ]}
-          >
-            <input id="file" type="file" onChange={handleFileChange} />
-          </Form.Item>
-        </div>
-        {(file || img) &&  (
-          <section>
-            جزیات عکس:
-            <img src={file || img} alt="image" width={200} />
-          </section>
-        )}
-             <div className={style.descprofileLi}>
-          <Typography.Title level={5}>عکس لنز</Typography.Title>
-          <Form.Item
-            name="file"
-            rules={[
-              {
-                required: true,
-                message: strings.profile.errorMessage.uploadError,
-              },
-            ]}
-          >
-            <input id="lenzFile" type="file" onChange={handleLenzFileChange} />
-          </Form.Item>
-        </div>
-        {(file || lenzImg)  &&(
-          <section>
-            جزیات عکس:
-            <img src={file || lenzImg} alt="image" width={200} />
-          </section>
-        )}
 
         <div
           style={{
