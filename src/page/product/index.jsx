@@ -1,6 +1,6 @@
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, Divider } from "antd";
@@ -13,44 +13,40 @@ import style from "../styles/product/style.module.css";
 import { path } from "../../shared/config";
 import { commaThousondSeperator } from "../../shared/utils";
 
-
 const ProductPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState();
   const [newproduct, setNewProduct] = useState([]);
   const [count, setCount] = useState(0);
   const [ShowPart, setShowPart] = useState(1);
+  const [showActiveFav, setShowActiveFav] = useState(false);
 
-  const { orderList, updateOrderList , updateOrderUser } = useOrder();
-  let lastPr = []
-  let allPr = JSON.parse(localStorage.getItem("favoritePr")) 
-  
+  const { orderList, updateOrderList, updateOrderUser } = useOrder();
+  let lastPr = [];
+  let allPr = JSON.parse(localStorage.getItem("favoritePr"));
+  const userData = JSON.parse(localStorage.getItem("userData"));
 
   const getProduct = async () => {
-    const { data } = await axios.get(
-      `${path}/api/product/getById?id=${id}`
-    );
+    const { data } = await axios.get(`${path}/api/product/getById?id=${id}`);
     setProduct(data?.data);
   };
   const getNewProduct = async () => {
-    const { data } = await axios.get(
-      `${path}/api/product/getnewProduct`
-    );
+    const { data } = await axios.get(`${path}/api/product/getnewProduct`);
     setNewProduct(data?.data);
   };
 
   const handleOrderSubmit = () => {
     setCount(count + 1);
-    
-    
+
     const data = {
       name: product?.name,
       price: count + 1 > 0 ? product?.price * (count + 1) : product?.price,
       count: count + 1,
     };
 
-    const newOrder = orderList.filter(item => item.name !== product?.name ) 
-    newOrder.push(data)
+    const newOrder = orderList.filter((item) => item.name !== product?.name);
+    newOrder.push(data);
     updateOrderUser(newOrder);
   };
 
@@ -63,27 +59,47 @@ const ProductPage = () => {
   // }
 
   const handleFavoritePr = () => {
-    
-    lastPr = []
-    if(!allPr){
-     
-      lastPr.push(product)
-      localStorage.setItem("favoritePr" , JSON.stringify(product) )
-    }else{
-    
-   
-      localStorage.setItem("favoritePr" , JSON.stringify([allPr , product]) )
+    if (!userData) {
+      navigate("/login");
     }
 
-   
-  
-  
+    lastPr = [];
+    if (!allPr) {
+      // lastPr.push(product);
+      localStorage.setItem("favoritePr", JSON.stringify([product]));
+      setShowActiveFav(true);
+    } else {
+      const existPr = allPr.find((item) => item?._id == product?._id);
+      if (existPr) {
+        const allWithoutDuplicate = allPr.filter(
+          (item) => item?._id !== product?._id
+        );
+        localStorage.setItem("favoritePr", JSON.stringify(allWithoutDuplicate));
+        setShowActiveFav(false);
+        return;
+      }
+      lastPr = allPr;
+      lastPr.push(product);
+      localStorage.setItem("favoritePr", JSON.stringify(lastPr));
+      setShowActiveFav(true);
+    }
+  };
+
+  const checkFav = () => {
+    const allPr = JSON.parse(localStorage.getItem("favoritePr"));
+    if(allPr){
+      const existPr = allPr.find((item) => item?._id == id);
+      if (existPr) {
+        setShowActiveFav(true)
+    }
+  }
   }
 
   useEffect(() => {
     getProduct();
+    checkFav()
   }, [id]);
-  
+
   useEffect(() => {
     getNewProduct();
   }, []);
@@ -184,7 +200,8 @@ const ProductPage = () => {
                 >
                   <h6 style={{ margin: 0, fontWeight: "600" }}>قیمت :</h6>
                   <strong style={{ fontSize: "16px" }}>
-                  {product?.price && commaThousondSeperator(product?.price)} تومان
+                    {product?.price && commaThousondSeperator(product?.price)}{" "}
+                    تومان
                   </strong>
                 </div>
                 <div
@@ -282,16 +299,16 @@ const ProductPage = () => {
             <div
               style={{ display: "flex", alignItems: "center", gap: "1.6rem" }}
             >
-              <div style={{display:"flex" , gap:".3rem"}}>
+              <div style={{ display: "flex", gap: ".3rem" }}>
                 <ShopOutlined
-                  className={count > 0  ? style.shopIcActive  : style.shopIc}
+                  className={count > 0 ? style.shopIcActive : style.shopIc}
                   onClick={handleOrderSubmit}
                 />
-                {count > 0 && <strong style={{color:"red"}}>{count}</strong>}
+                {count > 0 && <strong style={{ color: "red" }}>{count}</strong>}
               </div>
 
               <HeartOutlined
-                style={{ cursor: "pointer", fontSize: "1.7rem" }}
+                className={showActiveFav ? style.favIcActive : style.favIc}
                 onClick={handleFavoritePr}
               />
             </div>

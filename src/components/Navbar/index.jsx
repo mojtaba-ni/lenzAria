@@ -54,7 +54,6 @@ const Navbar = () => {
 
   const getAllCategories = async () => {
     const { data } = await axios.get(`${path}/api/category/getAllCategory`);
-    console.log({ data });
     setCategory(data?.data);
     let listMd = [];
     let listCl = [];
@@ -87,6 +86,9 @@ const Navbar = () => {
 
   const handleShowMenu = () => {
     setShow(true);
+    setShowLenz(false);
+    setShowAcc(false)
+    setShowListPr(false)
   };
   const handleShowUser = () => {
     setShowUser(!showUser);
@@ -94,12 +96,22 @@ const Navbar = () => {
 
   const handleShowLenzMenu = () => {
     setShowLenz(true);
+    setShowAcc(false)
+    setShowListPr(false)
+    setShow(false);
+
   };
   const handleShowAcc = () => {
     setShowAcc(true);
+    setShowListPr(false)
+    setShow(false);
+    setShowLenz(false);
   };
   const handleShowListPr = () => {
     setShowListPr(true);
+    setShow(false);
+    setShowLenz(false);
+    setShowAcc(false);
   };
   const handleIconAddress = (address) => {
     navigate(`/${address}`);
@@ -319,6 +331,7 @@ const Navbar = () => {
                     : styles.navUserActiveSign
                   : styles.navUserList
               }
+              onMouseLeave={()=>setShowUser(false)}
             >
               {userData ? (
                 <div

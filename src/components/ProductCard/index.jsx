@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import { commaThousondSeperator } from "../../shared/utils";
 
 const ProductCard = ({productInfo}) => {
-  console.log({productInfo});
   return (
     <Link to={`/product/${productInfo?._id}`}>
      <Card className={styles.ProductContainer} hoverable>

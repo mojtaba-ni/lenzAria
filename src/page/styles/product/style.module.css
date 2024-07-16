@@ -13,14 +13,13 @@
   flex-direction: column;
   gap: 1rem;
   background-color: var(--background) !important;
-
 }
 
 .showCard {
   display: flex;
   flex-direction: column;
-    padding: 1rem .5rem;
-    padding-right: 1rem;
+  padding: 1rem 0.5rem;
+  padding-right: 1rem;
   gap: 1rem;
   min-width: 290px;
   background: linear-gradient(
@@ -31,27 +30,36 @@
   );
 }
 
-.activePart{
-    width: 100px;
-    display: block;
-    border-bottom: 3px solid #F0E68C;
-    text-align: center;
-    line-height:30px;
-    cursor:pointer;
-}
-.part{
-    width: 100px;
-    display: block;
-    text-align: center;
-    line-height:30px;
-    cursor:pointer;
-}
-.shopIc{
+.activePart {
+  width: 100px;
+  display: block;
+  border-bottom: 3px solid #f0e68c;
+  text-align: center;
+  line-height: 30px;
   cursor: pointer;
-  font-size: 1.7rem 
 }
-.shopIcActive{
+.part {
+  width: 100px;
+  display: block;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+}
+.shopIc {
   cursor: pointer;
   font-size: 1.7rem;
-  color:red
+}
+.shopIcActive {
+  cursor: pointer;
+  font-size: 1.7rem;
+  color: red;
+}
+.favIcActive {
+  cursor: pointer;
+  font-size: 1.7rem;
+  color: red;
+}
+.favIc {
+  cursor: pointer;
+  font-size: 1.7rem;
 }

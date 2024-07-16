@@ -7,12 +7,15 @@ import { useEffect, useState } from "react";
 
 const FavoritePage = () => {
   const [favPr, setFavPr] = useState();
- 
 
   useEffect(() => {
     const product = localStorage.getItem("favoritePr");
-   
-    setFavPr([JSON.parse(product)]);
+    if (product) {
+      const favoritePr = JSON.parse(product);
+      setFavPr(favoritePr);
+    } else {
+      setFavPr(null);
+    }
   }, []);
 
   return (
@@ -37,9 +40,13 @@ const FavoritePage = () => {
                 order: 4,
               }}
             >
-              <Link to={`/product/${item?._id}`}>
-                <ProductCard productInfo={item} />
-              </Link>
+              {item ? (
+                <Link to={`/product/${item?._id}`}>
+                  <ProductCard productInfo={item} />
+                </Link>
+              ) : (
+                <div>sss</div>
+              )}
             </Col>
           ))}
         </Row>

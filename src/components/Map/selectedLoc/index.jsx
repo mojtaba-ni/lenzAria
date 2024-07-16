@@ -39,6 +39,7 @@ export const getAddressOfLocationPoints = (lat, lng) => {
   );
 };
 
+// eslint-disable-next-line react/prop-types
 function SelectLocationOnMap({ handleLocationCoords }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedLocationInfo, setSelectedLocationInfo] = useState({});
