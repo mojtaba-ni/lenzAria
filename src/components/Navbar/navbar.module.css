@@ -21,8 +21,8 @@
 .navListBody Link {
   color: red;
 }
-.navCol h4 {
-  font-size: 1.3rem;
+.navCol h5 {
+  font-size: 1.1rem;
   color: var(--text-primary);
 }
 .navUi {
@@ -97,7 +97,7 @@
   color: #000 ;
 }
 .navListTitleLine h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.2rem;
   color: #4f4f4f !important;
@@ -127,7 +127,6 @@
 .navSearch {
   position: absolute;
   top: 4rem;
-
   gap: 1rem;
 }
 .navSearchBox {

@@ -12,6 +12,7 @@ import { StarFilled } from "@ant-design/icons";
 import style from "../styles/product/style.module.css";
 import { path } from "../../shared/config";
 import { commaThousondSeperator } from "../../shared/utils";
+import Comments from "../../components/Comments";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -26,6 +27,7 @@ const ProductPage = () => {
   let lastPr = [];
   let allPr = JSON.parse(localStorage.getItem("favoritePr"));
   const userData = JSON.parse(localStorage.getItem("userData"));
+  console.log({userData});
 
   const getProduct = async () => {
     const { data } = await axios.get(`${path}/api/product/getById?id=${id}`);
@@ -360,7 +362,7 @@ const ProductPage = () => {
                 ? product?.Specifications
                 : ShowPart == "2"
                 ? product?.description
-                : ""}
+                : <Comments productId={id} username={userData?.username} />}
               {}
             </p>
           </div>

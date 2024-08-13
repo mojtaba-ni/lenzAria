@@ -37,7 +37,7 @@ const Questions = () => {
   return (
     <div className={styles.questionsWrapper}>
       <div className={styles.questionsHead}>
-        <h3>{strings.landing.questions}</h3>
+        <h5>{strings.landing.questions}</h5>
         <div className={styles.titleLine}></div>
       </div>
       <ul className={styles.questionTitle}>
@@ -62,7 +62,7 @@ const Questions = () => {
       </ul>
       <div>
         
-        <h3 style={{textAlign:"center"}}>{activeQuestion?.title}</h3>  
+        <h5 style={{textAlign:"center" , marginTop:'1.5rem'}}>{activeQuestion?.title}</h5>  
         <p className={styles.questionDesc}>
           {activeQuestion?.description}
         </p>

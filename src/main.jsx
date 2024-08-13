@@ -6,7 +6,7 @@ import { ConfigProvider } from "antd";
 import "./index.css";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
-
+import "./assets/fonts/Rezvan.ttf"
 
 
 

@@ -140,13 +140,13 @@ const Navbar = () => {
         <ul className={styles.navUi}>
           <li className={styles.navCol}>
             <Link to="/">
-              <h4>{strings.navbar.home}</h4>
+              <h5>{strings.navbar.home}</h5>
             </Link>
 
             {/* <DownOutlined className={styles.navColIC} /> */}
           </li>
           <li className={styles.navCol} onMouseOver={handleShowMenu}>
-            <h4>{strings.navbar.medicalLens}</h4>
+            <h5>{strings.navbar.medicalLens}</h5>
             <DownOutlined className={styles.navColIC} />
             <div
               className={show ? styles.navColListActive : styles.navColList}
@@ -158,7 +158,7 @@ const Navbar = () => {
                 </div>
                 <ul className={styles.navListBody}>
                   <Link to={`/periods/1`} style={{ color: "#4f4f4f" }}>
-                    <li>{strings.navbar.daily}</li>
+                    <li >{strings.navbar.daily}</li>
                   </Link>
                   <Link to={`/periods/2`} style={{ color: "#4f4f4f" }}>
                     <li>{strings.navbar.monthly}</li>
@@ -186,7 +186,7 @@ const Navbar = () => {
                         to={`/products/${sub._id}`}
                         style={{ color: "#4f4f4f" }}
                       >
-                        <li>{sub?.title}</li>
+                        <li style={{fontSize:".92rem"}}>{sub?.title}</li>
                       </Link>
                     ))}
                   </ul>
@@ -195,7 +195,7 @@ const Navbar = () => {
             </div>
           </li>
           <li className={styles.navCol} onMouseOver={handleShowLenzMenu}>
-            <h4>{strings.navbar.ColoredLens}</h4>
+            <h5>{strings.navbar.ColoredLens}</h5>
             <DownOutlined className={styles.navColIC} />
             <div
               className={showLenz ? styles.navColListActive : styles.navColList}
@@ -216,7 +216,7 @@ const Navbar = () => {
                         to={`/products/${sub._id}`}
                         style={{ color: "#4f4f4f" }}
                       >
-                        <li>{sub?.title}</li>
+                        <li style={{fontSize:".92rem"}}>{sub?.title}</li>
                       </Link>
                     ))}
                   </ul>
@@ -225,7 +225,7 @@ const Navbar = () => {
             </div>
           </li>
           <li className={styles.navCol} onMouseOver={handleShowAcc}>
-            <h4>{strings.navbar.accessories}</h4>
+            <h5>{strings.navbar.accessories}</h5>
             <DownOutlined className={styles.navColIC} />
             <div
               className={showAcc ? styles.navColListActive : styles.navColList}
@@ -246,7 +246,7 @@ const Navbar = () => {
                         to={`/products/${sub._id}`}
                         style={{ color: "#4f4f4f" }}
                       >
-                        <li>{sub?.title}</li>
+                        <li style={{fontSize:".92rem"}}>{sub?.title}</li>
                       </Link>
                     ))}
                   </ul>
@@ -255,7 +255,7 @@ const Navbar = () => {
             </div>
           </li>
           <li className={styles.navCol} onMouseOver={handleShowListPr}>
-            <h4>{strings.navbar.cosmetic}</h4>
+            <h5>{strings.navbar.cosmetic}</h5>
             <DownOutlined className={styles.navColIC} />
             <div
               className={
@@ -278,7 +278,7 @@ const Navbar = () => {
                         to={`/products/${sub._id}`}
                         style={{ color: "#4f4f4f" }}
                       >
-                        <li>{sub?.title}</li>
+                        <li style={{fontSize:".92rem"}}>{sub?.title}</li>
                       </Link>
                     ))}
                   </ul>
@@ -287,19 +287,19 @@ const Navbar = () => {
             </div>
           </li>
           <li className={styles.navCol}>
-            <Link to="./blog">
+            <Link to="/blog">
               {" "}
-              <h4>{strings.navbar.blog}</h4>
+              <h5>{strings.navbar.blog}</h5>
             </Link>
           </li>
           <li className={styles.navCol}>
-            <Link to="./vlog">
-              <h4>{strings.navbar.blogVideo}</h4>
+            <Link to="/vlog">
+              <h5>{strings.navbar.blogVideo}</h5>
             </Link>
           </li>
           <li className={styles.navCol}>
-            <Link to="./lenzTest">
-              <h4>{strings.navbar.lenzTest}</h4>
+            <Link to="/lenzTest">
+              <h5>{strings.navbar.lenzTest}</h5>
             </Link>
           </li>
         </ul>
@@ -358,21 +358,21 @@ const Navbar = () => {
                         height: "25px",
                       }}
                     ></div>
-                    <h5>{userData?.username}</h5>
+                    <h6>{userData?.username}</h6>
 
-                    <h5>{userData?.phoneNumber}</h5>
+                    <h6>{userData?.phoneNumber}</h6>
                   </div>
                   <Divider />
                   <div
                     className={styles.navUserLi}
                     onClick={() => handleIconAddress("profile")}
                   >
-                    <h5>ناحیه کاربری</h5>
+                    <h6>ناحیه کاربری</h6>
                     <UserOutlined style={{ fontSize: "1.6rem" }} />
                   </div>
                   <Divider />
                   <div className={styles.navUserLi} onClick={handleLogOut}>
-                    <h5 style={{ color: "red" }}>خروج</h5>
+                    <h6 style={{ color: "red" }}>خروج</h6>
                     <LogoutOutlined
                       style={{ fontSize: "1.6rem", color: "red" }}
                     />
@@ -390,13 +390,13 @@ const Navbar = () => {
                   }}
                 >
                   <Link to={"/login"} className={styles.linkSign}>
-                    <h5>ورود</h5>
+                    <h6>ورود</h6>
                     <LogoutOutlined style={{ fontSize: "1.6rem" }} />
                   </Link>
 
                   <Divider />
                   <Link to={"/signup"} className={styles.linkSign}>
-                    <h5>ثبت نام</h5>
+                    <h6>ثبت نام</h6>
                     <EditFilled />
                   </Link>
                 </div>

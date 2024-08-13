@@ -8,8 +8,11 @@
   }
   
 .inputBox {
-  width: 350px;
+  width: 330px;
   height: 44px;
+}
+.signUplink:hover{
+  color:#386bc0
 }
 .inputBoxCaptcha{
   position: relative;
@@ -17,7 +20,7 @@
 .inputBoxTitle {
   font-weight: 600;
   font-size: 1rem;
-  min-width: 70px;
+  min-width: 85px;
 }
 
 .singupBox {

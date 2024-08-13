@@ -31,7 +31,7 @@
 }
 
 .activePart {
-  width: 100px;
+  width: 150px;
   display: block;
   border-bottom: 3px solid #f0e68c;
   text-align: center;
@@ -39,7 +39,7 @@
   cursor: pointer;
 }
 .part {
-  width: 100px;
+  width: 150px;
   display: block;
   text-align: center;
   line-height: 30px;

@@ -59,7 +59,7 @@ const BrandList = () => {
               defaultValue="jack"
               variant="borderless"
               style={{
-                width: 120,
+                width: 140,
               }}
               className={style.selectOp}
               onChange={handleChange}

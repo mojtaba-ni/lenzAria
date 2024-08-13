@@ -17,7 +17,7 @@ const Bestpart = ({ title, data }) => {
   return (
     <div className={styles.bestSellerBox}>
       <div>
-        <h4>{title}</h4>
+        <h5>{title}</h5>
         <div className={styles.titleLine}></div>
       </div>
       <div className={styles.bestSellerSlider}>

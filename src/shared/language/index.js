@@ -26,7 +26,7 @@ export const strings = {
     lenzTest:"تست لنز",
   },
   landing: {
-    bestSellers: "پر فروش ترین ها",
+    bestSellers: "پرفروش ترین ها",
     samePr: "محصولات مشابه",
     newSellers: "جدید ترین ها",
     brands: "برند ها",
@@ -59,6 +59,12 @@ export const strings = {
       createdAt:"تاریخ ایجاد",
     },
     question:{
+      title:"عنوان",
+      description:"توضیحات",
+      createdAt:"تاریخ ایجاد",
+    },
+    comment:{
+      username:"ثبت نظر",
       title:"عنوان",
       description:"توضیحات",
       createdAt:"تاریخ ایجاد",

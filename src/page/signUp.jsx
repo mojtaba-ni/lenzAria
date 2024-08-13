@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Input, Form, Button, Card, message, Spin } from "antd";
 import {
   EyeInvisibleOutlined,
@@ -32,7 +32,6 @@ const SignUp = () => {
   const [captchaCode, setcCaptchaCode] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const captcha = useRef();
 
   const onSignUp = async () => {
     setLoading(true);
@@ -92,7 +91,7 @@ const SignUp = () => {
       <div className={style.signupWrapper}>
         <Card className={style.singupBox}>
           <div className=" d-flex flex-column align-items-center">
-            <p className="text-center h2 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+            <p className="text-center h3 fw-bold mb-5 mx-1 mx-md-4 mt-4">
               {strings.register.title}
             </p>
             <Form>

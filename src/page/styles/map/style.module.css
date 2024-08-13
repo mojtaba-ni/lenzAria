@@ -1,5 +1,5 @@
 .titleLine{
-    width: 215px;
+    width: 245px;
     border: 2px solid #F0E68C;
     margin-top: .6rem;
 }
@@ -11,7 +11,7 @@
     margin-bottom: 1rem;
 }
 .titleDot{
-    font-size: 1.5rem;
+    font-size: 1.7rem;
 }
 .descBox{
     padding-right: 1.4rem;

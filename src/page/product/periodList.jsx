@@ -63,7 +63,7 @@ const PeriodList = () => {
                 defaultValue="jack"
                 variant="borderless"
                 style={{
-                  width: 120,
+                  width: 140,
                 }}
                 onChange={handleChange}
                 options={[

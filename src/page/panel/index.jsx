@@ -6,6 +6,7 @@ import {
   EditOutlined,
   PictureOutlined,
   EnvironmentOutlined,
+  MessageOutlined,
   HomeOutlined
 } from "@ant-design/icons";
 import { GoChecklist } from "react-icons/go";
@@ -26,6 +27,7 @@ import PopularSection from "./popular/section";
 import PopularPrSection from "./popular/productSection";
 import MapPanel from "./map";
 import notFoundImg from "../../assets/images/notFound.jpg" 
+import Comments from "./comments";
 
 const Panel = () => {
   const [banerShow, setBanerShow] = useState(false);
@@ -43,7 +45,7 @@ const Panel = () => {
           minHeight:"100vh",
           gap:"2rem"
         }}>
-          <img src={notFoundImg} style={{borderRadius:"25%"}} alt="notFoundImg" width={400} height={400} />
+          <img src={notFoundImg} loading="lazy" style={{borderRadius:"25%"}} alt="notFoundImg" width={400} height={400} />
           <div
                 className={style.notFoundTitle}
               >
@@ -60,72 +62,72 @@ const Panel = () => {
                   icon={<UserOutlined />}
                   className={style.panelSideIcon}
                 />
-                <h4 style={{ color: "#F0E68C" }}>{userData?.username}</h4>
+                <h5 style={{ color: "#F0E68C" , fontSize: "1.1rem" }}>{userData?.username}</h5>
                 <Link to={"/"} className={style.homeIC}>
                 <HomeOutlined />
                 </Link>
               </div>
               <div className={style.panelSideLi}>
-                <FiUsers style={{ fontSize: "1.3rem", color: "#F0E68C" }} />
+                <FiUsers style={{ fontSize: "1.4rem", color: "#F0E68C" }} />
                 <Link to={"/panel/users"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h5 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     لیست کاربران
-                  </h4>
+                  </h5>
                 </Link>
               </div>
               <div className={style.panelSideLi}>
                 <EditOutlined
-                  style={{ fontSize: "1.3rem", color: "#F0E68C" }}
+                  style={{ fontSize: "1.4rem", color: "#F0E68C" }}
                 />
                 <Link to={"/panel/blog"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     مدیریت بلاگ
                   </h4>
                 </Link>
               </div>
               <div className={style.panelSideLi}>
-                <GoChecklist style={{ fontSize: "1.3rem", color: "#F0E68C" }} />
+                <GoChecklist style={{ fontSize: "1.4rem", color: "#F0E68C" }} />
                 <Link to={"/panel/brand"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     مدیریت برند
                   </h4>
                 </Link>
               </div>
               <div className={style.panelSideLi}>
-                <GoChecklist style={{ fontSize: "1.3rem", color: "#F0E68C" }} />
+                <GoChecklist style={{ fontSize: "1.4rem", color: "#F0E68C" }} />
                 <Link to={"/panel/category"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     مدیریت دسته بندی
                   </h4>
                 </Link>
               </div>
               <div className={style.panelSideLi}>
                 <QuestionCircleOutlined
-                  style={{ fontSize: "1.3rem", color: "#F0E68C" }}
+                  style={{ fontSize: "1.4rem", color: "#F0E68C" }}
                 />
                 <Link to={"/panel/questions"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     مدیریت سوالات متداول
                   </h4>
                 </Link>
               </div>
               <div className={style.panelSideLi}>
                 <ShopOutlined
-                  style={{ fontSize: "1.3rem", color: "#F0E68C" }}
+                  style={{ fontSize: "1.4rem", color: "#F0E68C" }}
                 />
                 <Link to={"/panel/product"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     مدیریت محصولات
                   </h4>
                 </Link>
               </div>
               <div className={style.panelSideLi}>
                 <PictureOutlined
-                  style={{ fontSize: "1.3rem", color: "#F0E68C" }}
+                  style={{ fontSize: "1.4rem", color: "#F0E68C" }}
                 />
 
                 <h4
-                  style={{ color: "#F0E68C", fontSize: "1.4rem" }}
+                  style={{ color: "#F0E68C", fontSize: "1.1rem" }}
                   onClick={() => setBanerShow(!banerShow)}
                 >
                   مدیریت بنر
@@ -134,42 +136,52 @@ const Panel = () => {
               {banerShow && (
                 <div className={style.panelBaner}>
                   <Link className={style.panelBanerLi} to={"./mainBanner"}>
-                    <h5 style={{ color: "#F0E68C" }}>بنر اصلی</h5>
+                    <h6 style={{ color: "#F0E68C" }}>بنر اصلی</h6>
                   </Link>
                   <Link className={style.panelBanerLi} to={"./offerBanner"}>
-                    <h5 style={{ color: "#F0E68C" }}>بنر پیشنهادات</h5>
+                    <h6 style={{ color: "#F0E68C" }}>بنر پیشنهادات</h6>
                   </Link>
                   <Link className={style.panelBanerLi} to={"./modelBanner"}>
-                    <h5 style={{ color: "#F0E68C" }}>بنر مدل</h5>
+                    <h56 style={{ color: "#F0E68C" }}>بنر مدل</h56>
                   </Link>
                 </div>
               )}
               <div className={style.panelSideLi}>
                 <ShopOutlined
-                  style={{ fontSize: "1.3rem", color: "#F0E68C" }}
+                  style={{ fontSize: "1.4rem", color: "#F0E68C" }}
                 />
                 <Link to={"/panel/popularSection"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     مدیریت لنزهای محبوب
                   </h4>
                 </Link>
               </div>
               <div className={style.panelSideLi}>
                 <ShopOutlined
-                  style={{ fontSize: "1.3rem", color: "#F0E68C" }}
+                  style={{ fontSize: "1.4rem", color: "#F0E68C" }}
                 />
                 <Link to={"/panel/popularProductSection"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     مدیریت محصولات محبوب
                   </h4>
                 </Link>
               </div>
               <div className={style.panelSideLi}>
+                <MessageOutlined 
+                  style={{ fontSize: "1.4rem", color: "#F0E68C" }}
+                />
+                <Link to={"/panel/comments"}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
+                    مدیریت نظرات
+                  </h4>
+                </Link>
+              </div>
+              <div className={style.panelSideLi}>
                 <EnvironmentOutlined
-                  style={{ fontSize: "1.3rem", color: "#F0E68C" }}
+                  style={{ fontSize: "1.4rem", color: "#F0E68C" }}
                 />
                 <Link to={"/panel/map"}>
-                  <h4 style={{ color: "#F0E68C", fontSize: "1.4rem" }}>
+                  <h4 style={{ color: "#F0E68C", fontSize: "1.1rem" }}>
                     مدیریت آدرس
                   </h4>
                 </Link>
@@ -195,6 +207,7 @@ const Panel = () => {
                 <Route path="offerBanner/*" element={<OfferBanner />} />
                 <Route path="modelbanner/*" element={<ModelBanner />} />
                 <Route path="category/*" element={<Category />} />
+                <Route path="comments/*" element={<Comments />} />
                 <Route path="popularSection/*" element={<PopularSection />} />
                 <Route
                   path="popularProductSection/*"

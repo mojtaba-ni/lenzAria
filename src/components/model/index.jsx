@@ -29,7 +29,7 @@ const Model = () => {
         }}
         modules={[Pagination]}
         className="mySwiper"
-        style={{padding:"0 2rem"}}
+        style={{padding:"0 2rem" , paddingBottom:'1rem'}}
       >
         {modelData?.map((item,index) => 
          <SwiperSlide key={index}>

@@ -182,7 +182,7 @@ const Home = () => {
           }}
         >
           {brand?.map((item, index) => (
-            <strong key={index}>{item?.name}</strong>
+            <strong style={{fontSize:"1.2rem"}} key={index}>{item?.name}</strong>
           ))}
         </div>
         <Row className={styles.bannerBox}>

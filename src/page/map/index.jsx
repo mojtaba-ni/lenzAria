@@ -29,7 +29,7 @@ const MapPage = () => {
         <Row>
           <Col className={`gutter-row`} md={9}>
             <div>
-              <h4>نزدیک ترین فروشگاه به من</h4>
+              <h5>نزدیک ترین فروشگاه به من</h5>
               <div className={styles.titleLine}></div>
             </div>
             {mapData?.map((item,index)=>(

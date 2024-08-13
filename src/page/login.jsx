@@ -1,10 +1,9 @@
-import { useRef, useState } from "react";
-
+import { useState } from "react";
 import { Input, Form, Button, Card , message, Spin} from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone , PhoneFilled ,LoadingOutlined  , InteractionOutlined} from "@ant-design/icons";
 import { strings } from "../shared/language";
 import { RiLockPasswordFill } from "react-icons/ri";
-
+import { Link } from "react-router-dom";
 import style from "./styles/signup.module.css";
 import { path } from "../shared/config";
 // import useButtonLoader from "../shared/hooks/useButtonLoader";
@@ -99,7 +98,7 @@ const Login = () => {
      
       >
         <div className=" d-flex flex-column align-items-center">
-          <p className="text-center h2 fw-bold mb-5 mx-1 mx-md-4 mt-4">
+          <p className="text-center h3 fw-bold mb-5 mx-1 mx-md-4 mt-4">
             {strings.login.title}
           </p>
           <Form>
@@ -190,14 +189,15 @@ const Login = () => {
                 </div>
             </div>
             {/* {error && <p style={{textAlign:"center" , color:"red"}}>{error}</p>} */}
-
+          
             <div
               style={{
                 width: "100%",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                margin: "2rem 0",
+                marginTop:"2rem",
+                marginBottom:"1rem",
               }}
             >
               <Button
@@ -216,6 +216,12 @@ const Login = () => {
                   )}
               </Button>
             </div>
+            <div style={{display:"flex" , alignItems:"center" , gap:".4rem"}}>
+             <RiLockPasswordFill style={{ fontSize: "1.4rem" , color:"#386bc0" }} />
+              <Link to="/signUp" className={style.signUplink}>
+              ثبت نام در سایت
+              </Link>
+             </div>
           </Form>
         </div>
       </Card>

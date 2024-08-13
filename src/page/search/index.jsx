@@ -63,7 +63,7 @@ const Search = () => {
                 defaultValue="jack"
                 variant="borderless"
                 style={{
-                  width: 120,
+                  width: 140,
                 }}
                 onChange={handleChange}
                 options={[
@@ -95,7 +95,7 @@ const Search = () => {
               borderBottom: allProduct?.length > 0 ? "3px solid #F0E68C" : "unset",
             }}
           >
-            <h4>{periodTitle}</h4>
+            <h4 style={{paddingBottom:".4rem"}}>{params?.name}</h4>
           </div>
         </div>
         <Row style={{ margin: "2rem 0 " }}>

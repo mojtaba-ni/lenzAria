@@ -47,7 +47,7 @@ const Education = () => {
   return (
     <div className={styles.educationPart}>
       <div>
-        <h3>{strings.landing.educationCv}</h3>
+        <h5>{strings.landing.educationCv}</h5>
         <div className={styles.titleLine}></div>
       </div>
       <div className={styles.educationWrapper}>

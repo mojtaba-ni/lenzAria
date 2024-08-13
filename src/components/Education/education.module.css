@@ -1,5 +1,5 @@
 .titleLine {
-  width: 95px;
+  width: 140px;
   border: 2px solid #f0e68c;
   margin-top: 0.6rem;
 }
@@ -60,7 +60,8 @@
 .descCard h4{
     color: #000;
     font-weight: 600;
-    text-align: center;
+    font-size: 1.1rem;
+    padding-right: 1rem;
 }
 .descCard p{
     color: #000;

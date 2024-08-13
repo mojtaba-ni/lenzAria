@@ -1,8 +1,7 @@
 @font-face {
     font-family: "yekan";
-    src: url("./assets/fonts/YekanBakhRegular.ttf")
-       
-
+    src: local("yekanRegular"),
+    url("./assets/fonts/iransans.ttf") format("truetype"), 
 }
 
 :root {
@@ -30,7 +29,7 @@
 
 *{
     direction: rtl;
-    font-family: "yekan !important";
+    font-family: "yekan";
 }
 body{
     margin: 0;
@@ -46,7 +45,6 @@ p{
 }
 h1,h2,h3,h4,h5{
     margin: 0;
-    
 }
 .ant-table-thead .ant-table-cell {
     color: blue !important;
@@ -95,3 +93,8 @@ h1,h2,h3,h4,h5{
         font-size: 1.4rem;
     }
 }
+
+/* .ant-card-body{
+    display: flex;
+    justify-content: space-between;
+} */

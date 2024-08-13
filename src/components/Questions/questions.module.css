@@ -20,7 +20,7 @@
 .questionTitle li{
     max-width: 200px;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-align: center;
     cursor: pointer;
     transition: .2s ease-in-out;
@@ -29,11 +29,10 @@
     font-size: 1.2rem;
 }
 .titleLine {
-    width: 100px;
+    width: 140px;
     border: 2px solid #F0E68C;;
     margin-top: .6rem;
 }
 .questionDesc{
-    max-width: 1000px;
-    margin-top: .6rem;
+    margin: 1.5rem;
 }
