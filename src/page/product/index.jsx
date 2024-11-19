@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Card, Divider } from "antd";
+import { Card, Divider, Skeleton } from "antd";
 import Bestpart from "../../components/Bestpart";
 import { strings } from "../../shared/language";
 import { useOrder } from "../../shared/store/useOrder";
@@ -13,6 +13,7 @@ import style from "../styles/product/style.module.css";
 import { path } from "../../shared/config";
 import { commaThousondSeperator } from "../../shared/utils";
 import Comments from "../../components/Comments";
+import boxImg from "../../assets/images/jabe.png";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -23,11 +24,21 @@ const ProductPage = () => {
   const [ShowPart, setShowPart] = useState(1);
   const [showActiveFav, setShowActiveFav] = useState(false);
 
-  const { orderList, updateOrderList, updateOrderUser } = useOrder();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleImageClick = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const { orderList, updateOrderUser } = useOrder();
   let lastPr = [];
   let allPr = JSON.parse(localStorage.getItem("favoritePr"));
   const userData = JSON.parse(localStorage.getItem("userData"));
-  console.log({userData});
+  console.log({ userData });
 
   const getProduct = async () => {
     const { data } = await axios.get(`${path}/api/product/getById?id=${id}`);
@@ -52,9 +63,9 @@ const ProductPage = () => {
     updateOrderUser(newOrder);
   };
 
-  const handleCancelOrder = () => {
-    setCount(count - 1);
-  };
+  // const handleCancelOrder = () => {
+  //   setCount(count - 1);
+  // };
 
   // const checkFavorite = () => {
 
@@ -89,17 +100,17 @@ const ProductPage = () => {
 
   const checkFav = () => {
     const allPr = JSON.parse(localStorage.getItem("favoritePr"));
-    if(allPr){
+    if (allPr) {
       const existPr = allPr.find((item) => item?._id == id);
       if (existPr) {
-        setShowActiveFav(true)
+        setShowActiveFav(true);
+      }
     }
-  }
-  }
+  };
 
   useEffect(() => {
     getProduct();
-    checkFav()
+    checkFav();
   }, [id]);
 
   useEffect(() => {
@@ -108,268 +119,207 @@ const ProductPage = () => {
   return (
     <div>
       <Navbar />
-      <div className={style.prContainer}>
-        {/* <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            gap: "1.5rem",
-          }}
-        >
-          <h4
+      <>
+        <div className={style.prContainer}>
+          <div
             style={{
-              minWidth: "100px",
-              textAlign: "center",
-              borderBottom: "3px solid #F0E68C",
-              lineHeight: "40px",
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "2rem",
             }}
           >
-            {" "}
-            {product?.name}
-          </h4>
-        </div> */}
+            <Card>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  minHeight: "170px",
+                }}
+              >
+                {product ? (
+                  <img
+                    src={product ? product?.image : boxImg}
+                    alt="cover"
+                    className={style.prImage}
+                    onClick={handleImageClick}
+                  />
+                ) : (
+                  <Skeleton.Input
+                    className={style.skeletImg}
+                    style={{ height: "140px", width: "260px" }}
+                  />
+                )}
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: "2rem",
-          }}
-        >
-          {/* <Col xs={24} sm={12} md={12}>
-              <div>
-                <h3
-                  style={{
-                    width: "170px",
-                    display: "block",
-                    borderBottom: "3px solid #F0E68C",
-                    textAlign: "center",
-                  }}
-                >
-                  مشخصات فنی
-                </h3>
-                <p style={{ marginTop: "1.2rem", lineHeight: "30px" }}>
-                  {product?.Specifications}
-                </p>
+                <div className={style.showCard}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".5rem",
+                    }}
+                  >
+                    <h6 style={{ margin: 0, fontWeight: "600" }}>
+                      نام محصول :
+                    </h6>
+                    <strong style={{ fontSize: "16px" }}>
+                      {product?.name}
+                    </strong>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".5rem",
+                    }}
+                  >
+                    <h6 style={{ margin: 0, fontWeight: "600" }}>
+                      برند سازنده :
+                    </h6>
+                    <strong style={{ fontSize: "16px" }}>
+                      {product?.brand?.title}
+                    </strong>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".5rem",
+                    }}
+                  >
+                    <h6 style={{ margin: 0, fontWeight: "600" }}>قیمت :</h6>
+                    <strong style={{ fontSize: "16px" }}>
+                      {product?.price && commaThousondSeperator(product?.price)}{" "}
+                      تومان
+                    </strong>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".5rem",
+                    }}
+                  >
+                    <h6 style={{ margin: 0, fontWeight: "600" }}>امتیاز :</h6>
+                    <div>
+                      <StarFilled
+                        style={{ color: "#F0DB23", fontSize: "1.2rem" }}
+                      />
+                      <StarFilled
+                        style={{ color: "#F0DB23", fontSize: "1.2rem" }}
+                      />
+                      <StarFilled
+                        style={{ color: "#F0DB23", fontSize: "1.2rem" }}
+                      />
+                      <StarFilled
+                        style={{ color: "#e3e3e3", fontSize: "1.2rem" }}
+                      />
+                      <StarFilled
+                        style={{ color: "#e3e3e3", fontSize: "1.2rem" }}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-            </Col> */}
-          <Card>
+            </Card>
+
             <div
               style={{
                 display: "flex",
-                justifyContent: "center",
-                minHeight: "170px",
+                gap: "2.2rem",
+                flexDirection: "column",
+                justifyContent: "space-around",
+                alignItems: "center",
               }}
             >
-              <img
-                src={product?.image}
-                alt="cover"
-                style={{ width: "100%", maxWidth: "260px" }}
-              />
-              <div className={style.showCard}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: ".5rem",
-                  }}
-                >
-                  <h6 style={{ margin: 0, fontWeight: "600" }}>نام محصول :</h6>
-                  <strong style={{ fontSize: "16px" }}>{product?.name}</strong>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: ".5rem",
-                  }}
-                >
-                  <h6 style={{ margin: 0, fontWeight: "600" }}>
-                    برند سازنده :
-                  </h6>
-                  <strong style={{ fontSize: "16px" }}>
-                    {product?.brand?.title}
-                  </strong>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: ".5rem",
-                  }}
-                >
-                  <h6 style={{ margin: 0, fontWeight: "600" }}>قیمت :</h6>
-                  <strong style={{ fontSize: "16px" }}>
-                    {product?.price && commaThousondSeperator(product?.price)}{" "}
-                    تومان
-                  </strong>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: ".5rem",
-                  }}
-                >
-                  <h6 style={{ margin: 0, fontWeight: "600" }}>امتیاز :</h6>
-                  <div>
-                    <StarFilled
-                      style={{ color: "#F0DB23", fontSize: "1.2rem" }}
-                    />
-                    <StarFilled
-                      style={{ color: "#F0DB23", fontSize: "1.2rem" }}
-                    />
-                    <StarFilled
-                      style={{ color: "#F0DB23", fontSize: "1.2rem" }}
-                    />
-                    <StarFilled
-                      style={{ color: "#e3e3e3", fontSize: "1.2rem" }}
-                    />
-                    <StarFilled
-                      style={{ color: "#e3e3e3", fontSize: "1.2rem" }}
-                    />
-                  </div>
-                </div>
-                {/* <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "1.8rem",
-                    position: "relative",
-                    minWidth: "175px",
-                  }}
-                >
-                  <Button type="primary" danger onClick={handleOrderSubmit}>
-                    افزودن به سبد خرید
-                  </Button>
+              <div
+                style={{
+                  backgroundColor: "#6fb5be69",
+                  minWidth: "160px",
+                  minHeight: "60px",
+                  display: "grid",
+                  placeItems: "center",
+                  fontSize: "1.4rem",
+                  fontWeight: 600,
+                }}
+              >
+                {product?.brand?.title}
+              </div>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "1.6rem" }}
+              >
+                <div style={{ display: "flex", gap: ".3rem" }}>
+                  <ShopOutlined
+                    className={count > 0 ? style.shopIcActive : style.shopIc}
+                    onClick={handleOrderSubmit}
+                  />
                   {count > 0 && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        left: 0,
-                        minWidth: "40px",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <strong
-                        style={{
-                          lineHeight: "20px",
-                          borderBottom: "2px solid red",
-                          minWidth: "15px",
-                          textAlign: "center",
-                        }}
-                      >
-                        {count}
-                      </strong>
-                      <CloseCircleTwoTone
-                        twoToneColor="red"
-                        style={{ cursor: "pointer" }}
-                        onClick={handleCancelOrder}
-                      />
-                    </div>
+                    <strong style={{ color: "red" }}>{count}</strong>
                   )}
-                </div> */}
-              </div>
-            </div>
-          </Card>
+                </div>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "2.2rem",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: "#6fb5be69",
-                minWidth: "160px",
-                minHeight: "60px",
-                display: "grid",
-                placeItems: "center",
-                fontSize: "1.4rem",
-                fontWeight: 600,
-              }}
-            >
-              {product?.brand?.title}
-            </div>
-            <div
-              style={{ display: "flex", alignItems: "center", gap: "1.6rem" }}
-            >
-              <div style={{ display: "flex", gap: ".3rem" }}>
-                <ShopOutlined
-                  className={count > 0 ? style.shopIcActive : style.shopIc}
-                  onClick={handleOrderSubmit}
+                <HeartOutlined
+                  className={showActiveFav ? style.favIcActive : style.favIc}
+                  onClick={handleFavoritePr}
                 />
-                {count > 0 && <strong style={{ color: "red" }}>{count}</strong>}
               </div>
-
-              <HeartOutlined
-                className={showActiveFav ? style.favIcActive : style.favIc}
-                onClick={handleFavoritePr}
-              />
             </div>
-          </div>
-        </div>
-        <Divider />
-
-        <div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "0 3rem",
-            }}
-          >
-            <h5
-              className={ShowPart == "1" ? style.activePart : style.part}
-              onClick={() => setShowPart(1)}
-            >
-              مشخصات فنی
-            </h5>
-            <h5
-              className={ShowPart == "2" ? style.activePart : style.part}
-              onClick={() => setShowPart(2)}
-            >
-              توضیحات
-            </h5>
-            <h5
-              className={ShowPart == "3" ? style.activePart : style.part}
-              onClick={() => setShowPart(3)}
-            >
-              نظرات
-            </h5>
-          </div>
-          <div style={{ margin: "15px 50px", minHeight: "250px" }}>
-            {/* <h3
-              style={{
-                width: "120px",
-                display: "block",
-                borderBottom: "3px solid #F0E68C",
-                textAlign: "center",
-              }}
-            >
-              
-            </h3> */}
-            <p style={{ marginTop: "1.2rem", lineHeight: "30px" }}>
-              {ShowPart == "1"
-                ? product?.Specifications
-                : ShowPart == "2"
-                ? product?.description
-                : <Comments productId={id} username={userData?.username} />}
-              {}
-            </p>
           </div>
           <Divider />
-          <Bestpart title={strings.landing.samePr} data={newproduct} />
+
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 3rem",
+              }}
+            >
+              <h5
+                className={ShowPart == "1" ? style.activePart : style.part}
+                onClick={() => setShowPart(1)}
+              >
+                مشخصات فنی
+              </h5>
+              <h5
+                className={ShowPart == "2" ? style.activePart : style.part}
+                onClick={() => setShowPart(2)}
+              >
+                توضیحات
+              </h5>
+              <h5
+                className={ShowPart == "3" ? style.activePart : style.part}
+                onClick={() => setShowPart(3)}
+              >
+                نظرات
+              </h5>
+            </div>
+            <div style={{ margin: "30px 50px", minHeight: "250px" }}>
+              <p style={{ lineHeight: "36px" }}>
+                {ShowPart == "1" ? (
+                  product?.Specifications
+                ) : ShowPart == "2" ? (
+                  product?.description
+                ) : (
+                  <Comments productId={id} username={userData?.username} />
+                )}
+                {}
+              </p>
+            </div>
+            <Divider />
+            <Bestpart title={strings.landing.samePr} data={newproduct} />
+          </div>
         </div>
-      </div>
+        {isModalVisible && ( // Modal for zoomed image
+          <div className={style.modal} onClick={handleCloseModal}>
+            <img
+              src={product ? product?.image : boxImg}
+              alt="Zoomed product"
+              className={style.zoomedImage}
+            />
+          </div>
+        )}
+      </>
 
       <Footer />
     </div>

@@ -1,37 +1,43 @@
-.ProductContainer{
-    width: 260px;
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    flex-direction: column;
-    margin: .5rem;
-    padding: 30px 0 !important;
-    background: rgb(212,220,228);
-    background: linear-gradient(90deg, rgba(212,220,228,1) 0%, rgba(255,255,255,1) 55%, rgba(212,220,228,1) 100%);
+.ProductContainer {
+  width: 260px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: column;
+  margin: 0.5rem;
+  padding: 30px 0 !important;
+  background: rgb(212, 220, 228);
+  background: linear-gradient(
+    90deg,
+    rgba(212, 220, 228, 1) 0%,
+    rgba(255, 255, 255, 1) 55%,
+    rgba(212, 220, 228, 1) 100%
+  );
 }
-.ProductImg{
-    width: 100%;
-    max-height: 60px;
+
+.ProductImg {
+  width: 100%;
+  max-height: 60px;
 }
-.ProductCardDesc{
-    margin-top: .6rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: .8rem;
+.ProductCardDesc {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
 }
-strong{
-    font-weight: 600;
+strong {
+  font-weight: 600;
 }
-.rateBox{
-    display: flex;
-    gap: .3rem;
-    align-items: center;
-    direction: ltr;
+.rateBox {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  direction: ltr;
 }
-.ProductCardDesc h4{
-    font-size: 1rem;
-    max-width: 175px;
-    text-align: center;
+.ProductCardDesc h4 {
+  font-size: 1rem;
+  max-width: 175px;
+  text-align: center;
 }

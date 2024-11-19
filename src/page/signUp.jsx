@@ -5,7 +5,7 @@ import {
   EyeTwoTone,
   PhoneFilled,
   LoadingOutlined,
-  InteractionOutlined
+  InteractionOutlined,
 } from "@ant-design/icons";
 import { strings } from "../shared/language";
 import { BiSolidUser } from "react-icons/bi";
@@ -15,6 +15,7 @@ import { path } from "../shared/config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ClientCaptcha from "react-client-captcha";
+import ariaLogo from "../assets/images/logo.jpg";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -27,11 +28,9 @@ const SignUp = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
 
-
   const [error, setError] = useState("");
   const [captchaCode, setcCaptchaCode] = useState("");
   const [loading, setLoading] = useState(false);
-
 
   const onSignUp = async () => {
     setLoading(true);
@@ -40,9 +39,9 @@ const SignUp = () => {
         type: "error",
         content: "کد امنیتی اشتباه وارد شده است",
         style: {
-          marginTop: '10vh',
-          height:"100px !important",
-          width:"200px !important"
+          marginTop: "10vh",
+          height: "100px !important",
+          width: "200px !important",
         },
         duration: 5,
       });
@@ -75,9 +74,9 @@ const SignUp = () => {
       navigate("/");
     }
   };
-    const handleCaptcha = (code) =>{
-      setcCaptchaCode(code)
-    }
+  const handleCaptcha = (code) => {
+    setcCaptchaCode(code);
+  };
   const handleInp = (event) => {
     setSignInData((prevState) => ({
       ...prevState,
@@ -89,6 +88,7 @@ const SignUp = () => {
     <>
       {contextHolder}
       <div className={style.signupWrapper}>
+        <img src={ariaLogo} alt="ariaLogo" className={style.logo} />
         <Card className={style.singupBox}>
           <div className=" d-flex flex-column align-items-center">
             <p className="text-center h3 fw-bold mb-5 mx-1 mx-md-4 mt-4">
@@ -146,7 +146,7 @@ const SignUp = () => {
                 style={{ gap: ".7rem" }}
               >
                 <RiLockPasswordFill style={{ fontSize: "1.8rem" }} />
-              
+
                 <h5 className={style.inputBoxTitle}>رمز عبور</h5>
                 <Form.Item
                   name="password"
@@ -170,7 +170,7 @@ const SignUp = () => {
 
               <div
                 className="d-flex flex-row align-items-center mb-4"
-                style={{ gap:".7rem" }}
+                style={{ gap: ".7rem" }}
               >
                 <InteractionOutlined style={{ fontSize: "1.8rem" }} />
                 <h5 className={style.inputBoxTitle}>کد امنیتی</h5>
@@ -187,7 +187,9 @@ const SignUp = () => {
                     className={style.inputBox}
                   />
                   <div style={{ position: "absolute", top: "2px", left: 0 }}>
-                    <ClientCaptcha captchaCode={(code) => handleCaptcha(code)}/>
+                    <ClientCaptcha
+                      captchaCode={(code) => handleCaptcha(code)}
+                    />
                   </div>
                 </div>
               </div>

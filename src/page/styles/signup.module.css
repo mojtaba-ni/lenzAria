@@ -1,20 +1,22 @@
 .signupWrapper {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--background);
-    height: 100vh;
-  }
-  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5rem;
+  background-color: var(--background);
+  height: 100vh;
+}
+
 .inputBox {
   width: 330px;
   height: 44px;
 }
-.signUplink:hover{
-  color:#386bc0
+.signUplink:hover {
+  color: #386bc0;
 }
-.inputBoxCaptcha{
+.inputBoxCaptcha {
   position: relative;
 }
 .inputBoxTitle {
@@ -38,4 +40,3 @@
     rgba(212, 220, 228, 1) 100%
   );
 }
-
