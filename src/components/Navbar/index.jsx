@@ -87,8 +87,8 @@ const Navbar = () => {
   const handleShowMenu = () => {
     setShow(true);
     setShowLenz(false);
-    setShowAcc(false)
-    setShowListPr(false)
+    setShowAcc(false);
+    setShowListPr(false);
   };
   const handleShowUser = () => {
     setShowUser(!showUser);
@@ -96,14 +96,13 @@ const Navbar = () => {
 
   const handleShowLenzMenu = () => {
     setShowLenz(true);
-    setShowAcc(false)
-    setShowListPr(false)
+    setShowAcc(false);
+    setShowListPr(false);
     setShow(false);
-
   };
   const handleShowAcc = () => {
     setShowAcc(true);
-    setShowListPr(false)
+    setShowListPr(false);
     setShow(false);
     setShowLenz(false);
   };
@@ -158,7 +157,7 @@ const Navbar = () => {
                 </div>
                 <ul className={styles.navListBody}>
                   <Link to={`/periods/1`} style={{ color: "#4f4f4f" }}>
-                    <li >{strings.navbar.daily}</li>
+                    <li>{strings.navbar.daily}</li>
                   </Link>
                   <Link to={`/periods/2`} style={{ color: "#4f4f4f" }}>
                     <li>{strings.navbar.monthly}</li>
@@ -186,7 +185,7 @@ const Navbar = () => {
                         to={`/products/${sub._id}`}
                         style={{ color: "#4f4f4f" }}
                       >
-                        <li style={{fontSize:".92rem"}}>{sub?.title}</li>
+                        <li style={{ fontSize: ".92rem" }}>{sub?.title}</li>
                       </Link>
                     ))}
                   </ul>
@@ -216,7 +215,7 @@ const Navbar = () => {
                         to={`/products/${sub._id}`}
                         style={{ color: "#4f4f4f" }}
                       >
-                        <li style={{fontSize:".92rem"}}>{sub?.title}</li>
+                        <li style={{ fontSize: ".92rem" }}>{sub?.title}</li>
                       </Link>
                     ))}
                   </ul>
@@ -246,7 +245,7 @@ const Navbar = () => {
                         to={`/products/${sub._id}`}
                         style={{ color: "#4f4f4f" }}
                       >
-                        <li style={{fontSize:".92rem"}}>{sub?.title}</li>
+                        <li style={{ fontSize: ".92rem" }}>{sub?.title}</li>
                       </Link>
                     ))}
                   </ul>
@@ -278,7 +277,7 @@ const Navbar = () => {
                         to={`/products/${sub._id}`}
                         style={{ color: "#4f4f4f" }}
                       >
-                        <li style={{fontSize:".92rem"}}>{sub?.title}</li>
+                        <li style={{ fontSize: ".92rem" }}>{sub?.title}</li>
                       </Link>
                     ))}
                   </ul>
@@ -306,6 +305,10 @@ const Navbar = () => {
       </div>
       <div className={styles.navHandle}>
         <div className={styles.navUser}>
+          <SearchOutlined
+            className={styles.navUserIc}
+            onClick={() => setSearch(!search)}
+          />
           {theme === "light" ? (
             <MoonOutlined className={styles.navUserIc} onClick={switchTheme} />
           ) : (
@@ -331,7 +334,7 @@ const Navbar = () => {
                     : styles.navUserActiveSign
                   : styles.navUserList
               }
-              onMouseLeave={()=>setShowUser(false)}
+              onMouseLeave={() => setShowUser(false)}
             >
               {userData ? (
                 <div
@@ -404,10 +407,6 @@ const Navbar = () => {
             </div>
           </div>
 
-          <SearchOutlined
-            className={styles.navUserIc}
-            onClick={() => setSearch(!search)}
-          />
           <EnvironmentOutlined
             className={styles.navUserIc}
             onClick={() => handleIconAddress("map")}
