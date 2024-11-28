@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { path } from "../../shared/config";
 import productNotFoundImg from "../../assets/images/productNotFound.svg";
-import style from "../styles/panel.module.css"
+import style from "../styles/panel.module.css";
 
 const Search = () => {
   const params = useParams();
@@ -15,7 +15,7 @@ const Search = () => {
   const [allProduct, setAllProduct] = useState([]);
   const [periodTitle, setPeriodtitle] = useState();
   const [loading, setLoading] = useState(false);
- 
+
   const SkeletonArr = [0, 1, 2, 3];
 
   const getProduct = async () => {
@@ -49,7 +49,7 @@ const Search = () => {
             justifyContent: "space-between",
           }}
         >
-         {allProduct?.length > 0 && (
+          {allProduct?.length > 0 && (
             <div
               style={{
                 display: "flex",
@@ -92,75 +92,83 @@ const Search = () => {
             style={{
               minWidth: "100px",
               textAlign: "center",
-              borderBottom: allProduct?.length > 0 ? "3px solid #F0E68C" : "unset",
+              borderBottom:
+                allProduct?.length > 0 ? "3px solid #F0E68C" : "unset",
             }}
           >
-            <h4 style={{paddingBottom:".4rem"}}>{params?.name}</h4>
+            <h4 style={{ paddingBottom: ".4rem" }}>{params?.name}</h4>
           </div>
         </div>
         <Row style={{ margin: "2rem 0 " }}>
-          {loading
-            ? SkeletonArr.map((item, index) => (
-                <Col
-                  key={index}
-                  span={6}
-                  xs={{
-                    order: 1,
-                  }}
-                  sm={{
-                    order: 2,
-                  }}
-                  md={{
-                    order: 3,
-                  }}
-                  lg={{
-                    order: 4,
-                  }}
-                >
-                  <Skeleton.Input
-                    active
-                    style={{ width: "260px", height: "200px" }}
-                  />
-                </Col>
-              ))
-            : allProduct?.length > 0 ? allProduct?.map((item, index) => (
-                <Col
-                  key={index}
-                  span={6}
-                  xs={{
-                    order: 1,
-                  }}
-                  sm={{
-                    order: 2,
-                  }}
-                  md={{
-                    order: 3,
-                  }}
-                  lg={{
-                    order: 4,
-                  }}
-                >
-                  <Link to={`/product/${item?._id}`}>
-                    <ProductCard productInfo={item} />
-                  </Link>
-                </Col>
-              )) :   <div
+          {loading ? (
+            SkeletonArr.map((item, index) => (
+              <Col
+                key={index}
+                span={6}
+                xs={{
+                  order: 1,
+                }}
+                sm={{
+                  order: 2,
+                }}
+                md={{
+                  order: 3,
+                }}
+                lg={{
+                  order: 4,
+                }}
+              >
+                <Skeleton.Input
+                  active
+                  style={{ width: "260px", height: "200px" }}
+                />
+              </Col>
+            ))
+          ) : allProduct?.length > 0 ? (
+            allProduct?.map((item, index) => (
+              <Col
+                key={index}
+                span={6}
+                xs={{
+                  order: 1,
+                }}
+                sm={{
+                  order: 2,
+                }}
+                md={{
+                  order: 3,
+                }}
+                lg={{
+                  order: 4,
+                }}
+              >
+                <Link to={`/product/${item?._id}`}>
+                  <ProductCard productInfo={item} />
+                </Link>
+              </Col>
+            ))
+          ) : (
+            <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 flexDirection: "column",
                 alignItems: "center",
                 width: "100%",
-                gap:"2rem"
+                gap: "4rem",
               }}
             >
-              <img src={productNotFoundImg} width={400} height={400} style={{borderRadius:"25%"}} />
-              <div
-              className={style.notFoundTitle}
-              >
-                <h4>محصول مورد نظر یافت نشد</h4>
+              <img
+                src={productNotFoundImg}
+                width={350}
+                height={350}
+                style={{ borderRadius: "25%" }}
+              />
+              <div className={style.notFoundTitle}>
+                <h5>محصول مورد نظر یافت نشد</h5>
               </div>
-            </div> }
+            </div>
+          )}
         </Row>
       </div>
       <Footer />

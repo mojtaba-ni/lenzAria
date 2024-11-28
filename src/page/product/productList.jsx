@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { path } from "../../shared/config";
 import productNotFoundImg from "../../assets/images/productNotFound.svg";
-import style from "../styles/panel.module.css"
+import style from "../styles/panel.module.css";
 
 const ProductList = () => {
   const params = useParams();
@@ -95,15 +95,15 @@ const ProductList = () => {
             style={{
               minWidth: "100px",
               textAlign: "center",
-              borderBottom: allProduct?.length > 0 ? "3px solid #F0E68C" : "unset",
-              
+              borderBottom:
+                allProduct?.length > 0 ? "3px solid #F0E68C" : "unset",
             }}
           >
             {loading ? (
               <Skeleton.Input style={{ marginBottom: ".5rem" }} />
             ) : (
               <h4 style={{ marginBottom: ".5rem" }}>{title}</h4>
-            ) }
+            )}
           </div>
         </div>
         <Row style={{ margin: "2rem 0 " }}>
@@ -162,14 +162,17 @@ const ProductList = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 width: "100%",
-                gap:"2rem"
+                gap: "4rem",
               }}
             >
-              <img src={productNotFoundImg} width={400} height={400} style={{borderRadius:"25%"}} />
-              <div
-                className={style.notFoundTitle}
-              >
-                <h4>محصولی در این بخش یافت نشد</h4>
+              <img
+                src={productNotFoundImg}
+                width={350}
+                height={350}
+                style={{ borderRadius: "25%" }}
+              />
+              <div className={style.notFoundTitle}>
+                <h5>محصولی در این بخش یافت نشد</h5>
               </div>
             </div>
           )}

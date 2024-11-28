@@ -1,12 +1,4 @@
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-  Typography,
-} from "antd";
+import { Button, Col, Form, Input, Row, Select, Typography } from "antd";
 import { strings } from "../../../shared/language";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -23,7 +15,7 @@ const AddProduct = () => {
     Specifications: null,
     price: null,
   });
- 
+
   const [file, setFile] = useState(null);
   const [lenzFile, setLenzFile] = useState(null);
   const [step, setStep] = useState([]);
@@ -33,7 +25,6 @@ const AddProduct = () => {
   const [activeStep, setActiveStep] = useState(null);
   const [activeBrand, setActiveBrand] = useState(null);
   const [activePeriod, setActivePeriod] = useState(null);
-  
 
   const period = [
     { value: 1, label: "روزانه" },
@@ -41,7 +32,6 @@ const AddProduct = () => {
     { value: 3, label: "فصلی" },
     { value: 4, label: "سالانه" },
   ];
-
 
   const handleProductForm = (event, name) => {
     setProductForm((prevState) => ({
@@ -63,14 +53,16 @@ const AddProduct = () => {
   };
 
   const handleSubmit = async () => {
-    const pic = await toBase64(file);
-    var lenz = null
-    if(lenzFile){
+    let pic = null;
+    if (file) {
+      await toBase64(file);
+    }
+    let lenz = null;
+    if (lenzFile) {
       lenz = await toBase64(lenzFile);
     }
-   
+
     const data = {
-   
       step: {
         id: activeStep?.value,
         title: activeStep?.label,
@@ -90,8 +82,7 @@ const AddProduct = () => {
       periodId: activePeriod.value,
       price: parseInt(productForm?.price),
       image: pic,
-      lenzImage: lenz ? lenz : null 
-
+      lenzImage: lenz ? lenz : null,
     };
     await axios.post(`${path}/api/product/add`, data);
     navigate("/panel/product");
@@ -111,9 +102,7 @@ const AddProduct = () => {
   };
 
   const getAllBrand = async () => {
-    const { data } = await axios.get(
-      `${path}/api/brand/getAllBrand`
-    );
+    const { data } = await axios.get(`${path}/api/brand/getAllBrand`);
     const brandList = [];
     data?.data.forEach((element) => {
       const brandLi = {
@@ -126,9 +115,7 @@ const AddProduct = () => {
     setBrand(brandList);
   };
   const getAllCategory = async () => {
-    const { data } = await axios.get(
-      `${path}/api/category/getAllCategory`
-    );
+    const { data } = await axios.get(`${path}/api/category/getAllCategory`);
 
     const categoryList = [];
     data?.data.forEach((element) => {
@@ -141,12 +128,9 @@ const AddProduct = () => {
     setCategory(categoryList);
   };
   const getAllSteps = async (activeCt) => {
-    const { data } = await axios.get(
-      `${path}/api/step/getAllStep`,
-      {
-        params: { id: activeCt?.value },
-      }
-    );
+    const { data } = await axios.get(`${path}/api/step/getAllStep`, {
+      params: { id: activeCt?.value },
+    });
     const stepList = [];
     data?.data.forEach((element) => {
       const categorLi = {
@@ -375,7 +359,7 @@ const AddProduct = () => {
             name="file"
             rules={[
               {
-                required: true,
+                required: lenzFile ? false : true,
                 message: strings.profile.errorMessage.uploadError,
               },
             ]}
@@ -393,13 +377,13 @@ const AddProduct = () => {
             </ul>
           </section>
         )}
-          <div className={style.descprofileLi}>
+        <div className={style.descprofileLi}>
           <Typography.Title level={5}>عکس لنز</Typography.Title>
           <Form.Item
             name="lenzFile"
             rules={[
               {
-                required: true,
+                required: file ? false : true,
                 message: strings.profile.errorMessage.uploadError,
               },
             ]}

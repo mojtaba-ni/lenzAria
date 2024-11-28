@@ -95,36 +95,24 @@ const Login = () => {
     <>
       {contextHolder}
       <div className={style.signupWrapper}>
-        <img src={ariaLogo} alt="ariaLogo" className={style.logo} />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "2rem",
+          }}
+        >
+          <img src={ariaLogo} alt="ariaLogo" className={style.logo} />
+          <h3 className={style.header}>{strings.login.header}</h3>
+        </div>
+
         <Card className={style.singupBox}>
           <div className=" d-flex flex-column align-items-center">
             <p className="text-center h3 fw-bold mb-5 mx-1 mx-md-4 mt-4">
               {strings.login.title}
             </p>
             <Form>
-              {/* <div
-              className="d-flex flex-row align-items-center mb-4"
-              style={{ gap: ".7rem" }}
-            >
-              <BiSolidUser style={{ fontSize: "1.7rem" }} />
-              <h5 className={style.inputBoxTitle}>نام کاربری</h5>
-              <Form.Item
-                style={{ margin: ".3rem !important" }}
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: strings.profile.errorMessage.productNameError,
-                  },
-                ]}
-              >
-                <Input
-                  name="username"
-                  onChange={(e) => handleInp(e)}
-                  className={style.inputBox}
-                />
-              </Form.Item>
-            </div> */}
               <div
                 className="d-flex flex-row align-items-center mb-4"
                 style={{ gap: ".7rem" }}

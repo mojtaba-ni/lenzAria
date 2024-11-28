@@ -72,9 +72,16 @@ const EditProduct = () => {
   };
 
   const handleSubmit = async () => {
-    var lenz = null;
+    let lenz = null;
     if (lenzFile) {
       lenz = await toBase64(lenzFile);
+    }
+    let image = null;
+    if (img) {
+      image = img;
+    }
+    if (file) {
+      image = await toBase64(file);
     }
     const data = {
       productId: productForm?.productId,
@@ -96,8 +103,8 @@ const EditProduct = () => {
       periodId: activePeriod.value,
       description: productForm?.description,
       price: parseInt(productForm?.price),
-      image: img ? img : await toBase64(file),
-      imageLenz: lenz,
+      image: image,
+      lenzImage: lenz,
     };
 
     const res = await axios.put(`${path}/api/product/update`, data);
@@ -426,7 +433,7 @@ const EditProduct = () => {
             />
           </Form.Item>
         </div>
-        <div style={{display:"flex" , gap:"1rem", marginTop:"1rem"}}>
+        <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
           <div>
             <div className={style.descprofileLi}>
               <Typography.Title level={5}>عکس محصول</Typography.Title>
@@ -434,7 +441,8 @@ const EditProduct = () => {
                 name="file"
                 rules={[
                   {
-                    required: file || img ? false : true,
+                    required:
+                      file || img || !lenzFile || !lenzImg ? false : true,
                     message: strings.profile.errorMessage.uploadError,
                   },
                 ]}
@@ -444,7 +452,12 @@ const EditProduct = () => {
             </div>
             {(file || img) && (
               <section>
-                <img src={file || img} alt="image" width={200} style={{maxHeight:"200px"}}/>
+                <img
+                  src={file || img}
+                  alt="image"
+                  width={200}
+                  style={{ maxHeight: "200px" }}
+                />
               </section>
             )}
           </div>
@@ -455,7 +468,8 @@ const EditProduct = () => {
                 name="lenzFile"
                 rules={[
                   {
-                    required: lenzFile || lenzImg ? false : true,
+                    required:
+                      lenzFile || lenzImg || !file || !img ? false : true,
                     message: strings.profile.errorMessage.uploadError,
                   },
                 ]}
@@ -469,7 +483,12 @@ const EditProduct = () => {
             </div>
             {(lenzFile || lenzImg) && (
               <section>
-                <img src={lenzFile || lenzImg} alt="image" width={200} style={{maxHeight:"200px"}} />
+                <img
+                  src={lenzFile || lenzImg}
+                  alt="image"
+                  width={200}
+                  style={{ maxHeight: "200px" }}
+                />
               </section>
             )}
           </div>

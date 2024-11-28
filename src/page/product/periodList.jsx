@@ -6,8 +6,8 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { path } from "../../shared/config";
-import productNotFoundImg from "../../assets/images/productNotFound.svg"
-import style from "../styles/panel.module.css"
+import productNotFoundImg from "../../assets/images/productNotFound.svg";
+import style from "../styles/panel.module.css";
 
 const PeriodList = () => {
   const { periodId } = useParams();
@@ -49,7 +49,7 @@ const PeriodList = () => {
             justifyContent: "space-between",
           }}
         >
-           {allProduct?.length > 0 && (
+          {allProduct?.length > 0 && (
             <div
               style={{
                 display: "flex",
@@ -92,7 +92,8 @@ const PeriodList = () => {
             style={{
               minWidth: "100px",
               textAlign: "center",
-              borderBottom: allProduct?.length > 0 ? "3px solid #F0E68C" : "unset",
+              borderBottom:
+                allProduct?.length > 0 ? "3px solid #F0E68C" : "unset",
             }}
           >
             {loading ? (
@@ -158,13 +159,13 @@ const PeriodList = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 width: "100%",
-                gap: "2rem",
+                gap: "3rem",
               }}
             >
               <img
                 src={productNotFoundImg}
-                width={400}
-                height={400}
+                width={350}
+                height={350}
                 style={{ borderRadius: "25%" }}
               />
               <div className={style.notFoundTitle}>

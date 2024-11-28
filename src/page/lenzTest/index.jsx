@@ -19,9 +19,7 @@ const LenzTest = () => {
   const [isImage, setIsImage] = useState(false);
 
   const getAllLenzProduct = async () => {
-    const { data } = await axios.get(
-      `${path}/api/product/getLenzProduct`
-    );
+    const { data } = await axios.get(`${path}/api/product/getLenzProduct`);
     const prList = [];
     data?.data.forEach((element) => {
       const prLi = {
@@ -70,13 +68,10 @@ const LenzTest = () => {
       lenzFileBase64: chosenPr?.value,
     };
 
-    const res = await axios.post(
-      `${path}/api/eye/upload`,
-      requestBody
-    );
+    const res = await axios.post(`${path}/api/eye/upload`, requestBody);
     var a = document.createElement("a"); //Create <a>
     a.href = res.data; //Image Base64 Goes here
-    const dataType = res.data.split(';')[0].split('/')[1];
+    const dataType = res.data.split(";")[0].split("/")[1];
     a.download = `overlayedData.${dataType}`; //File name Here
     a.click();
     setIsModalOpen(false);
@@ -139,7 +134,7 @@ const LenzTest = () => {
         }}
       >
         <div className={style.descprofileLi}>
-          <Typography.Title level={5}>انتخاب لنز</Typography.Title>
+          <h6>انتخاب لنز</h6>
 
           <Select
             style={{ minWidth: "300px" }}
@@ -150,9 +145,7 @@ const LenzTest = () => {
           />
         </div>
         <div className={style.descprofileLi}>
-          <Typography.Title level={5}>
-            عکس یا ویدیویی از خود آپلود کنید
-          </Typography.Title>
+          <h6>عکس خود را انتخاب کنید</h6>
           <input id="file" type="file" onChange={handleFileChange} />
         </div>
         {file && isImage ? (
@@ -161,7 +154,7 @@ const LenzTest = () => {
             alt="file"
             style={{ width: "200px", height: "200px" }}
           />
-        ) : (file && !isImage) ? (
+        ) : file && !isImage ? (
           <img
             src={videoIc}
             alt="file"
