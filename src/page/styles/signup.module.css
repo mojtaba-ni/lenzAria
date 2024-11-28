@@ -8,6 +8,15 @@
   background-color: var(--background);
   height: 100vh;
 }
+.logo {
+  border-radius: 10px;
+  width: 65px;
+}
+.header {
+  text-align: center;
+  font-weight: 600;
+  color: var(--textHeader);
+}
 
 .inputBox {
   width: 330px;
