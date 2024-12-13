@@ -11,8 +11,8 @@ import ProductList from "./page/product/productList";
 import BrandList from "./page/product/brandList";
 import PeriodList from "./page/product/periodList";
 import Search from "./page/search";
-import useLocalStorage from 'use-local-storage'
-import "./index.css"
+import useLocalStorage from "use-local-storage";
+import "./index.css";
 import Map from "./page/map";
 import MapPage from "./page/map";
 import VideoBlogList from "./page/blog/video";
@@ -21,21 +21,22 @@ import Order from "./page/order";
 import LenzTest from "./page/lenzTest";
 import FavoritePage from "./page/favorite";
 import Login from "./page/login";
-
+import Transaction from "./page/transaction";
 
 export default function App() {
-  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
+  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const [theme, setTheme] = useLocalStorage(
+    "theme",
+    defaultDark ? "dark" : "light"
+  );
 
-const switchTheme = () => {
-  const newTheme = theme === 'light' ? 'dark' : 'light'
-  setTheme(newTheme )
-}
-
-
+  const switchTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+  };
 
   return (
-    <div data-theme={theme} className="app"> 
+    <div data-theme={theme} className="app">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -56,6 +57,7 @@ const switchTheme = () => {
           <Route path="/order" element={<Order />} />
           <Route path="/lenzTest" element={<LenzTest />} />
           <Route path="/favorite" element={<FavoritePage />} />
+          <Route path="/transaction" element={<Transaction />} />
         </Routes>
         <ToastContainer />
       </Router>
