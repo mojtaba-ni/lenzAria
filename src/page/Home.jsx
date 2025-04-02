@@ -76,6 +76,7 @@ const Home = () => {
     setBrand(data?.data);
   };
   console.log(geyAllBrand)
+  console.log(geyAllBrand)
   useEffect(() => {
     geyAllBrand();
     getAllSection();
