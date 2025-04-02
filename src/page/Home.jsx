@@ -75,6 +75,7 @@ const Home = () => {
     const { data } = await axios.get(`${path}/api/brand/getAllBrand`);
     setBrand(data?.data);
   };
+  console.log(geyAllBrand)
   useEffect(() => {
     geyAllBrand();
     getAllSection();
