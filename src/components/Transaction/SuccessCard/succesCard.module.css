@@ -1,0 +1,11 @@
+.card {
+  padding: 1.4rem;
+  -webkit-box-shadow: 10px 7px 27px -2px rgba(166, 163, 166, 1);
+  -moz-box-shadow: 10px 7px 27px -2px rgba(166, 163, 166, 1);
+  box-shadow: 10px 7px 27px -2px rgba(166, 163, 166, 1);
+  min-height: 410px;
+  width: 350px;
+}
+.divider {
+  background-color: var(--text-primary);
+}

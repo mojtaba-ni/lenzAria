@@ -5,6 +5,7 @@ import { toBase64 } from "../../../../shared/utils";
 import axios from "axios";
 import style from "../../../styles/product/style.module.css";
 import { strings } from "../../../../shared/language";
+import { path } from "../../../../shared/config";
 
 const AddOfferBanner = () => {
     const navigate = useNavigate()
@@ -26,8 +27,8 @@ const AddOfferBanner = () => {
         const data = {
             image: pic
         }
-        const res = await axios.post("http://localhost:8000/api/offerBanner/add" , data )
-        console.log({res});
+        const res = await axios.post(`${path}/api/offerBanner/add` , data )
+      
         navigate('/panel/offerBanner')
       }
   return (

@@ -14,7 +14,7 @@
     justify-content: space-around;
 }
 .footerDesc{
-    max-width: 310px;
+    max-width: 384px;
     line-height: 1.7rem;
 }
 .footerTitle{
@@ -24,6 +24,7 @@
 }
 .footerContactBox,.footerDesc{
     padding-right: .7rem;
+    padding-top: .7rem;
 }
 .footerContactBoxLi{
     display: flex;

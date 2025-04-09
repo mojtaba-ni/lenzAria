@@ -6,6 +6,9 @@ import { ConfigProvider } from "antd";
 import "./index.css";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
+import "./assets/fonts/Rezvan.ttf"
+
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

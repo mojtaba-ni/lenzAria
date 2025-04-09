@@ -1,18 +1,20 @@
-import { Table } from "antd";
+import { Space, Table } from "antd";
 import style from "../../styles/panel/allUser/style.module.css"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { strings } from "../../../shared/language";
+import { dateFullFilter } from "../../../shared/utils";
+import { path } from "../../../shared/config";
 
 
 const AllUser = () => {
  
  
   const [users, setUsers] = useState()
-console.log({users});
+
   const geyAllUser = async () =>{
     
-    const {data} = await axios.get("http://localhost:8000/api/getAllUsers")
+    const {data} = await axios.get(`${path}/api/getAllUsers`)
     
     setUsers(data?.data)
    
@@ -38,7 +40,11 @@ console.log({users});
         {
           title: strings.panel.allUserPage.createdAt,
           dataIndex: 'createdAt',
-          key: 'createdAt',
+          render: (_, record) => (
+            <Space size="middle">
+                {dateFullFilter(record?.createdAt)}
+            </Space>
+            ),
         },
       ];
   return (

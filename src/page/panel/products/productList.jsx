@@ -2,34 +2,47 @@ import { Button, Space, Table } from "antd";
 import { strings } from "../../../shared/language";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
+import CustomModal from "../../../components/Modal";
+import { commaThousondSeperator, dateFullFilter } from "../../../shared/utils";
+import { path } from "../../../shared/config";
+
 
 const ProductList = () => {
   const [product, setProduct] = useState();
-  const [update, setUpdate] = useState();
-  const navigate = useNavigate();
+  const [update, setUpdate] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [record, setRecord] = useState();
+
 
   const getAllProduct = async () => {
-    const { data } = await axios.get("http://localhost:8000/api/product");
+    const { data } = await axios.get(`${path}/api/product`);
     if (!data?.isSuccess) return;
     setProduct(data?.data);
   };
-  const handleDeleteProduct = async (record) => {
-    const res = await axios.delete("http://localhost:8000/api/product/delete", {
-      data: { productId: record?._id },
+
+  const handleDeleteModal = (record) => {
+    setShowRemoveModal(true)
+    setRecord(record)
+  }
+  
+  const handleDeleteProduct = async (id) => {
+    const res = await axios.delete(`${path}/api/product/delete`, {
+      data: { productId: id },
     });
 
     setUpdate(!update);
+    setShowRemoveModal(false)
   };
-
-  
 
   useEffect(() => {
     getAllProduct();
   }, []);
   useEffect(() => {
-    getAllProduct();
+    if (product) {
+      getAllProduct();  
+    }
   }, [update]);
 
   const columns = [
@@ -41,12 +54,20 @@ const ProductList = () => {
     {
       title: strings.panel.product.price,
       dataIndex: "price",
-      key: "price",
+      render: (_, record) => (
+        <Space size="middle">
+            {record?.price && commaThousondSeperator(record?.price)}
+        </Space>
+        ),
     },
     {
       title: strings.panel.blog.createdAt,
       dataIndex: "createdAt",
-      key: "createdAt",
+      render: (_, record) => (
+        <Space size="middle">
+            {dateFullFilter(record?.createdAt)}
+        </Space>
+        ),
     },
     {
       title: "عملیات",
@@ -60,7 +81,7 @@ const ProductList = () => {
             <DeleteTwoTone
               twoToneColor="#eb2f96"
               style={{ fontSize: "1.2rem" }}
-              onClick={() => handleDeleteProduct(record)}
+              onClick={() => handleDeleteModal(record)}
             />
           </Link>
         </Space>
@@ -70,6 +91,15 @@ const ProductList = () => {
 
   return (
     <div>
+       {showRemoveModal ? (
+        <CustomModal
+          onOk={() => handleDeleteProduct(record?._id)}
+          visible={showRemoveModal}
+          onCancel={() => setShowRemoveModal(false)}
+          text={"از حذف محصول اطمینان دارید؟"}
+          title={"حذف محصول"}
+        />
+      ) : null}
       <div
         style={{
           display: "flex",

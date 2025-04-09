@@ -2,28 +2,36 @@ import { Button, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import { strings } from "../../../shared/language";
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import CustomModal from "../../../components/Modal";
+import { dateFullFilter } from "../../../shared/utils";
+import { path } from "../../../shared/config";
 
 const CategoryList = () => {
-  const navigate = useNavigate()
   const [category, setCategories] = useState();
   const [update, setUpdate] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [record, setRecord] = useState();
 
   const getAllCategory = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/category/getAllCategory"
+      `${path}/api/category/getAllCategory`
     );
 
     setCategories(data?.data);
   };
-
-  const handleDelete = async (record) => {
-    const res = await axios.delete(
-      "http://localhost:8000/api/category/delete",
-      { data: { categoryId: record?._id } }
+  const handleDeleteModal = (record) => {
+    setShowRemoveModal(true);
+    setRecord(record);
+  };
+  const handleDelete = async (id) => {
+      await axios.delete(
+      `${path}/api/category/delete`,
+      { data: { categoryId: id} }
     );
     setUpdate(!update)
+    setShowRemoveModal(false);
   };
 
 
@@ -45,11 +53,9 @@ const CategoryList = () => {
       key: "createdAt",
       render: (_, record) => (
         <Space size="middle">
-           <div>
-              {new Date(record?.createdAt).toString()}
-           </div>
+            {dateFullFilter(record?.createdAt)}
         </Space>
-      ),
+        ),
     },
     {
       title: "عملیات",
@@ -65,7 +71,7 @@ const CategoryList = () => {
             <DeleteTwoTone
               twoToneColor="#eb2f96"
               style={{ fontSize: "1.2rem" }}
-              onClick={() => handleDelete(record)}
+              onClick={() => handleDeleteModal(record)}
             />
           </Link>
         </Space>
@@ -75,6 +81,15 @@ const CategoryList = () => {
 
   return (
     <div>
+       {showRemoveModal ? (
+        <CustomModal
+          onOk={() => handleDelete(record?._id)}
+          visible={showRemoveModal}
+          onCancel={() => setShowRemoveModal(false)}
+          text={"از حذف دسته اطمینان دارید؟"}
+          title={"حذف دسته بندی"}
+        />
+      ) : null}
       <div
         style={{
           display: "flex",

@@ -1,19 +1,11 @@
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-  Typography,
-  Upload,
-} from "antd";
+import { Button, Col, Form, Input, Row, Select, Typography } from "antd";
 import { strings } from "../../../shared/language";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toBase64 } from "../../../shared/utils";
 import axios from "axios";
 import style from "../../styles/product/style.module.css";
+import { path } from "../../../shared/config";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -23,27 +15,107 @@ const AddProduct = () => {
     Specifications: null,
     price: null,
   });
+
   const [file, setFile] = useState(null);
+  const [lenzFile, setLenzFile] = useState(null);
   const [step, setStep] = useState([]);
   const [category, setCategory] = useState([]);
-  const [categoryId, setCategoryId] = useState(null);
-  const [stepId, setStepId] = useState(null);
-  console.log({stepId});
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [brand, setBrand] = useState(null);
+  const [activeStep, setActiveStep] = useState(null);
+  const [activeBrand, setActiveBrand] = useState(null);
+  const [activePeriod, setActivePeriod] = useState(null);
+
+  const period = [
+    { value: 1, label: "روزانه" },
+    { value: 2, label: "ماهانه" },
+    { value: 3, label: "فصلی" },
+    { value: 4, label: "سالانه" },
+  ];
+
   const handleProductForm = (event, name) => {
     setProductForm((prevState) => ({
       ...prevState,
       [name]: event.target.value,
     }));
   };
+
   const handleFileChange = (e) => {
     if (e.target.files) {
-      setFile(e.target.files[0]);
+      setFile(e?.target?.files[0]);
     }
   };
+
+  const handleLenzFileChange = (e) => {
+    if (e.target.files) {
+      setLenzFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async () => {
+    let pic = null;
+    if (file) {
+      await toBase64(file);
+    }
+    let lenz = null;
+    if (lenzFile) {
+      lenz = await toBase64(lenzFile);
+    }
+
+    const data = {
+      step: {
+        id: activeStep?.value,
+        title: activeStep?.label,
+      },
+      category: {
+        id: activeCategory?.value,
+        title: activeCategory?.label,
+      },
+      name: productForm?.name,
+      Specifications: productForm?.Specifications,
+      description: productForm?.description,
+      brand: {
+        id: activeBrand?.value,
+        title: activeBrand?.label,
+      },
+      period: activePeriod.label,
+      periodId: activePeriod.value,
+      price: parseInt(productForm?.price),
+      image: pic,
+      lenzImage: lenz ? lenz : null,
+    };
+    await axios.post(`${path}/api/product/add`, data);
+    navigate("/panel/product");
+  };
+
+  const handleChange = (value) => {
+    setActiveCategory(value);
+  };
+  const handleChangeBrand = (value) => {
+    setActiveBrand(value);
+  };
+  const handleChangePeriod = (value) => {
+    setActivePeriod(value);
+  };
+  const handleChangeStep = (value) => {
+    setActiveStep(value);
+  };
+
+  const getAllBrand = async () => {
+    const { data } = await axios.get(`${path}/api/brand/getAllBrand`);
+    const brandList = [];
+    data?.data.forEach((element) => {
+      const brandLi = {
+        label: element?.name,
+        value: element?._id,
+      };
+      brandList.push(brandLi);
+    });
+
+    setBrand(brandList);
+  };
   const getAllCategory = async () => {
-    const { data } = await axios.get(
-      "http://localhost:8000/api/category/getAllCategory"
-    );
+    const { data } = await axios.get(`${path}/api/category/getAllCategory`);
 
     const categoryList = [];
     data?.data.forEach((element) => {
@@ -55,26 +127,9 @@ const AddProduct = () => {
     });
     setCategory(categoryList);
   };
-
-  const handleSubmit = async () => {
-    const pic = await toBase64(file);
-    const data = {
-      stepId,
-      categoryId,
-      name: productForm?.name,
-      Specifications: productForm?.Specifications,
-      description: productForm?.description,
-      price: parseInt(productForm?.price),
-      image: pic,
-    };
-    const res = await axios.post("http://localhost:8000/api/product/add", data);
-    console.log({ res });
-    navigate("/panel/product");
-  };
-
-  const getAllSteps = async (id) => {
-    const {data} = await axios.get("http://localhost:8000/api/step/getAllStep", {
-      params: { id },
+  const getAllSteps = async (activeCt) => {
+    const { data } = await axios.get(`${path}/api/step/getAllStep`, {
+      params: { id: activeCt?.value },
     });
     const stepList = [];
     data?.data.forEach((element) => {
@@ -87,22 +142,16 @@ const AddProduct = () => {
     setStep(stepList);
   };
 
-  const handleChange = (value) => {
-    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-    setCategoryId(value?.value);
-  };
-  const handleChangeStep = (value) => {
-    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-    setStepId(value?.value);
-  };
+  //Effect
   useEffect(() => {
     getAllCategory();
+    getAllBrand();
   }, []);
   useEffect(() => {
-    if (categoryId) {
-      getAllSteps(categoryId);
+    if (activeCategory) {
+      getAllSteps(activeCategory);
     }
-  }, [categoryId]);
+  }, [activeCategory]);
 
   return (
     <div>
@@ -115,7 +164,7 @@ const AddProduct = () => {
             span={6}
           >
             <div className={style.descprofileLi}>
-              <Typography.Title level={5}>اسم دسته</Typography.Title>
+              <Typography.Title level={5}>انتخاب دسته</Typography.Title>
               <Form.Item
                 name="category"
                 rules={[
@@ -129,6 +178,7 @@ const AddProduct = () => {
                   labelInValue
                   onChange={handleChange}
                   options={category}
+                  defaultValue={activeCategory}
                 />
               </Form.Item>
             </div>
@@ -140,7 +190,7 @@ const AddProduct = () => {
             span={6}
           >
             <div className={style.descprofileLi}>
-              <Typography.Title level={5}>اسم زیر دسته</Typography.Title>
+              <Typography.Title level={5}>انتخاب زیر دسته</Typography.Title>
               <Form.Item
                 name="step"
                 rules={[
@@ -155,12 +205,66 @@ const AddProduct = () => {
                   onChange={handleChangeStep}
                   options={step}
                   disabled={!step}
+                  defaultValue={activeStep}
                 />
               </Form.Item>
             </div>
           </Col>
         </Row>
-
+        <Row gutter={20}>
+          <Col
+            sm={{
+              span: 12,
+            }}
+            span={6}
+          >
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}> انتخاب برند</Typography.Title>
+              <Form.Item
+                name="brand"
+                rules={[
+                  {
+                    required: true,
+                    message: strings.profile.errorMessage.productNameError,
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  onChange={handleChangeBrand}
+                  options={brand}
+                  defaultValue={activeBrand}
+                />
+              </Form.Item>
+            </div>
+          </Col>
+          <Col
+            sm={{
+              span: 12,
+            }}
+            span={6}
+          >
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}>دوره مصرف</Typography.Title>
+              <Form.Item
+                name="period"
+                rules={[
+                  {
+                    required: true,
+                    message: strings.profile.errorMessage.productNameError,
+                  },
+                ]}
+              >
+                <Select
+                  labelInValue
+                  onChange={handleChangePeriod}
+                  options={period}
+                  defaultValue={activePeriod}
+                />
+              </Form.Item>
+            </div>
+          </Col>
+        </Row>
         <div className={style.descprofileLi}>
           <Typography.Title level={5}>اسم محصول</Typography.Title>
           <Form.Item
@@ -194,7 +298,7 @@ const AddProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={120}
+              maxLength={1000}
               placeholder="..."
               style={{
                 height: 120,
@@ -220,7 +324,7 @@ const AddProduct = () => {
           >
             <Input.TextArea
               showCount
-              maxLength={120}
+              maxLength={500}
               placeholder="..."
               style={{
                 height: 120,
@@ -255,7 +359,7 @@ const AddProduct = () => {
             name="file"
             rules={[
               {
-                required: true,
+                required: lenzFile ? false : true,
                 message: strings.profile.errorMessage.uploadError,
               },
             ]}
@@ -270,6 +374,30 @@ const AddProduct = () => {
               <li>Name: {file.name}</li>
               <li>Type: {file.type}</li>
               <li>Size: {file.size} bytes</li>
+            </ul>
+          </section>
+        )}
+        <div className={style.descprofileLi}>
+          <Typography.Title level={5}>عکس لنز</Typography.Title>
+          <Form.Item
+            name="lenzFile"
+            rules={[
+              {
+                required: file ? false : true,
+                message: strings.profile.errorMessage.uploadError,
+              },
+            ]}
+          >
+            <input id="lenzFile" type="file" onChange={handleLenzFileChange} />
+          </Form.Item>
+        </div>
+        {lenzFile && (
+          <section>
+            جزیات عکس:
+            <ul>
+              <li>Name: {lenzFile?.name}</li>
+              <li>Type: {lenzFile?.type}</li>
+              <li>Size: {lenzFile?.size} bytes</li>
             </ul>
           </section>
         )}
