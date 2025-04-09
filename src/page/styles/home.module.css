@@ -1,6 +1,17 @@
-.sliderImg{
+.sliderImg {
+    padding-top: 1rem;
     width: 100%;
-    min-height: 350px;
+    min-height: 450px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  
+
+.newTitle{
+    width: 150px;
+    border: 2px solid #F0E68C;
+    margin-top: 1rem;
 }
 .swiper{
     min-height: 430px !important;

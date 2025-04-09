@@ -173,6 +173,7 @@ const Home = () => {
           </Col>
         </Row>
         <Bestpart title={strings.landing.bestSellers} data={newPr} />
+        
         <div
           style={{
             backgroundColor: "#6fb5be69",

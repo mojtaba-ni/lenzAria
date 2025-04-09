@@ -1,13 +1,13 @@
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Card, Divider, Skeleton } from "antd";
 import Bestpart from "../../components/Bestpart";
 import { strings } from "../../shared/language";
 import { useOrder } from "../../shared/store/useOrder";
-import { ShopOutlined, HeartOutlined } from "@ant-design/icons";
+import { ShopOutlined, HeartOutlined, ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
 import { StarFilled } from "@ant-design/icons";
 import style from "../styles/product/style.module.css";
 import { path } from "../../shared/config";
@@ -25,13 +25,71 @@ const ProductPage = () => {
   const [showActiveFav, setShowActiveFav] = useState(false);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [zoomCount, setZoomCount] = useState(0);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const modalImageRef = useRef(null);
 
   const handleImageClick = () => {
     setIsModalVisible(true);
   };
 
+  const handleMouseDown = (e) => {
+    if (isZoomed) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y
+      });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging && isZoomed) {
+      setPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleZoomIn = (e) => {
+    e.stopPropagation();
+    if (zoomCount < 3) {
+      const zoomSpeed = 0.5;
+      setScale(prevScale => prevScale + zoomSpeed);
+      setIsZoomed(true);
+      setZoomCount(prev => prev + 1);
+      setPosition({ x: 0, y: 0 });
+    }
+  };
+
+  const handleZoomOut = (e) => {
+    e.stopPropagation();
+    const zoomSpeed = 0.5;
+    setScale(prevScale => Math.max(1, prevScale - zoomSpeed));
+    if (scale <= 1.5) {
+      setIsZoomed(false);
+    }
+    if (zoomCount > 0) {
+      setZoomCount(prev => prev - 1);
+    }
+    setPosition({ x: 0, y: 0 });
+  };
+
   const handleCloseModal = () => {
     setIsModalVisible(false);
+    setIsZoomed(false);
+    setScale(1);
+    setZoomCount(0);
+    setPosition({ x: 0, y: 0 });
   };
 
   const { orderList, updateOrderUser } = useOrder();
@@ -78,7 +136,6 @@ const ProductPage = () => {
 
     lastPr = [];
     if (!allPr) {
-      // lastPr.push(product);
       localStorage.setItem("favoritePr", JSON.stringify([product]));
       setShowActiveFav(true);
     } else {
@@ -310,13 +367,39 @@ const ProductPage = () => {
             <Bestpart title={strings.landing.samePr} data={newproduct} />
           </div>
         </div>
-        {isModalVisible && ( // Modal for zoomed image
+        {isModalVisible && (
           <div className={style.modal} onClick={handleCloseModal}>
-            <img
-              src={product ? product?.image : boxImg}
-              alt="Zoomed product"
-              className={style.zoomedImage}
-            />
+            <div className={style.modalContent}>
+              <div 
+                className={style.imageContainer}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
+                <img
+                  ref={modalImageRef}
+                  src={product ? product?.image : boxImg}
+                  alt="Zoomed product"
+                  className={`${style.zoomedImage} ${isZoomed ? style.zoomed : ''}`}
+                  style={{ 
+                    transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`
+                  }}
+                />
+              </div>
+              <div className={style.zoomControls}>
+                <button 
+                  className={`${style.zoomButton} ${zoomCount >= 3 ? style.disabled : ''}`} 
+                  onClick={handleZoomIn}
+                  disabled={zoomCount >= 3}
+                >
+                  <ZoomInOutlined style={{ fontSize: '1.5rem' }} />
+                </button>
+                <button className={style.zoomButton} onClick={handleZoomOut}>
+                  <ZoomOutOutlined style={{ fontSize: '1.5rem' }} />
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </>

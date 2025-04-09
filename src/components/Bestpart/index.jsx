@@ -18,7 +18,7 @@ const Bestpart = ({ title, data }) => {
     <div className={styles.bestSellerBox}>
       <div>
         <h5>{title}</h5>
-        <div className={styles.titleLine}></div>
+        <div className={styles.titlecsd}></div>
       </div>
       <div className={styles.bestSellerSlider}>
         <Swiper

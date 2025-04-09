@@ -6,10 +6,11 @@
 .navHeadLine {
   background-color: #6fb5be69;
   padding: 1rem 2rem;
+  margin-right: 3rem;
 }
 .navCol {
   display: flex;
-  gap: 1.4em;
+  gap: 0.7rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -108,6 +109,7 @@
 
 .navColIC {
   font-size: 0.8rem;
+ 
 }
 .navHandle {
   display: flex;
@@ -191,4 +193,42 @@
 
 a:hover{
   color: #000;
+}
+
+.searchModal :global(.ant-modal-content) {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.searchModal :global(.ant-modal-header) {
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #444;
+}
+
+.searchModal :global(.ant-modal-title) {
+  color: #fff;
+}
+
+.searchModal :global(.ant-modal-close) {
+  color: #fff;
+}
+
+.searchModal :global(.ant-modal-close:hover) {
+  color: #ddd;
+}
+
+.searchModal :global(.ant-input) {
+  background-color: #363636;
+  border-color: #444;
+  color: #fff;
+}
+
+.searchModal :global(.ant-input::placeholder) {
+  color: #888;
+}
+
+.searchModal :global(.ant-input:hover),
+.searchModal :global(.ant-input:focus) {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
