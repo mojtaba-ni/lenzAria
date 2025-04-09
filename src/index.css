@@ -23,11 +23,11 @@
   --bgTitleImg: rgb(193 127 255 / 10%);
   --textHeader: rgb(236, 234, 234);
 }
-
 .app {
   color: var(--text-primary);
   background-color: var(--background);
 }
+
 
 * {
   direction: rtl;

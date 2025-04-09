@@ -5,10 +5,15 @@
     gap: 1rem;
 }
 .titleLine{
-    width: 145px;
+    width: 150px;
     border: 2px solid #F0E68C;
-    margin-top: .6rem;
+    margin-top: 1rem;
 }
 .bestSellerSlider{
-    margin-top: 1.4rem;
+    margin-top: 1.4rem
+}
+.titlecsd{
+    width: 130px;
+    border: 2px solid #F0E68C;
+    margin-top: 1rem;
 }
