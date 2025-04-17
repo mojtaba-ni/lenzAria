@@ -17,7 +17,7 @@ import styles from "./navbar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useLocalStorage from "use-local-storage";
-import { Badge, Button, Divider, Input } from "antd";
+import { Badge, Button, Divider, Input, Modal } from "antd";
 import { path } from "../../shared/config";
 import { useOrder } from "../../shared/store/useOrder";
 
@@ -43,8 +43,8 @@ const Navbar = () => {
   const [showAcc, setShowAcc] = useState(false);
   const [showListPr, setShowListPr] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  const [search, setSearch] = useState(false);
-  const [searchInp, setSearchInp] = useState();
+  const [isSearchModalVisible, setIsSearchModalVisible] = useState(false);
+  const [searchInp, setSearchInp] = useState("");
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
   const [medicalLenz, setMedicalLenz] = useState([]);
@@ -120,6 +120,8 @@ const Navbar = () => {
   };
   const handleSearchPr = () => {
     navigate(`/search/${searchInp}`);
+    setIsSearchModalVisible(false);
+    setSearchInp("");
   };
   const handleLogOut = () => {
     localStorage.removeItem("userData");
@@ -127,10 +129,33 @@ const Navbar = () => {
     navigate(`/login`);
   };
 
+  const showSearchModal = () => {
+    setIsSearchModalVisible(true);
+  };
+
+  const handleSearchModalCancel = () => {
+    setIsSearchModalVisible(false);
+    setSearchInp("");
+  };
+
   useEffect(() => {
     getAllCategories();
     getAllBrand();
   }, []);
+
+  useEffect(() => {
+    if (isSearchModalVisible) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '17px';
+    } else {
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0';
+    };
+  }, [isSearchModalVisible]);
 
   return (
     <div className={styles.navContainer}>
@@ -142,7 +167,7 @@ const Navbar = () => {
               <h5>{strings.navbar.home}</h5>
             </Link>
 
-            {/* <DownOutlined className={styles.navColIC} /> */}
+
           </li>
           <li className={styles.navCol} onMouseOver={handleShowMenu}>
             <h5>{strings.navbar.medicalLens}</h5>
@@ -301,20 +326,35 @@ const Navbar = () => {
               <h5>{strings.navbar.lenzTest}</h5>
             </Link>
           </li>
+          <li className={styles.navCol}>
+            <Link to="/about">
+              <h5>درباره ما</h5>
+            </Link>
+          </li>
         </ul>
       </div>
       <div className={styles.navHandle}>
         <div className={styles.navUser}>
           <SearchOutlined
             className={styles.navUserIc}
-            onClick={() => setSearch(!search)}
+            onClick={showSearchModal}
           />
+          
           {theme === "light" ? (
             <MoonOutlined className={styles.navUserIc} onClick={switchTheme} />
           ) : (
             <SunOutlined className={styles.navUserIc} onClick={switchTheme} />
           )}
+          <EnvironmentOutlined
+            className={styles.navUserIc}
+            onClick={() => handleIconAddress("map")}
+          />
+          <HeartOutlined
+            className={styles.navUserIc}
+            onClick={() => handleIconAddress("favorite")}
+          />
           <Badge count={orderList && orderList?.length} size="large">
+            
             <ShoppingCartOutlined
               className={styles.navUserIc}
               onClick={() => handleIconAddress("order")}
@@ -407,28 +447,43 @@ const Navbar = () => {
             </div>
           </div>
 
-          <EnvironmentOutlined
-            className={styles.navUserIc}
-            onClick={() => handleIconAddress("map")}
-          />
-          <HeartOutlined
-            className={styles.navUserIc}
-            onClick={() => handleIconAddress("favorite")}
-          />
+          
+          
         </div>
-        <div className={styles.navSearch}>
-          {search && (
-            <div className={styles.navSearchBox}>
+        <div className={styles.searchBarStyle}>
+          {isSearchModalVisible && (
+            <Modal
+              title="جستجو"
+              open={isSearchModalVisible}
+              onCancel={handleSearchModalCancel}
+              footer={[
+                <Button key="back" onClick={handleSearchModalCancel}>
+                  انصراف
+                </Button>,
+                <Button 
+                  key="submit" 
+                  type="primary" 
+                  onClick={handleSearchPr}
+                  disabled={!searchInp.trim()}
+                >
+                  جستجو
+                </Button>,
+              ]}
+              width={400}
+              centered
+              destroyOnClose
+              maskClosable={false}
+              
+              
+            >
               <Input
-                placeholder="..."
-                name="search"
+                placeholder="جستجو کنید..."
                 value={searchInp}
                 onChange={handleChangSearch}
+                onPressEnter={handleSearchPr}
+                size="large"
               />
-              <Button type="primary" size="middle" onClick={handleSearchPr}>
-                ثبت
-              </Button>
-            </div>
+            </Modal>
           )}
         </div>
       </div>
