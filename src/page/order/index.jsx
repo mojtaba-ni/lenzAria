@@ -1,12 +1,13 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { Divider, Row, Col, Input, Button, message } from "antd";
+import { Divider, Row, Col, Input, Button, message, Tag } from "antd";
 import { CloseCircleTwoTone } from "@ant-design/icons";
 import style from "../styles/order/style.module.css";
 import { useOrder } from "../../shared/store/useOrder";
 import { useEffect, useState } from "react";
 import { commaThousondSeperator } from "../../shared/utils";
 import { path } from "../../shared/config";
+import { FaBoxArchive } from "react-icons/fa6";
 import axios from "axios";
 
 const Order = () => {
@@ -185,6 +186,22 @@ const Order = () => {
               >
                 پرداخت
               </Button>
+              <div>
+                <Tag
+                  style={{
+                    display: "flex",
+                    gap: ".3rem",
+                    alignItems: "center",
+                    padding: "0 .5rem",
+                    height: "30px",
+                    marginTop: "1rem",
+                  }}
+                  icon={<FaBoxArchive />}
+                  color="#6fb5be69"
+                >
+                  تحویل رایگان
+                </Tag>
+              </div>
             </div>
           </div>
         </div>

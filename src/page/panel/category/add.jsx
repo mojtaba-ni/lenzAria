@@ -148,18 +148,7 @@ const AddCategory = () => {
                 minHeight: "400px",
               }}
             >
-              <div
-                style={{
-                  textAlign: "center",
-                  minWidth: "90px",
-                  backgroundColor: "#000069",
-                  borderRadius: "5px",
-                  color: "#fff",
-                  padding: ".5rem",
-                }}
-              >
-                <h4>{category}</h4>
-              </div>
+              
               <ArrowDownOutlined />
               <div
                 style={{
