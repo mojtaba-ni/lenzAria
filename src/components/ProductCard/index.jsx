@@ -12,7 +12,7 @@ const ProductCard = ({ productInfo }) => {
       <Link to={`/product/${productInfo?._id}`}>
         <Card className={styles.ProductContainer} hoverable>
           <img
-            src={productInfo ? productInfo?.image : boxImg}
+            src={boxImg}
             alt="jabe"
             className={styles.ProductImg}
           />
