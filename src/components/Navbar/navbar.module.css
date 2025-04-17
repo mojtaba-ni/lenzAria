@@ -196,7 +196,7 @@ a:hover{
 }
 
 .searchModal :global(.ant-modal-content) {
-  background-color: var(--background);
+  background-color: #2a2a2a;
   color: #fff;
 }
 
@@ -231,7 +231,4 @@ a:hover{
 .searchModal :global(.ant-input:focus) {
   border-color: #1890ff;
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-}
-.searchBarStyle{
-  background-color: var(--background);
 }

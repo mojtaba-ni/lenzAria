@@ -450,7 +450,7 @@ const Navbar = () => {
           
           
         </div>
-        <div className={styles.searchBarStyle}>
+        <div className={styles.navSearch}>
           {isSearchModalVisible && (
             <Modal
               title="جستجو"
@@ -473,8 +473,12 @@ const Navbar = () => {
               centered
               destroyOnClose
               maskClosable={false}
-              
-              
+              className={styles.searchModal}
+              maskStyle={{ 
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)'
+              }}
             >
               <Input
                 placeholder="جستجو کنید..."
