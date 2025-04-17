@@ -1,0 +1,79 @@
+.panelSide {
+  /* width: 350px; */
+  background-color: #000069;
+  height: 100%;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.panelBox {
+  background-color: #efeeee;
+  min-height: 80vh;
+}
+.panelSideIcon {
+  transform: translateX(6px);
+}
+.panelSideLi {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 50px;
+  cursor: pointer;
+  padding: 1.3rem 0.2rem;
+}
+.panelSideLi:hover,
+.panelBanerLi:hover {
+  background-color: #020258;
+  border-radius: 10px;
+}
+.panelSideTitle {
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+.homeIC {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  svg {
+    color: #fff;
+    width: 20px;
+    height: 20px;
+  }
+}
+.panelBanerLi {
+  padding: 0.3rem;
+}
+.panelBaner {
+  margin-right: 0.7rem;
+  border-right: 1px solid #ffeb3b;
+  padding-right: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transform: translateY(-12px);
+}
+.descProfileBtn {
+  font-size: 1rem;
+  width: 80px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notFoundTitle {
+  background-color: var(--bgTitleImg);
+  color: var(--TitleImg);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+}

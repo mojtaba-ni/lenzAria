@@ -1,0 +1,51 @@
+.profileNotFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 0;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 220, 228, 1) 0%,
+    rgba(255, 255, 255, 1) 55%,
+    rgba(212, 220, 228, 1) 100%
+  );
+
+}
+.profileNotFoundLink {
+    display:flex; 
+    align-items:center; 
+    justify-content:space-evenly;
+    width:200px
+}
+.commentSubmit{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: 1rem;
+}
+.commentSubmitBtn{
+    width: 100px;
+}
+.profileTitle{
+  color: #000 !important;
+}
+.commentBox{
+  background-color: #fff;
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  padding: 1rem 2rem  ;
+  border-right: 4px solid #f0e68c !important;
+  border: 1px solid #e3e3e3;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin: 2rem 0;
+}
+.commentTextBox{
+  margin-top: 2rem;
+}
+.commentUser{
+  font-weight: 500;
+}

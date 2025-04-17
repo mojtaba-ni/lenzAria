@@ -1,3 +1,106 @@
-*{
-    direction: rtl;
+@font-face {
+  font-family: "yekan";
+  src: local("yekanRegular"),
+    url("./assets/fonts/iransans.ttf") format("truetype");
 }
+
+:root {
+  --background: white;
+  --text-primary: black;
+  --text-secondary: royalblue;
+  --accent: purple;
+  --blog: white;
+  --TitleImg: rgb(52 8 94 / 100%);
+  --bgTitleImg: rgb(52 8 94 / 10%);
+  --textHeader: #626262;
+}
+[data-theme="dark"] {
+  --background: #292929;
+  --text-primary: white;
+  --text-secondary: grey;
+  --blog: #33323294;
+  --TitleImg: white;
+  --bgTitleImg: rgb(193 127 255 / 10%);
+  --textHeader: rgb(236, 234, 234);
+}
+.app {
+  color: var(--text-primary);
+  background-color: var(--background);
+}
+
+
+* {
+  direction: rtl;
+  font-family: "yekan";
+}
+body {
+  margin: 0;
+  height: 100vh;
+}
+ul {
+  text-decoration: none;
+  list-style: none;
+  padding: 0;
+}
+p {
+  margin-bottom: 0 !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+}
+.ant-table-thead .ant-table-cell {
+  color: blue !important;
+  background-color: #edecec96 !important;
+  text-align: center !important;
+}
+.ant-table-cell {
+  text-align: center !important;
+}
+.ant-form-item .ant-form-item-label > label {
+  font-size: 1.2rem !important;
+}
+.ant-form-item-explain-error {
+  text-align: right !important;
+}
+.ant-upload.ant-upload-select {
+  width: "100px !important";
+  height: "60px !important";
+}
+.ant-select-selection-item {
+  color: var(--text-primary);
+}
+.ant-card-body {
+  padding: 0 !important;
+}
+.ant-form-item {
+  width: 100%;
+  margin: 0.3rem !important;
+}
+.ant-skeleton.ant-skeleton-element {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ant-divider-horizontal {
+  margin: 0;
+}
+.ant-message-notice-content {
+  padding: 14px !important;
+  width: 320px !important;
+  text-align: right;
+  font-weight: 600;
+  font-size: 1rem;
+  svg {
+    font-size: 1.4rem;
+  }
+}
+
+/* .ant-card-body{
+    display: flex;
+    justify-content: space-between;
+} */
