@@ -1,0 +1,78 @@
+.sliderImg {
+    padding-top: 1rem;
+    width: 100%;
+    min-height: 450px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  
+
+.newTitle{
+    width: 150px;
+    border: 2px solid #F0E68C;
+    margin-top: 1rem;
+}
+.swiper{
+    min-height: 430px !important;
+}
+.rowCol{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lenzBox{
+    background-image: url("../../assets/images/lenzBg.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin:2rem 0;
+   
+}
+
+.lenzBoxDark{
+    background-image: url("../../assets/images/bg.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin:2rem 0;
+   
+}
+.bannerBox{
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bannerCol{
+    display: grid;
+    place-items: center;
+}
+.bannerBox img{
+    width: 100%;
+    max-width: 600px;
+}
+
+.cardTitle{
+    position: absolute !important;
+    bottom: 0;
+    width: 100%;
+    background-color: #8080805a;
+    min-height: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: 22px;
+   font-weight: 600;
+   color: rgb(234, 230, 45);
+
+}
+
+@media screen and (max-width:1050px) {
+    .bannerBox{
+        flex-direction: column;
+        gap: 2rem;
+    }
+   
+}
