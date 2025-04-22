@@ -13,7 +13,6 @@ import PeriodList from "./page/product/periodList";
 import Search from "./page/search";
 import useLocalStorage from "use-local-storage";
 import "./index.css";
-import Map from "./page/map";
 import MapPage from "./page/map";
 import VideoBlogList from "./page/blog/video";
 import VBlogSingle from "./page/blog/video/vBlogSingle";
