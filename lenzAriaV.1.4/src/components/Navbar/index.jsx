@@ -145,15 +145,15 @@ const Navbar = () => {
 
   useEffect(() => {
     if (isSearchModalVisible) {
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = "17px";
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '17px';
     } else {
-      document.body.style.overflow = "auto";
-      document.body.style.paddingRight = "0";
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0';
     }
     return () => {
-      document.body.style.overflow = "auto";
-      document.body.style.paddingRight = "0";
+      document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0';
     };
   }, [isSearchModalVisible]);
 
@@ -166,6 +166,8 @@ const Navbar = () => {
             <Link to="/">
               <h5>{strings.navbar.home}</h5>
             </Link>
+
+
           </li>
           <li className={styles.navCol} onMouseOver={handleShowMenu}>
             <h5>{strings.navbar.medicalLens}</h5>
@@ -337,7 +339,7 @@ const Navbar = () => {
             className={styles.navUserIc}
             onClick={showSearchModal}
           />
-
+          
           {theme === "light" ? (
             <MoonOutlined className={styles.navUserIc} onClick={switchTheme} />
           ) : (
@@ -352,6 +354,7 @@ const Navbar = () => {
             onClick={() => handleIconAddress("favorite")}
           />
           <Badge count={orderList && orderList?.length} size="large">
+            
             <ShoppingCartOutlined
               className={styles.navUserIc}
               onClick={() => handleIconAddress("order")}
@@ -443,6 +446,9 @@ const Navbar = () => {
               )}
             </div>
           </div>
+
+          
+          
         </div>
         <div className={styles.navSearch}>
           {isSearchModalVisible && (
@@ -454,9 +460,9 @@ const Navbar = () => {
                 <Button key="back" onClick={handleSearchModalCancel}>
                   انصراف
                 </Button>,
-                <Button
-                  key="submit"
-                  type="primary"
+                <Button 
+                  key="submit" 
+                  type="primary" 
                   onClick={handleSearchPr}
                   disabled={!searchInp.trim()}
                 >
@@ -468,10 +474,10 @@ const Navbar = () => {
               destroyOnClose
               maskClosable={false}
               className={styles.searchModal}
-              maskStyle={{
-                backgroundColor: "rgba(0, 0, 0, 0.8)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
+              maskStyle={{ 
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)'
               }}
             >
               <Input
