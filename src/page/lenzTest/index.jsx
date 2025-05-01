@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { Button, Spin, Modal, Select, Typography } from "antd";
+import { Button, Spin, Modal, Select } from "antd";
 import style from "../styles/lenzTest/style.module.css";
 import axios from "axios";
 import { toBase64 } from "../../shared/utils";
@@ -9,14 +9,15 @@ import { strings } from "../../shared/language";
 import { LoadingOutlined } from "@ant-design/icons";
 import videoIc from "../../assets/images/images.png";
 import { path } from "../../shared/config";
+import { toast } from "react-toastify";
 
 const LenzTest = () => {
   const [file, setFile] = useState();
-
   const [chosenPr, setChosenPr] = useState();
   const [product, setProduct] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImage, setIsImage] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getAllLenzProduct = async () => {
     const { data } = await axios.get(`${path}/api/product/getLenzProduct`);
@@ -28,14 +29,66 @@ const LenzTest = () => {
       };
       prList.push(prLi);
     });
-
     setProduct(prList);
   };
 
+  const validateImageSize = (file) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const megapixels = (img.width * img.height) / 1000000;
+        if (megapixels > 2) {
+          toast.error(
+            `Image too large (${megapixels.toFixed(1)} MP). Max allowed: 2 MP`
+          );
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+        URL.revokeObjectURL(img.src);
+      };
+      img.onerror = () => {
+        toast.error("Invalid image file");
+        resolve(false);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
   const handleFileChange = async (e) => {
-    if (e.target.files) {
-      const pic = await toBase64(e.target.files[0]);
+    if (!e.target.files?.[0]) return;
+
+    const selectedFile = e.target.files[0];
+
+    // Check if it's an image
+    if (!selectedFile.type.startsWith("image/")) {
+      toast.error("Please upload an image file");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const isValidSize = await validateImageSize(selectedFile);
+      if (!isValidSize) {
+        e.target.value = ""; // Clear the input
+        return;
+      }
+
+      const pic = await toBase64(selectedFile);
       setFile(pic);
+
+      // Set image type flag
+      const fileFormat = pic.split(",")[0];
+      setIsImage(
+        fileFormat === "data:image/png;base64" ||
+          fileFormat === "data:image/jpeg;base64" ||
+          fileFormat === "data:image/jpg;base64"
+      );
+    } catch (error) {
+      toast.error("Error processing image");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,33 +101,34 @@ const LenzTest = () => {
   };
 
   const handleSubmit = async (value) => {
-    handleShowModal();
-    const fileFormat = file.split(",")[0];
-    let image = null;
-    if (
-      fileFormat === "data:image/png;base64" ||
-      fileFormat === "data:image/jpeg;base64" ||
-      fileFormat === "data:image/jpg;base64"
-    ) {
-      image = true;
-      setIsImage(true);
-    } else {
-      image = false;
-      setIsImage(false);
+    if (!file) {
+      toast.error("Please select an image first");
+      return;
+    }
+    if (!chosenPr) {
+      toast.error("Please select a lens first");
+      return;
     }
 
-    const requestBody = {
-      uploadedFileBase64: file,
-      lenzFileBase64: chosenPr?.value,
-    };
+    handleShowModal();
 
-    const res = await axios.post(`${path}/api/eye/upload`, requestBody);
-    var a = document.createElement("a"); //Create <a>
-    a.href = res.data; //Image Base64 Goes here
-    const dataType = res.data.split(";")[0].split("/")[1];
-    a.download = `overlayedData.${dataType}`; //File name Here
-    a.click();
-    setIsModalOpen(false);
+    try {
+      const requestBody = {
+        uploadedFileBase64: file,
+        lenzFileBase64: chosenPr?.value,
+      };
+
+      const res = await axios.post(`${path}/api/eye/upload`, requestBody);
+      var a = document.createElement("a");
+      a.href = res.data;
+      const dataType = res.data.split(";")[0].split("/")[1];
+      a.download = `overlayedData.${dataType}`;
+      a.click();
+    } catch (error) {
+      toast.error("Error processing request");
+    } finally {
+      setIsModalOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -135,7 +189,6 @@ const LenzTest = () => {
       >
         <div className={style.descprofileLi}>
           <h6>انتخاب لنز</h6>
-
           <Select
             style={{ minWidth: "300px" }}
             labelInValue
@@ -146,7 +199,14 @@ const LenzTest = () => {
         </div>
         <div className={style.descprofileLi}>
           <h6>عکس خود را انتخاب کنید</h6>
-          <input id="file" type="file" onChange={handleFileChange} />
+          <input
+            id="file"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            disabled={loading}
+          />
+          {loading && <Spin size="small" style={{ marginLeft: 10 }} />}
         </div>
         {file && isImage ? (
           <img
@@ -173,6 +233,7 @@ const LenzTest = () => {
             type="primary"
             className={style.descProfileBtn}
             onClick={handleSubmit}
+            disabled={!file || !chosenPr}
           >
             {strings.submit}
           </Button>
