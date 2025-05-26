@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { strings } from "../../shared/language";
 import imgEd from "../../assets/images/faceImg.jpg";
-import { Button, Col,Skeleton } from "antd";
+import { Button, Col, Skeleton } from "antd";
 import styles from "./education.module.css";
 import { shortText } from "../../shared/utils";
 import { useNavigate } from "react-router-dom";
@@ -17,9 +17,7 @@ const Education = () => {
 
   const getAllblog = async () => {
     setLoading(true);
-    const { data } = await axios.get(
-      `${path}/api/blog/getAllBlogs`
-    );
+    const { data } = await axios.get(`${path}/api/blog/getAllBlogs`);
 
     const listBlog = [];
     if (data?.data.length > 4) {
@@ -52,9 +50,8 @@ const Education = () => {
       </div>
       <div className={styles.educationWrapper}>
         <>
-          {loading ? (
-            
-              arrSkeleton.map((item, index) => (
+          {loading
+            ? arrSkeleton.map((item, index) => (
                 <Col md={12} key={index}>
                   <Skeleton.Input
                     style={{
@@ -65,12 +62,9 @@ const Education = () => {
                   />
                 </Col>
               ))
-           
-          ) : (
-            blogs?.map((item, index) => (
-              <EducationCard data={item} key={index} />
-            ))
-          )}
+            : blogs?.map((item, index) => (
+                <EducationCard data={item} key={index} />
+              ))}
         </>
       </div>
     </div>
