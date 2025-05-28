@@ -7,7 +7,12 @@ import { Card, Divider, Skeleton } from "antd";
 import Bestpart from "../../components/Bestpart";
 import { strings } from "../../shared/language";
 import { useOrder } from "../../shared/store/useOrder";
-import { ShopOutlined, HeartOutlined, ZoomInOutlined, ZoomOutOutlined } from "@ant-design/icons";
+import {
+  ShopOutlined,
+  HeartOutlined,
+  ZoomInOutlined,
+  ZoomOutOutlined,
+} from "@ant-design/icons";
 import { StarFilled } from "@ant-design/icons";
 import style from "../styles/product/style.module.css";
 import { path } from "../../shared/config";
@@ -19,6 +24,8 @@ const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState();
+  console.log({ product });
+
   const [newproduct, setNewProduct] = useState([]);
   const [count, setCount] = useState(0);
   const [ShowPart, setShowPart] = useState(1);
@@ -42,7 +49,7 @@ const ProductPage = () => {
       setIsDragging(true);
       setDragStart({
         x: e.clientX - position.x,
-        y: e.clientY - position.y
+        y: e.clientY - position.y,
       });
     }
   };
@@ -51,7 +58,7 @@ const ProductPage = () => {
     if (isDragging && isZoomed) {
       setPosition({
         x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y
+        y: e.clientY - dragStart.y,
       });
     }
   };
@@ -64,9 +71,9 @@ const ProductPage = () => {
     e.stopPropagation();
     if (zoomCount < 3) {
       const zoomSpeed = 0.5;
-      setScale(prevScale => prevScale + zoomSpeed);
+      setScale((prevScale) => prevScale + zoomSpeed);
       setIsZoomed(true);
-      setZoomCount(prev => prev + 1);
+      setZoomCount((prev) => prev + 1);
       setPosition({ x: 0, y: 0 });
     }
   };
@@ -74,12 +81,12 @@ const ProductPage = () => {
   const handleZoomOut = (e) => {
     e.stopPropagation();
     const zoomSpeed = 0.5;
-    setScale(prevScale => Math.max(1, prevScale - zoomSpeed));
+    setScale((prevScale) => Math.max(1, prevScale - zoomSpeed));
     if (scale <= 1.5) {
       setIsZoomed(false);
     }
     if (zoomCount > 0) {
-      setZoomCount(prev => prev - 1);
+      setZoomCount((prev) => prev - 1);
     }
     setPosition({ x: 0, y: 0 });
   };
@@ -370,7 +377,7 @@ const ProductPage = () => {
         {isModalVisible && (
           <div className={style.modal} onClick={handleCloseModal}>
             <div className={style.modalContent}>
-              <div 
+              <div
                 className={style.imageContainer}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
@@ -381,22 +388,26 @@ const ProductPage = () => {
                   ref={modalImageRef}
                   src={product ? product?.image : boxImg}
                   alt="Zoomed product"
-                  className={`${style.zoomedImage} ${isZoomed ? style.zoomed : ''}`}
-                  style={{ 
-                    transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`
+                  className={`${style.zoomedImage} ${
+                    isZoomed ? style.zoomed : ""
+                  }`}
+                  style={{
+                    transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
                   }}
                 />
               </div>
               <div className={style.zoomControls}>
-                <button 
-                  className={`${style.zoomButton} ${zoomCount >= 3 ? style.disabled : ''}`} 
+                <button
+                  className={`${style.zoomButton} ${
+                    zoomCount >= 3 ? style.disabled : ""
+                  }`}
                   onClick={handleZoomIn}
                   disabled={zoomCount >= 3}
                 >
-                  <ZoomInOutlined style={{ fontSize: '1.5rem' }} />
+                  <ZoomInOutlined style={{ fontSize: "1.5rem" }} />
                 </button>
                 <button className={style.zoomButton} onClick={handleZoomOut}>
-                  <ZoomOutOutlined style={{ fontSize: '1.5rem' }} />
+                  <ZoomOutOutlined style={{ fontSize: "1.5rem" }} />
                 </button>
               </div>
             </div>

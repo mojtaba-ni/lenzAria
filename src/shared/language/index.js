@@ -105,6 +105,7 @@ export const strings = {
       numberError: "پلاک را وارد کنید",
       titleError: "عنوان را وارد کنید",
       productNameError: "اسم محصول را وارد کنید",
+      brandNameError: "اسم برند را وارد کنید",
       descriptionError: "توضیحات را وارد کنید",
       uploadError: "عکس محصول را وارد کنید",
       SpecificationsError: "مشخصات فنی را وارد کنید",
