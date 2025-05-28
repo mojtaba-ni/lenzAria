@@ -29,7 +29,7 @@ const EditProduct = () => {
   const [activeBrand, setActiveBrand] = useState(null);
   const [activePeriod, setActivePeriod] = useState(null);
   const [brand, setBrand] = useState(null);
-
+  const [isLenz, setIsLenz] = useState(false);
   const period = [
     { value: 1, label: "روزانه" },
     { value: 2, label: "ماهانه" },
@@ -155,6 +155,9 @@ const EditProduct = () => {
 
   const getProductDataById = async () => {
     const { data } = await axios.get(`${path}/api/product/getById?id=${id}`);
+    if (!data?.data?.periodId) {
+      setIsLenz(false);
+    }
     setProductForm({
       Specifications: data?.data?.Specifications,
       description: data?.data?.description,
@@ -315,32 +318,26 @@ const EditProduct = () => {
               </Form.Item>
             </div>
           </Col>
-          <Col
-            sm={{
-              span: 12,
-            }}
-            span={6}
-          >
-            <div className={style.descprofileLi}>
-              <Typography.Title level={5}>دوره مصرف</Typography.Title>
-              <Form.Item
-                name="period"
-                rules={[
-                  {
-                    required: true,
-                    message: strings.profile.errorMessage.productNameError,
-                  },
-                ]}
-              >
-                <Select
-                  labelInValue
-                  onChange={handleChangePeriod}
-                  options={period}
-                  defaultValue={activePeriod}
-                />
-              </Form.Item>
-            </div>
-          </Col>
+          {isLenz && (
+            <Col
+              sm={{
+                span: 12,
+              }}
+              span={6}
+            >
+              <div className={style.descprofileLi}>
+                <Typography.Title level={5}>دوره مصرف</Typography.Title>
+                <Form.Item name="period">
+                  <Select
+                    labelInValue
+                    onChange={handleChangePeriod}
+                    options={period}
+                    defaultValue={activePeriod}
+                  />
+                </Form.Item>
+              </div>
+            </Col>
+          )}
         </Row>
         <div className={style.descprofileLi}>
           <Typography.Title level={5}>اسم محصول</Typography.Title>
@@ -461,37 +458,42 @@ const EditProduct = () => {
               </section>
             )}
           </div>
-          <div>
-            <div className={style.descprofileLi} style={{ marginTop: "1rem" }}>
-              <Typography.Title level={5}>عکس لنز</Typography.Title>
-              <Form.Item
-                name="lenzFile"
-                rules={[
-                  {
-                    required:
-                      lenzFile || lenzImg || !file || !img ? false : true,
-                    message: strings.profile.errorMessage.uploadError,
-                  },
-                ]}
+          {isLenz && (
+            <div>
+              <div
+                className={style.descprofileLi}
+                style={{ marginTop: "1rem" }}
               >
-                <input
-                  id="lenzFile"
-                  type="file"
-                  onChange={handleLenzFileChange}
-                />
-              </Form.Item>
+                <Typography.Title level={5}>عکس لنز</Typography.Title>
+                <Form.Item
+                  name="lenzFile"
+                  rules={[
+                    {
+                      required:
+                        lenzFile || lenzImg || !file || !img ? false : true,
+                      message: strings.profile.errorMessage.uploadError,
+                    },
+                  ]}
+                >
+                  <input
+                    id="lenzFile"
+                    type="file"
+                    onChange={handleLenzFileChange}
+                  />
+                </Form.Item>
+              </div>
+              {(lenzFile || lenzImg) && (
+                <section>
+                  <img
+                    src={lenzFile || lenzImg}
+                    alt="image"
+                    width={200}
+                    style={{ maxHeight: "200px" }}
+                  />
+                </section>
+              )}
             </div>
-            {(lenzFile || lenzImg) && (
-              <section>
-                <img
-                  src={lenzFile || lenzImg}
-                  alt="image"
-                  width={200}
-                  style={{ maxHeight: "200px" }}
-                />
-              </section>
-            )}
-          </div>
+          )}
         </div>
 
         <div
