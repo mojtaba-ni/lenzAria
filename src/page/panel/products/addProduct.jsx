@@ -1,4 +1,13 @@
-import { Button, Col, Form, Input, Row, Select, Typography } from "antd";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+  Typography,
+} from "antd";
 import { strings } from "../../../shared/language";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -25,6 +34,7 @@ const AddProduct = () => {
   const [activeStep, setActiveStep] = useState(null);
   const [activeBrand, setActiveBrand] = useState(null);
   const [activePeriod, setActivePeriod] = useState(null);
+  const [isLenz, setIsLenz] = useState(false);
 
   const period = [
     { value: 1, label: "روزانه" },
@@ -55,7 +65,7 @@ const AddProduct = () => {
   const handleSubmit = async () => {
     let pic = null;
     if (file) {
-      await toBase64(file);
+      pic = await toBase64(file);
     }
     let lenz = null;
     if (lenzFile) {
@@ -78,8 +88,8 @@ const AddProduct = () => {
         id: activeBrand?.value,
         title: activeBrand?.label,
       },
-      period: activePeriod.label,
-      periodId: activePeriod.value,
+      period: isLenz ? activePeriod?.label : null,
+      periodId: isLenz ? activePeriod?.value : null,
       price: parseInt(productForm?.price),
       image: pic,
       lenzImage: lenz ? lenz : null,
@@ -113,6 +123,9 @@ const AddProduct = () => {
     });
 
     setBrand(brandList);
+  };
+  const onChange = (checked) => {
+    setIsLenz(checked.target.checked);
   };
   const getAllCategory = async () => {
     const { data } = await axios.get(`${path}/api/category/getAllCategory`);
@@ -156,6 +169,10 @@ const AddProduct = () => {
   return (
     <div>
       <Form>
+        <div style={{ display: "flex", alignItems: "center", gap: 15 }}>
+          <Checkbox onChange={onChange} />
+          <Typography.Title level={5}>محصول لنز می باشد</Typography.Title>
+        </div>
         <Row gutter={20}>
           <Col
             sm={{
@@ -225,7 +242,8 @@ const AddProduct = () => {
                 rules={[
                   {
                     required: true,
-                    message: strings.profile.errorMessage.productNameError,
+                    message:
+                      strings.profile.errorMessage.brandNameErrorNameError,
                   },
                 ]}
               >
@@ -238,32 +256,26 @@ const AddProduct = () => {
               </Form.Item>
             </div>
           </Col>
-          <Col
-            sm={{
-              span: 12,
-            }}
-            span={6}
-          >
-            <div className={style.descprofileLi}>
-              <Typography.Title level={5}>دوره مصرف</Typography.Title>
-              <Form.Item
-                name="period"
-                rules={[
-                  {
-                    required: true,
-                    message: strings.profile.errorMessage.productNameError,
-                  },
-                ]}
-              >
-                <Select
-                  labelInValue
-                  onChange={handleChangePeriod}
-                  options={period}
-                  defaultValue={activePeriod}
-                />
-              </Form.Item>
-            </div>
-          </Col>
+          {isLenz && (
+            <Col
+              sm={{
+                span: 12,
+              }}
+              span={6}
+            >
+              <div className={style.descprofileLi}>
+                <Typography.Title level={5}>دوره مصرف</Typography.Title>
+                <Form.Item name="period">
+                  <Select
+                    labelInValue
+                    onChange={handleChangePeriod}
+                    options={period}
+                    defaultValue={activePeriod}
+                  />
+                </Form.Item>
+              </div>
+            </Col>
+          )}
         </Row>
         <div className={style.descprofileLi}>
           <Typography.Title level={5}>اسم محصول</Typography.Title>
@@ -377,31 +389,38 @@ const AddProduct = () => {
             </ul>
           </section>
         )}
-        <div className={style.descprofileLi}>
-          <Typography.Title level={5}>عکس لنز</Typography.Title>
-          <Form.Item
-            name="lenzFile"
-            rules={[
-              {
-                required: file ? false : true,
-                message: strings.profile.errorMessage.uploadError,
-              },
-            ]}
-          >
-            <input id="lenzFile" type="file" onChange={handleLenzFileChange} />
-          </Form.Item>
-        </div>
-        {lenzFile && (
-          <section>
-            جزیات عکس:
-            <ul>
-              <li>Name: {lenzFile?.name}</li>
-              <li>Type: {lenzFile?.type}</li>
-              <li>Size: {lenzFile?.size} bytes</li>
-            </ul>
-          </section>
+        {isLenz && (
+          <div style={{ display: "flex", gap: 15, flexDirection: "column" }}>
+            <div className={style.descprofileLi}>
+              <Typography.Title level={5}>عکس لنز</Typography.Title>
+              <Form.Item
+                name="lenzFile"
+                rules={[
+                  {
+                    required: file ? false : true,
+                    message: strings.profile.errorMessage.uploadError,
+                  },
+                ]}
+              >
+                <input
+                  id="lenzFile"
+                  type="file"
+                  onChange={handleLenzFileChange}
+                />
+              </Form.Item>
+            </div>
+            {lenzFile && (
+              <section>
+                جزیات عکس:
+                <ul>
+                  <li>Name: {lenzFile?.name}</li>
+                  <li>Type: {lenzFile?.type}</li>
+                  <li>Size: {lenzFile?.size} bytes</li>
+                </ul>
+              </section>
+            )}
+          </div>
         )}
-
         <div
           style={{
             width: "100%",
