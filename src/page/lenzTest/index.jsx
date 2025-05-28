@@ -96,6 +96,13 @@ const LenzTest = () => {
     setChosenPr(value);
   };
 
+  const handleSearch = async (value) => {
+    const filteredProducts = product.filter((item) =>
+      item.label.toLowerCase().includes(value.toLowerCase())
+    );
+    setProduct(filteredProducts);
+  };
+
   const handleShowModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -194,6 +201,20 @@ const LenzTest = () => {
             labelInValue
             onChange={handleChange}
             options={product}
+            filterOption={(input, option) => {
+              var _a;
+              return (
+                (_a =
+                  option === null || option === void 0
+                    ? void 0
+                    : option.label) !== null && _a !== void 0
+                  ? _a
+                  : ""
+              )
+                .toLowerCase()
+                .includes(input.toLowerCase());
+            }}
+            showSearch
             placeholder="..."
           />
         </div>
