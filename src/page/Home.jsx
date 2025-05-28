@@ -34,6 +34,8 @@ const Home = () => {
   const [prSection, setPrSection] = useState();
   const [newPr, setNewPr] = useState([]);
   const [sectionLoading, setSectionLoading] = useState(false);
+  const [banner, setBanner] = useState();
+  const [bannerLoading, setBannerLoading] = useState(false);
 
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
@@ -75,13 +77,19 @@ const Home = () => {
     const { data } = await axios.get(`${path}/api/brand/getAllBrand`);
     setBrand(data?.data);
   };
-  console.log(geyAllBrand)
-  console.log(geyAllBrand)
+  const getAllBanner = async () => {
+    setBannerLoading(true);
+    const { data } = await axios.get(`${path}/api/mainBanner/all`);
+    setBanner(data?.data);
+    setBannerLoading(false);
+  };
+
   useEffect(() => {
     geyAllBrand();
     getAllSection();
     getNewProduct();
     getAllPrSection();
+    getAllBanner();
   }, []);
 
   return (
@@ -103,18 +111,31 @@ const Home = () => {
       <div>
         <Navbar search={isModalOpen} setSearch={setIsModalOpen} />
 
-        <Swiper
-          pagination={true}
-          modules={[Pagination]}
-          className={styles.swiper}
-        >
-          <SwiperSlide>
-            <img className={styles.sliderImg} src={sliderImg} alt="" />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img className={styles.sliderImg} src={sliderImg} alt="" />
-          </SwiperSlide>
-        </Swiper>
+        {bannerLoading ? (
+          <Skeleton.Input
+            style={{
+              margin: "1rem 0",
+              width: "100%",
+              height: "450px",
+            }}
+          />
+        ) : (
+          <Swiper
+            pagination={true}
+            modules={[Pagination]}
+            className={styles.swiper}
+          >
+            {banner?.map((item, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  className={styles.sliderImg}
+                  src={item?.image}
+                  alt="banner"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
 
         <div
           className={theme === "light" ? styles.lenzBox : styles.lenzBoxDark}
@@ -173,7 +194,7 @@ const Home = () => {
           </Col>
         </Row>
         <Bestpart title={strings.landing.bestSellers} data={newPr} />
-        
+
         <div
           style={{
             backgroundColor: "#6fb5be69",
@@ -185,7 +206,9 @@ const Home = () => {
           }}
         >
           {brand?.map((item, index) => (
-            <strong style={{fontSize:"1.2rem"}} key={index}>{item?.name}</strong>
+            <strong style={{ fontSize: "1.2rem" }} key={index}>
+              {item?.name}
+            </strong>
           ))}
         </div>
         <Row className={styles.bannerBox}>
