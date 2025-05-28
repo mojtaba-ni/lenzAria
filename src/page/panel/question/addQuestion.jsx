@@ -1,9 +1,8 @@
-import { Form, Typography, Button , Input  } from "antd";
+import { Form, Typography, Button, Input } from "antd";
 import { strings } from "../../../shared/language";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toBase64 } from "../../../shared/utils";
 import axios from "axios";
 import style from "../../styles/product/style.module.css";
 import { path } from "../../../shared/config";
@@ -11,26 +10,15 @@ import { path } from "../../../shared/config";
 const AddQuestion = () => {
   const navigate = useNavigate();
 
-  const [Qfile, setQfile] = useState(null);
   const [Qtitle, setQtitle] = useState(null);
   const [Qdescription, setQdescription] = useState(null);
 
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      setQfile(e.target.files[0]);
-    }
-  };
   const handleSubmit = async () => {
-    const pic = await toBase64(Qfile);
     const data = {
-      title:Qtitle,
-      description:Qdescription,
-      image: pic,
+      title: Qtitle,
+      description: Qdescription,
     };
-   await axios.post(
-      `${path}/api/question/add`,
-      data
-    );
+    await axios.post(`${path}/api/question/add`, data);
     navigate("/panel/questions");
   };
 
@@ -68,23 +56,13 @@ const AddQuestion = () => {
             ]}
             style={{ width: "100%" }}
           >
-            <TextArea rows={4}  onChange={(e) => setQdescription(e.target.value)} />
+            <TextArea
+              rows={4}
+              onChange={(e) => setQdescription(e.target.value)}
+            />
           </Form.Item>
         </div>
-        <div className={style.descprofileLi}>
-          <Typography.Title level={5}>عکس محصول</Typography.Title>
-          <Form.Item
-            name="file"
-            rules={[
-              {
-                required: true,
-                message: strings.profile.errorMessage.uploadError,
-              },
-            ]}
-          >
-            <input id="file" type="file" onChange={handleFileChange} />
-          </Form.Item>
-        </div>
+
         <div
           style={{
             width: "100%",
