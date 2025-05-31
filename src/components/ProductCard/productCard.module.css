@@ -1,5 +1,5 @@
 .ProductContainer {
-  width: 260px;
+  width: 280px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -17,10 +17,11 @@
 
 .ProductImg {
   width: 100%;
-  max-height: 60px;
+  max-height: 85px;
+  object-fit: contain;
 }
 .ProductCardDesc {
-  margin-top: 0.6rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
