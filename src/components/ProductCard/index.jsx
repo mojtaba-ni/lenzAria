@@ -7,12 +7,14 @@ import { Link } from "react-router-dom";
 import { commaThousondSeperator } from "../../shared/utils";
 
 const ProductCard = ({ productInfo }) => {
+  console.log({ productInfo });
+
   return (
     <>
       <Link to={`/product/${productInfo?._id}`}>
         <Card className={styles.ProductContainer} hoverable>
           <img
-            src={boxImg}
+            src={productInfo?.image ? productInfo?.image : boxImg}
             alt="jabe"
             className={styles.ProductImg}
           />
