@@ -2,11 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Navbar from "../components/Navbar";
 import { Col, Row, Card, Modal, Input, Skeleton } from "antd";
 import { Pagination } from "swiper/modules";
-import sliderImg from "../assets/images/newImg.jpg";
-import bannerImg from "../assets/images/slider1.jpg";
-import bannerImgSec from "../assets/images/slider2.jpg";
-import bannerPt from "../assets/images/slider3.jpg";
-import bannerPtSec from "../assets/images/slider4.jpg";
+
 import styles from "./styles/home.module.css";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -36,6 +32,7 @@ const Home = () => {
   const [sectionLoading, setSectionLoading] = useState(false);
   const [banner, setBanner] = useState();
   const [bannerLoading, setBannerLoading] = useState(false);
+  const [offerBanner, setOfferBanner] = useState();
 
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
@@ -84,12 +81,18 @@ const Home = () => {
     setBannerLoading(false);
   };
 
+  const getOfferBanner = async () => {
+    const { data } = await axios.get(`${path}/api/offerBanner/all`);
+    setOfferBanner(data?.data);
+  };
+
   useEffect(() => {
     geyAllBrand();
     getAllSection();
     getNewProduct();
     getAllPrSection();
     getAllBanner();
+    getOfferBanner();
   }, []);
 
   return (
@@ -186,12 +189,11 @@ const Home = () => {
           <Bestpart title={strings.landing.newSellers} data={newPr} />
         </div>
         <Row className={styles.bannerBox}>
-          <Col sm={24} md={12} className={styles.bannerCol}>
-            <img src={bannerImg} alt="offer" />
-          </Col>
-          <Col sm={24} md={12} className={styles.bannerCol}>
-            <img src={bannerImgSec} alt="offer" />
-          </Col>
+          {offerBanner?.map((item, index) => (
+            <Col sm={24} md={12} className={styles.bannerCol} key={index}>
+              <img src={item?.image} alt="offer" />
+            </Col>
+          ))}
         </Row>
         <Bestpart title={strings.landing.bestSellers} data={newPr} />
 
